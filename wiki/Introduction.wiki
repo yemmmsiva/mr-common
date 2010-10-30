@@ -20,3 +20,12 @@ The framework is divided into modules (jars):
 Each module is compiled with [http://maven.apache.org/ Apache Maven 2].
 
 A application example is [http://apps.mrdev.com.ar/mr-common/ here] (_no source code available_). *User*: {{{admin}}}, *password*: {{{admin}}}.
+
+
+=== About me ===
+
+My name is *Mariano Ruiz*, I'm from Argentina.
+
+*Home page*: [http://www.mrdev.com.ar]
+
+*Email*: [mailto:marianoruiz@mrdev.com.ar marianoruiz@mrdev.com.ar]
