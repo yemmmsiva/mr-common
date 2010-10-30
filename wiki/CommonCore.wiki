@@ -5,7 +5,7 @@
 This module is the *base* for the others modules.
 
 
-= Features details =
+== Features details ==
 
   * Spring core support (context load).
   * Utils classes for:
