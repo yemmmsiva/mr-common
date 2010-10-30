@@ -13,7 +13,7 @@ The framework is divided into modules (jars):
   * [CommonCore mr-common-core]
   * [CommonDao mr-common-dao]
   * [CommonSecurity mr-common-security]
-  * mr-common-security-userentity
+  * [CommonSecurityUserEntity mr-common-security-userentity]
   * mr-common-web
   * mr-common-birt
 
