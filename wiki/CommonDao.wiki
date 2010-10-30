@@ -1,0 +1,13 @@
+= mr-common-dao =
+
+This modules support the *persistent layer*, built on top of the [http://www.hibernate.org/ Hibernate] framework and [http://www.springsource.org/ Spring] DAO support.
+
+The plus of this modules is the *audit support*. All record of the database are audited.
+
+
+== Details ==
+The audit information is:
+  * Logical delete.
+  * The user who created the record and when he did.
+  * The last user who edited the registry and when it did.
+  * The last user who deleted the registry and when it did.
