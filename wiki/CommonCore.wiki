@@ -1,0 +1,17 @@
+#summary One-sentence summary of this page.
+
+= mr-common-core =
+
+This module is the *base* for the others modules.
+
+
+= Features details =
+
+  * Spring core support (context load).
+  * Utils classes for:
+    * I/O strams
+    * String parsing.
+    * Object formatters.
+    * i18n.
+    * Exception handling with i18n support.
+    * Collections.
