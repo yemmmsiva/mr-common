@@ -1,0 +1,5 @@
+= mr-common-security-userentity =
+
+This module is a implementation of *[CommonSecurity mr-common-security]*.
+
+The user are persisted into a BBDD/Hibernate backend, with audit support (see [CommonDao mr-common-dao]).
