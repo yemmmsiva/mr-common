@@ -1,0 +1,18 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+mr-common is a common Java SE/EE framework. Was develop with Apache common's, Spring (Core, DAO, Webflow, MVC), Hibernate, and Birt Report.
+
+
+= Details =
+
+The framework is divided into modules (jars):
+  * mr-common-core
+  * mr-common-dao
+  * mr-common-security
+  * mr-common-security-userentity
+  * mr-common-web
+  * mr-common-birt
+
+Each module is compiled with [http://maven.apache.org/ Apache Maven 2].
