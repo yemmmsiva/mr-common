@@ -7,7 +7,7 @@ mr-common is a common *Java SE/EE framework*. Was develop with [http://commons.a
 Can be linked to develop Java SE, EE, or web applications.
 
 
-= Details =
+== Details ==
 
 The framework is divided into modules (jars):
   * [CommonCore mr-common-core]
