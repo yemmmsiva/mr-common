@@ -11,7 +11,7 @@ Can be linked to develop Java SE, EE, or web applications.
 
 The framework is divided into modules (jars):
   * [CommonCore mr-common-core]
-  * mr-common-dao
+  * [CommonDao mr-common-dao]
   * mr-common-security
   * mr-common-security-userentity
   * mr-common-web
