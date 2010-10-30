@@ -25,7 +25,7 @@ A application example is [http://apps.mrdev.com.ar/mr-common/ here] (_no source 
 
 See the diagram of dependencies.
 
-http://code.google.com/p/mr-common/images/mr-common-modules.png
+http://mr-common.googlecode.com/files/mr-common-modules.png
 
 
 === About me ===
