@@ -5,3 +5,5 @@ This module is the *security layer* support. Provide a set of interfaces to user
 A implementation of this is [CommonSecurityUserEntity mr-common-security-userentity].
 
 It also provides some useful classes for [http://static.springframework.org/spring-security/ Spring Security].
+
+_This module is a part of *[Introduction mr-common]* framework_.
