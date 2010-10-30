@@ -24,8 +24,8 @@ A application example is [http://apps.mrdev.com.ar/mr-common/ here] (_no source 
 
 === About me ===
 
-My name is *Mariano Ruiz*, I'm from Argentina.
+My name is *Mariano Ruiz*, I work as _Java Developer_. I'm from Argentina.
 
-*Home page*: [http://www.mrdev.com.ar]
+*My Home Page*: [http://www.mrdev.com.ar]
 
-*Email*: [mailto:marianoruiz@mrdev.com.ar marianoruiz@mrdev.com.ar]
+*My Email*: [mailto:marianoruiz@mrdev.com.ar marianoruiz@mrdev.com.ar]
