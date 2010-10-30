@@ -13,3 +13,5 @@ This module is the *base* for the others modules.
     * i18n
     * Exception handling with i18n support
     * Collections
+
+_This module is a part of *[Introduction mr-common]* framework_.
