@@ -10,8 +10,8 @@ This module is the *base* for the others modules.
   * Spring core support (context load).
   * Utils classes for:
     * I/O strams
-    * String parsing.
-    * Object formatters.
-    * i18n.
-    * Exception handling with i18n support.
-    * Collections.
+    * String parsing
+    * Object formatters
+    * i18n
+    * Exception handling with i18n support
+    * Collections
