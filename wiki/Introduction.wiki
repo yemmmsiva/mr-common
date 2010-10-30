@@ -2,7 +2,7 @@
 
 = Introduction to mr-common =
 
-mr-common is a common *Java SE/EE framework*. Was develop with [http://commons.apache.org/ Apache common's], [http://www.springsource.org/ Spring] (Core, DAO, Security, Webflow, MVC), [http://www.hibernate.org/ Hibernate], and [http://www.eclipse.org/birt/ Birt Report].
+mr-common is a *Java SE/EE framework*. Was develop with [http://commons.apache.org/ Apache common's], [http://www.springsource.org/ Spring] (Core, DAO, Security, Webflow, MVC), [http://www.hibernate.org/ Hibernate], and [http://www.eclipse.org/birt/ Birt Report].
 
 Can be linked to develop Java SE, EE, or web applications.
 
