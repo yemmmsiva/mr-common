@@ -11,3 +11,5 @@ The audit information is:
   * The user who created the record and when he did.
   * The last user who edited the registry and when it did.
   * The last user who deleted the registry and when it did.
+
+_This module is a part of *[Introduction mr-common]* framework_.
