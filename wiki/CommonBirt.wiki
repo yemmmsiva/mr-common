@@ -2,6 +2,6 @@
 
 This module support the *[http://www.eclipse.org/birt/ Birt Report]* engine into a [http://www.springsource.org/webflow Spring Web] application.
 
-Provide output viewers to *HTML*, *XLS* and *PDF* formats, and context load into a Spring context.
+Provide output viewers to *HTML*, *XLS* and *PDF* formats, and context load into a Spring Core.
 
 _This module is a part of *[Introduction mr-common]* framework_.
