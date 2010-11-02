@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mr.common</groupId>
+	<artifactId>mr-common-birt</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+	<name>mr-common-birt</name>
+	<url>http://mr-common.googlecode.com</url>
+
+	<prerequisites>
+		<maven>2.0.6</maven>
+	</prerequisites>
+
+	<dependencies>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-web</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>chartengineapi</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+
+		<!-- Build time only dependencies -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>com.springsource.javax.servlet</artifactId>
+			<version>2.4.0</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>com.springsource.javax.servlet.jsp</artifactId>
+            <version>2.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!--dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>com.springsource.org.easymock</artifactId>
+			<version>2.3.0</version>
+			<scope>test</scope>
+		</dependency-->
+	</dependencies>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<url>${pom.url}</url>
+							<Specification-Version>${pom.version}</Specification-Version>
+							<Package>${pom.name}</Package>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>mr-common-birt</finalName>
+	</build>
+
+	<repositories>
+
+		<!-- mr-common and cache repository -->
+		<repository>
+			<id>mrdev-releases</id>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+		</repository>
+
+		<repository>
+			<id>com.springsource.repository.bundles.snapshot</id>
+			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.snapshot</id>
+			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+
+		<!-- mr-common and cache plugin repository -->
+		<pluginRepository>
+			<id>mrdev-plugins</id>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+		</pluginRepository>
+
+		<!-- Agrego repo oficial de plugins para que no tome todo del repo de mr-common -->
+		<pluginRepository>
+			<id>Maven 2</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<spring.version>2.5.6.SEC02</spring.version>
+		<springwebflow.version>2.0.9.RELEASE</springwebflow.version>
+	</properties>
+</project>
