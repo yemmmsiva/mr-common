@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+    <!--  Contexto de Birt Report  -->
+    <bean id="birtReportContext" class="mr.common.birt.context.spring.BirtReportContext" init-method="initBirtEngine" />
+
+    <bean id="appProperties" class="mr.common.spring.utils.RecursivePropertiesFactoryBean"
+          p:ignoreUnresolvablePlaceholders="true" p:order="10" lazy-init="false"
+          p:systemPropertiesModeName="SYSTEM_PROPERTIES_MODE_OVERRIDE">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+				<value>classpath:birt.properties</value>
+            </list>
+        </property>
+        <property name="localOverride" value="true" />
+    </bean>
+
+
+    <!-- View resolver para los reportes generados con BIRT en formato PDF -->
+    <bean id="reportPDFViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewNames" value="pdfreport*" />
+        <property name="viewClass" value="mr.common.spring.view.birt.ReportPDFView" />
+        <property name="prefix" value="/WEB-INF/reports/" />
+        <property name="suffix" value=".rptdesign" />
+        <property name="order" value="30" />
+    </bean>
+
+    <!-- View resolver para los reportes generados con BIRT en formato HTML -->
+    <bean id="reportHTMLViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewNames" value="htmlreport*" />
+        <property name="viewClass" value="mr.common.spring.view.birt.ReportHTMLView" />
+        <property name="prefix" value="/WEB-INF/reports/" />
+        <property name="suffix" value=".rptdesign" />
+        <property name="order" value="30" />
+    </bean>
+
+    <!-- View resolver para los reportes generados con BIRT en formato Excel -->
+    <bean id="reportXLSViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewNames" value="xlsreport*" />
+        <property name="viewClass" value="mr.common.spring.view.birt.ReportXLSView" />
+        <property name="prefix" value="/WEB-INF/reports/" />
+        <property name="suffix" value=".rptdesign" />
+        <property name="order" value="30" />
+    </bean>
+
+</beans>
