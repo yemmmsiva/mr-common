@@ -3,7 +3,7 @@ package mr.common.security.userentity.model;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import mr.common.model.Person;
+import mr.common.security.userentity.model.Person;
 
 
 /**
