@@ -28,6 +28,10 @@ See the diagram of dependencies.
 http://mr-common.googlecode.com/files/mr-common-modules.png
 
 
+== Requirements ==
+
+Java SE 1.5+ (recommended 1.6), Maven 2.0.6+. For web applications: Servlet 2.4+, JSP 2.0+ (for Tomcat Servers, required 5.5, recommended 6.0).
+
 === About me ===
 
 My name is *Mariano Ruiz*, I work as _Java Developer_. I'm from Argentina.
