@@ -14,14 +14,14 @@ The audit information is:
 
 
 == Classes ==
-This is an example of how to model entities: In the example we have a class Person, who was born in a country. All model classes are audited.
+This is an example of how to *model entities*: In the example we have a class Person, who was born in a country. All model classes are audited.
 
 http://mr-common.googlecode.com/files/mr-common-dao-model.png
 
-The next diagram is the DAO classes for Person entity.
+The next diagram is the *DAO* classes for Person entity.
 
 http://mr-common.googlecode.com/files/mr-common-dao-dao.png
 
-A good code example of how model entities are the entities in the module [CommonSecurityUserEntity mr-common-security-userentity], see the class `mr.common.security.userentity.model.UserEntity` and the related DAO classes.
+A good code example of how model entities, are the entities in the module [CommonSecurityUserEntity mr-common-security-userentity], see the class `mr.common.security.userentity.model.UserEntity` and the related DAO classes.
 
 _This module is a part of *[Introduction mr-common]* framework_.
