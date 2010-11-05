@@ -14,7 +14,7 @@ The audit information is:
 
 
 == Classes ==
-This is an example of how to *model entities*: In the example we have a class Person, who was born in a country. All model classes are audited.
+This is an example of how to *model entities*: In the example we have a class `Person`, who was born in a `Country`. All model classes are audited.
 
 http://mr-common.googlecode.com/files/mr-common-dao-model.png
 
