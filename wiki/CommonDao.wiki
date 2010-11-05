@@ -18,5 +18,9 @@ This is an example of how to model entities: In the example we have a class Pers
 
 http://mr-common.googlecode.com/files/mr-common-dao-model.png
 
+The next diagram is the DAO classes for Person entity.
+
+http://mr-common.googlecode.com/files/mr-common-dao-dao.png
+
 
 _This module is a part of *[Introduction mr-common]* framework_.
