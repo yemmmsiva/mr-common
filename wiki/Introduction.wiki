@@ -50,6 +50,8 @@ Add repo in the pom.xml:
 
 See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-core/trunk/pom.xml pom.xml] file of the _mr-common-core_ as example.
 
+A local m2 repository folder zipped are archive [http://mr-common.googlecode.com/files/repository.zip here], with all dependencies.
+
 
 == About me ==
 
