@@ -149,8 +149,8 @@
 
 		<!-- mr-common and cache repository -->
 		<repository>
-			<id>mrdev-releases</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<id>mrdev-release</id>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</repository>
 
 		<repository>
@@ -180,7 +180,7 @@
 		<!-- mr-common and cache plugin repository -->
 		<pluginRepository>
 			<id>mrdev-plugins</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</pluginRepository>
 
 		<!-- Agrego repo oficial de plugins para que no tome todo del repo de mr-common -->
