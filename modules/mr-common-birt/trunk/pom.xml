@@ -100,7 +100,7 @@
 		<!-- mr-common and cache repository -->
 		<repository>
 			<id>mrdev-releases</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</repository>
 
 		<repository>
@@ -118,11 +118,6 @@
 			<name>SpringSource Enterprise Bundle Repository - External Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
-		<repository>
-			<id>com.springsource.repository.bundles.snapshot</id>
-			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
-		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -130,7 +125,7 @@
 		<!-- mr-common and cache plugin repository -->
 		<pluginRepository>
 			<id>mrdev-plugins</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</pluginRepository>
 
 		<!-- Agrego repo oficial de plugins para que no tome todo del repo de mr-common -->
