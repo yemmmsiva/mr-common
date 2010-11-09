@@ -43,12 +43,15 @@ Add repo in the pom.xml:
 	<repositories>
 		<repository>
 			<id>mrdev-releases</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</repository>
 	</repositories>
 }}}
 
-=== About me ===
+See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-core/trunk/pom.xml pom.xml] file of the mr-common-core as example.
+
+
+== About me ==
 
 My name is *Mariano Ruiz*, I work as _Java Developer_. I'm from Argentina.
 
