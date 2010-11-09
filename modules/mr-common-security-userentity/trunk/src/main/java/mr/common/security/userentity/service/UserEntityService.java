@@ -19,7 +19,7 @@ import mr.common.security.service.UserSecurityService;
 import mr.common.security.service.UserService;
 import mr.common.security.userentity.dao.AuthorityDao;
 import mr.common.security.userentity.dao.RoleDao;
-import mr.common.security.userentity.dao.UserDao;
+import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.dao.UserDataDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.RoleEntity;
@@ -51,7 +51,7 @@ public class UserEntityService implements UserService {
 	private static final Log logger = LogFactory.getLog(UserEntityService.class);
 
 	@Resource
-	private UserDao userDao;
+	private UserEntityDao userDao;
 	@Resource
 	private UserDataDao userDataDao;
 	@Resource

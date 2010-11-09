@@ -9,7 +9,7 @@ import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
 import mr.common.security.exception.DuplicateUserException;
 import mr.common.security.model.form.FindUserForm;
-import mr.common.security.userentity.dao.UserDao;
+import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
 
@@ -19,12 +19,12 @@ import org.springframework.util.StringUtils;
 
 
 /**
- * @see mr.common.security.userentity.dao.UserDao
+ * @see mr.common.security.userentity.dao.UserEntityDao
  * @author Mariano Ruiz
  */
 @Repository
-public class UserHibernateDao extends AbstractHibernateAuditableDao<UserEntity>
-		implements UserDao {
+public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEntity>
+		implements UserEntityDao {
 
 	/**
 	 * {@inheritDoc}
