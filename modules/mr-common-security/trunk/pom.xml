@@ -95,12 +95,7 @@
 		<!-- mr-common and cache repository -->
 		<repository>
 			<id>mrdev-releases</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
-		</repository>
-		<repository>
-			<id>mrdev-birt-releases</id>
-			<name>mrdev-birt-releases</name>
-			<url>http://repo.mrdev.com.ar/artifactory/birt</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</repository>
 
 		<repository>
@@ -135,7 +130,7 @@
 		<!-- mr-common and cache plugin repository -->
 		<pluginRepository>
 			<id>mrdev-plugins</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-releases</url>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
 		</pluginRepository>
 	</pluginRepositories>
 
