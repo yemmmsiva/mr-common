@@ -5,6 +5,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import mr.common.model.AuditableEntity;
 
 /**
@@ -22,6 +25,7 @@ public class Authority extends AuditableEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "userId")
+	@Cascade({CascadeType.ALL})
 	public UserEntity getUser() {
 		return user;
 	}
@@ -31,6 +35,7 @@ public class Authority extends AuditableEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "roleId")
+	@Cascade({CascadeType.ALL})
 	public RoleEntity getRole() {
 		return role;
 	}

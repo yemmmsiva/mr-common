@@ -3,7 +3,6 @@ package mr.common.security.userentity.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,6 +15,8 @@ import mr.common.model.AuditableEntity;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 /**
@@ -68,6 +69,7 @@ public class UserEntity extends AuditableEntity implements User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
 	@Where(clause = Audit.UNDELETED_RESTRICTION)
+	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
@@ -75,8 +77,9 @@ public class UserEntity extends AuditableEntity implements User {
 		this.authorities = authorities;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="userDataId")
+	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public UserData getPerson() {
 		return person;
 	}
