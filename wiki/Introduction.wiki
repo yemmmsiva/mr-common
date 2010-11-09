@@ -48,7 +48,7 @@ Add repo in the pom.xml:
 	</repositories>
 }}}
 
-See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-core/trunk/pom.xml pom.xml] file of the mr-common-core as example.
+See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-core/trunk/pom.xml pom.xml] file of the _mr-common-core_ as example.
 
 
 == About me ==
