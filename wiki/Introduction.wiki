@@ -37,7 +37,7 @@ Java SE 1.5 (recommended 1.6), Maven 2.0.6. For web applications: Servlet 2.4, J
 
 A Maven 2 repository with the jar modules are available [http://repo.mrdev.com.ar/artifactory here].
 
-Add repo in the pom.xml:
+Configure example of repo in the pom.xml:
 
 {{{
 	<repositories>
@@ -50,7 +50,7 @@ Add repo in the pom.xml:
 
 See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-core/trunk/pom.xml pom.xml] file of the _mr-common-core_ as example.
 
-A local m2 repository folder zipped are archive [http://mr-common.googlecode.com/files/repository.zip here], with all dependencies.
+A local m2 repository folder zipped are archive to download [http://mr-common.googlecode.com/files/repository.zip here], with all dependencies.
 
 
 == About me ==
