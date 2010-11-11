@@ -9,12 +9,12 @@ import org.apache.commons.logging.LogFactory;
  * con <i>Log4j</i> una excepción.
  * @author Mariano Ruiz
  */
-public class LogErrorMailExceptionHandler extends ThreadGroup {
+public class LogErrorThreadGroupHandler extends ThreadGroup {
 
-	private static final Log logger = LogFactory.getLog(LogErrorMailExceptionHandler.class);
+	private static final Log logger = LogFactory.getLog(LogErrorThreadGroupHandler.class);
 
-	public LogErrorMailExceptionHandler() {
-		super(LogErrorMailExceptionHandler.class.getSimpleName());
+	public LogErrorThreadGroupHandler() {
+		super(LogErrorThreadGroupHandler.class.getSimpleName());
 	}
 
 	@Override
