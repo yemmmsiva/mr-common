@@ -1,4 +1,4 @@
-package mr.common.spring.exception;
+package mr.common.exception.spring;
 
 import mr.common.spring.i18n.MessageUtils;
 

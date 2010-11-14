@@ -1,6 +1,6 @@
 package mr.common.business.exception.spring;
 
-import mr.common.spring.exception.FrameworkException;
+import mr.common.exception.spring.FrameworkException;
 
 
 /**
