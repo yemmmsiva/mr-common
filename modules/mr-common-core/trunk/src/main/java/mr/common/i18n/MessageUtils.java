@@ -1,4 +1,4 @@
-package mr.common.spring.i18n;
+package mr.common.i18n;
 
 import java.util.Locale;
 

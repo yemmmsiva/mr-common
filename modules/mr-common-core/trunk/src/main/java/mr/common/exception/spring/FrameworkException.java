@@ -1,6 +1,6 @@
 package mr.common.exception.spring;
 
-import mr.common.spring.i18n.MessageUtils;
+import mr.common.i18n.MessageUtils;
 
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.AbstractMessageSource;
