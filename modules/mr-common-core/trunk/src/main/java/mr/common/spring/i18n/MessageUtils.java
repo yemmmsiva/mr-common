@@ -5,9 +5,11 @@ import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.context.support.MessageSourceSupport;
 import org.springframework.stereotype.Component;
+
 
 /**
  * Extrae los mensajes internacionalizados.
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageUtils {
 
-    public static java.util.Locale DEFAULT_LOCALE = new Locale("es", "ES");
+    public static Locale DEFAULT_LOCALE = new Locale("en");
 
     @Resource(name = "messageSource")
     private MessageSourceSupport source;
@@ -35,4 +37,7 @@ public class MessageUtils {
         this.source = source;
     }
 
+    public static Locale getLocale() {
+    	return LocaleContextHolder.getLocale();
+    }
 }

@@ -54,7 +54,7 @@ public class FrameworkException extends RuntimeException {
 	        String resolved = null;
 	        if (ms != null) {
 	            try {
-	                resolved = ms.getMessage(messageKey, messageArgs, MessageUtils.DEFAULT_LOCALE);
+	                resolved = ms.getMessage(messageKey, messageArgs, MessageUtils.getLocale());
 	            } catch (NoSuchMessageException e) {
 	                resolved = copyArgs(messageKey, messageArgs);
 	            }
