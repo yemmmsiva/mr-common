@@ -1,9 +1,9 @@
 package mr.common.spring.exception;
 
+import mr.common.spring.i18n.MessageUtils;
+
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.AbstractMessageSource;
-
-import mr.common.spring.i18n.MessageUtils;
 
 /**
  * Excepción que recibe el mensaje de error a través de su clave i18n y lo traduce
