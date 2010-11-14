@@ -22,6 +22,15 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
  */
 public class DefaultUserDetailsService implements UserDetailsService {
 
+	/**
+	 * <code>`email`</code>: La autenticación se lleva a cabo por el email del usuario.
+	 */
+	public static final String AUTHENTICATE_BY_EMAIL = "email";
+	/**
+	 * <code>`username`</code>: La autenticación se lleva a cabo por el nombre del usuario.
+	 */
+	public static final String AUTHENTICATE_BY_USERNAME = "username";
+
 	@Autowired
 	private UserService userService;
 
@@ -31,9 +40,8 @@ public class DefaultUserDetailsService implements UserDetailsService {
 
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
-
 		User user;
-		if(appProperties!=null && appProperties.get("login.authenticateBy").equals("email")) {
+		if(getAuthenticateMethod().equals(AUTHENTICATE_BY_EMAIL)) {
 			user = userService.getByEmailAddress(username);
 		} else {
 			user = userService.getByUsername(username);
@@ -42,5 +50,27 @@ public class DefaultUserDetailsService implements UserDetailsService {
 			throw new BadCredentialsException("User not exist");
 		}
 		return new UserDetailsWrapper(user);
+	}
+
+	/**
+	 * Método de autenticación (con qué campo se va a identificar
+	 * el usuario).
+	 * <ul>
+	 *   <li>{@link #AUTHENTICATE_BY_USERNAME}</li>
+	 *   <li>{@link #AUTHENTICATE_BY_EMAIL}</li>
+	 * </ul>
+	 * @return String
+	 */
+	public String getAuthenticateMethod() {
+		String method;
+		if(appProperties == null) {
+			method = AUTHENTICATE_BY_USERNAME;
+		} else {
+			method = (String) appProperties.get("authenticateBy");
+			if(method == null) {
+				method = AUTHENTICATE_BY_USERNAME;
+			}
+		}
+		return method;
 	}
 }
