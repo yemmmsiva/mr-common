@@ -18,6 +18,16 @@ public class FindUserForm implements Serializable {
 	private String output;
 
 
+	public String getEnabledAsYesNo() {
+		if(enabled==null) {
+			return "";
+		} else if(enabled) {
+			return "YES";
+		} else {
+			return "NO";
+		}
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -41,15 +51,6 @@ public class FindUserForm implements Serializable {
 	}
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
-	public String getEnabledAsSiNo() {
-		if(enabled==null) {
-			return "";
-		} else if(enabled) {
-			return "SI";
-		} else {
-			return "NO";
-		}
 	}
 	public String getOutput() {
 		return output;
