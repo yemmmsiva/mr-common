@@ -6,6 +6,8 @@ import mr.common.security.model.User;
 import mr.common.security.service.UserService;
 import mr.common.security.spring.model.UserDetailsWrapper;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.BadCredentialsException;
@@ -21,6 +23,8 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
  * @author Mariano Ruiz
  */
 public class DefaultUserDetailsService implements UserDetailsService {
+
+	private static final Log logger = LogFactory.getLog(DefaultUserDetailsService.class);
 
 	/**
 	 * <code>`email`</code>: La autenticación se lleva a cabo por el email del usuario.
@@ -65,6 +69,8 @@ public class DefaultUserDetailsService implements UserDetailsService {
 		String method;
 		if(appProperties == null) {
 			method = AUTHENTICATE_BY_USERNAME;
+			logger.warn("`appProperties` is null.");
+			logger.warn("Use `username` default method authentication.");
 		} else {
 			method = (String) appProperties.get("authenticateBy");
 			if(method == null) {
