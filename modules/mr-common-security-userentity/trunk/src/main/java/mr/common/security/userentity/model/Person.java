@@ -26,7 +26,7 @@ public abstract class Person extends AuditableEntity {
 	private String mail;
 	private String countryName;
 	private String stateOrProvinceName;
-	private String sex;
+	private String gender;
 	private Boolean org;
 
 
@@ -106,11 +106,11 @@ public abstract class Person extends AuditableEntity {
 	public void setStateOrProvinceName(String stateOrProvinceName) {
 		this.stateOrProvinceName = stateOrProvinceName;
 	}
-	public String getSex() {
-		return sex;
+	public String getGender() {
+		return gender;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public Boolean getOrg() {
 		return org;
