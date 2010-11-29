@@ -95,6 +95,18 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	}
 
 	/**
+	 * Clona el objeto llamando a {@link Object#clone()},
+	 * pero no copia el id de la entidad.
+	 * @see Object#clone()
+	 */
+	@Override
+	public BaseEntity clone() throws CloneNotSupportedException {
+		BaseEntity e = (BaseEntity) super.clone();
+		e.setId(null);
+		return e;
+	}
+
+	/**
 	 * @return {@link Integer} version
 	 */
 	public Integer getVersion() {
@@ -106,12 +118,5 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	 */
 	public void setVersion(Integer version) {
 		this.version = version;
-	}
-
-	@Override
-	public BaseEntity clone() throws CloneNotSupportedException {
-		BaseEntity e = (BaseEntity) super.clone();
-		e.setId(null);
-		return e;
 	}
 }
