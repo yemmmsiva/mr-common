@@ -41,7 +41,10 @@ public abstract class TimeUtils {
      */
     public static final String TIME_FORMAT_TIMESTAMP = "yyyy-MM-dd hh:mm:ss";
 
-	private static final long MILLISECONDS_OF_YEAR = 1000 / 60 / 60 / 24 / 365;
+    /**
+     * Milisegundos de un año (no bisiesto).
+     */
+	public static final long MILLISECONDS_OF_YEAR = 1000 * 60 * 60 * 24 * 365;
 
     // Formateador estándar usado por algunos métodos
     private static SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_YYYYMMDD);
