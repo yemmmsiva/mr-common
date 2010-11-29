@@ -41,6 +41,8 @@ public abstract class TimeUtils {
      */
     public static final String TIME_FORMAT_TIMESTAMP = "yyyy-MM-dd hh:mm:ss";
 
+	private static final long MILLISECONDS_OF_YEAR = 1000 / 60 / 60 / 24 / 365;
+
     // Formateador estándar usado por algunos métodos
     private static SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_YYYYMMDD);
 
@@ -175,5 +177,23 @@ public abstract class TimeUtils {
 	 */
 	public static boolean isDayOfWeekEnd(int dayOfWeak) {
 		return dayOfWeak == Calendar.SUNDAY || dayOfWeak == Calendar.SATURDAY;
+	}
+
+	/**
+	 * @param dateOfBirth Date: fecha de nacimiento
+	 * @return int edad en años
+	 */
+	public static int getAge(Date dateOfBirth) {
+		long ageInMilliseconds = (new Date()).getTime() - dateOfBirth.getTime();
+		return (int) (ageInMilliseconds / MILLISECONDS_OF_YEAR);
+	}
+
+	/**
+	 * @param dateOfBirth Date: fecha de nacimiento
+	 * @return int edad en años
+	 */
+	public static int getAge(Calendar dateOfBirth) {
+		long ageInMilliseconds = (Calendar.getInstance()).getTimeInMillis() - dateOfBirth.getTimeInMillis();
+		return (int) (ageInMilliseconds / MILLISECONDS_OF_YEAR);
 	}
 }
