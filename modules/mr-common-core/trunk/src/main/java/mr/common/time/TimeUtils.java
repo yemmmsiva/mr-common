@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -112,4 +114,45 @@ public abstract class TimeUtils {
 		}
         return fecha;
     }
+
+	/**
+	 * <p>Diferencia de tiempo entre las dos fechas, en la unidad de tiempo pasada.</p>
+	 * <p>Ambos calendars deben pertenecer al mismo timezone para que el cálculo
+	 * sea correcto.</p>
+	 * Ejemplo de unidades de tiempo:
+	 * <ul>
+	 * <li>TimeUnit.MILLISECONDS</li>
+	 * <li>TimeUnit.HOURS</li>
+	 * <li>TimeUnit.DAYS</li>
+	 * ...
+	 * </ul>
+	 * @param a {@link Calendar}
+	 * @param b {@link Calendar}
+	 * @param units {@link TimeUnit}
+	 * @return long
+	 */
+	public static long getDifferenceBetween(
+			Calendar a, Calendar b, TimeUnit units) {
+		return units.convert(
+				b.getTimeInMillis() - a.getTimeInMillis(),
+				TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * @param year int
+	 * @return <code>true</code> si el año es bisiesto
+	 */
+	public static boolean isLeapYear(int year) {
+		return (new GregorianCalendar()).isLeapYear(year);
+	}
+
+	/**
+	 * ¿El día de la semana es sábado o domingo?.
+	 * @param dayOfWeak int - día de la semana
+	 * @return boolean
+	 * @see #isHolidayDay(int, boolean)
+	 */
+	public static boolean isDayOfWeekEnd(int dayOfWeak) {
+		return dayOfWeak == Calendar.SUNDAY || dayOfWeak == Calendar.SATURDAY;
+	}
 }
