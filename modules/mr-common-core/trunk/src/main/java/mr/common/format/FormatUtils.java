@@ -3,9 +3,6 @@ package mr.common.format;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Clase con métodos encargados de realizar formateo de texto, fechas y números.
@@ -18,21 +15,6 @@ public class FormatUtils {
      * Símbolo del EURO.
      */
     public static final String EURO = "\u20AC";
-
-    /**
-     * Formato de fecha latinoamericano, ej. <code>01/09/2009</code>.
-     */
-    public static final String TIME_FORMAT_DDMMYYYY = "dd/MM/yyyy";
-
-    /**
-     * Formato de fecha en texto latinoamericano, ej. <code>1 de septiembre de 2009</code>.
-     */
-    public static final String TIME_FORMAT_DD_DE_MES_DE_YYYY = "d 'de' MMMM 'de' yyyy";
-
-    /**
-     * Formato de fecha en formato TIMESTAMP de base de datos, ej. <code>2009-11-23 14:50:55</code>.
-     */
-    public static final String TIME_FORMAT_TIMESTAMP = "yyyy-MM-dd hh:mm:ss";
 
     /**
      * Máscara de formato moneda para {@link DecimalFormat}, ej. <code>1.587,80</code>.
@@ -53,35 +35,6 @@ public class FormatUtils {
      * Máscara de formato Euro para {@link DecimalFormat}, ej. <code>1.587,80 €</code>.
      */
     public static final String FORMAT_EURO = FORMAT_MONEY + " " + EURO;
-
-
-    /**
-     * Método que recibe una fecha en formato String y la devuelve en formato Date.
-     * @param fecha String
-     * @param mascara String: Formato de la fecha a transformar, ej. <code>yyyy-MM-dd</code>
-     * @return date
-     * @throws ParseException e
-     */
-    public static Date strToDate(String fecha, String mascara) throws ParseException {
-
-        Date date = null;
-        SimpleDateFormat df = new SimpleDateFormat(mascara);
-        date = df.parse(fecha);
-        return date;
-    }
-
-    /**
-     * Retorna la misma fecha pero sin la información de la hora (o sea con hora 00:00).
-     * @param d Date
-     * @return Date
-     * @throws ParseException e
-     */
-    public static Date dateWithoutHour(Date d) throws ParseException {
-        SimpleDateFormat sd = new SimpleDateFormat(TIME_FORMAT_DDMMYYYY);
-        Date fecha = null;
-        fecha = sd.parse(sd.format(d));
-        return fecha;
-    }
 
     /**
      * Retorna el porcentaje de num sobre el total, pero redondeado el resultado hasta 2 decimales.
@@ -152,20 +105,6 @@ public class FormatUtils {
         }
         return apellidoNombre;
     }
-
-
-	private static String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-		"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }; 
-
-	/**
-	 * Retorna el nombre del mes (en ES, sin internacionalización).
-	 * @param numMes int: número de mes (1 a 12)
-	 * @return String
-	 * TODO Internacionalizar
-	 */
-	public static String mesAsSting(int numMes) {
-		return meses[numMes-1];
-	}
 
 	/**
 	 * Convierte un número binario de cualquier longitud de bytes
