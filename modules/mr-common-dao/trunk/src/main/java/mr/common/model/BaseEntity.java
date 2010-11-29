@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * @author Mariano Ruiz
  */
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,6 +47,7 @@ public abstract class BaseEntity implements Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + "(id: " + id + ")"; 
 	}
@@ -73,6 +74,7 @@ public abstract class BaseEntity implements Serializable {
 	/**
 	 * @see #equals(BaseEntity)
 	 */
+	@Override
 	public boolean equals(Object o) {
 		return equals((BaseEntity)o);
 	}
@@ -83,6 +85,7 @@ public abstract class BaseEntity implements Serializable {
 	 * <code>hashCode()</code> de <code>Object</code>.
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		if(id==null) {
 			return super.hashCode();
@@ -103,5 +106,12 @@ public abstract class BaseEntity implements Serializable {
 	 */
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	@Override
+	public BaseEntity clone() throws CloneNotSupportedException {
+		BaseEntity e = (BaseEntity) super.clone();
+		e.setId(null);
+		return e;
 	}
 }
