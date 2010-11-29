@@ -139,6 +139,27 @@ public abstract class TimeUtils {
 	}
 
 	/**
+	 * Diferencia de tiempo entre las dos fechas, en la unidad de tiempo pasada.
+	 * Ejemplo de unidades de tiempo:
+	 * <ul>
+	 * <li>TimeUnit.MILLISECONDS</li>
+	 * <li>TimeUnit.HOURS</li>
+	 * <li>TimeUnit.DAYS</li>
+	 * ...
+	 * </ul>
+	 * @param a {@link Calendar}
+	 * @param b {@link Calendar}
+	 * @param units {@link TimeUnit}
+	 * @return long
+	 */
+	public static long getDifferenceBetween(
+			Date a, Date b, TimeUnit units) {
+		return units.convert(
+				b.getTime() - a.getTime(),
+				TimeUnit.MILLISECONDS);
+	}
+
+	/**
 	 * @param year int
 	 * @return <code>true</code> si el año es bisiesto
 	 */
