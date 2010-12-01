@@ -65,10 +65,8 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 			throw new IllegalClassException(this.getClass(), o.getClass());
 		} else if (o.getId()==null || id==null) {
 			return false;
-		} else if (id.longValue() == o.getId().longValue()) {
-			return true;
 		}
-		return false;
+		return id.longValue() == o.getId().longValue();
 	}
 
 	/**
