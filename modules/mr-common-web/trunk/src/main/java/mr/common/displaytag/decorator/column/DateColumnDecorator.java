@@ -5,7 +5,7 @@ import java.util.Date;
 
 import javax.servlet.jsp.PageContext;
 
-import mr.common.format.FormatUtils;
+import mr.common.time.TimeUtils;
 
 import org.displaytag.decorator.DisplaytagColumnDecorator;
 import org.displaytag.exception.DecoratorException;
@@ -18,7 +18,7 @@ import org.displaytag.properties.MediaTypeEnum;
  */
 public class DateColumnDecorator implements DisplaytagColumnDecorator
 {
-    private SimpleDateFormat dateFormat = new SimpleDateFormat(FormatUtils.TIME_FORMAT_DDMMYYYY);
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(TimeUtils.TIME_FORMAT_DDMMYYYY);
 
     /**
      * {@inheritDoc}
