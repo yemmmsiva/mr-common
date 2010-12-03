@@ -17,8 +17,16 @@ public class LogErrorThreadGroupHandler extends ThreadGroup {
 		super(LogErrorThreadGroupHandler.class.getSimpleName());
 	}
 
+	public LogErrorThreadGroupHandler(String name) {
+		super(name);
+	}
+
+	/**
+	 * Solo loguea como <b>ERROR</b> la excepción.
+	 */
 	@Override
 	public void uncaughtException(Thread thread, Throwable throwable) {
+		//super.uncaughtException(thread, throwable);
 		logger.error(thread, throwable);
 	}
 }
