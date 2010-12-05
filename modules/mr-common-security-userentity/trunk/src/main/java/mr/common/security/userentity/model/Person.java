@@ -112,6 +112,11 @@ public abstract class Person extends AuditableEntity {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
+	/**
+	 * @return <code>true</code> si es una organización
+	 * (persona jurídica)
+	 */
 	public Boolean getOrg() {
 		return org;
 	}
