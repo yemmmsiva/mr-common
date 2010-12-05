@@ -208,7 +208,7 @@ public class UserEntityService implements UserService {
 		UserEntity duplicado = userDao.getByUsername(form.getUsername());
 		if(duplicado!=null && (user.getId()==null
 				|| (user.getId()!=null && user.getId().longValue()!=duplicado.getId().longValue()))) {
-			throw new DuplicatedEmailAddressException();
+			throw new DuplicatedUserException();
 		}
 		duplicado = userDao.getByEmailAddress(form.getMail());
 		if(duplicado!=null && (user.getId()==null
