@@ -16,7 +16,7 @@ public class UserData extends Person {
 
 	private UserEntity user;
 
-	@OneToOne(mappedBy = "person")
+	@OneToOne(mappedBy = "userData")
 	public UserEntity getUser() {
 		return user;
 	}

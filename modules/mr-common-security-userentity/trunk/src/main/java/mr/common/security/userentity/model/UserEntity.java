@@ -34,7 +34,7 @@ public class UserEntity extends AuditableEntity implements User {
 	private String emailAddress;
 	private boolean enabled;
 
-	private UserData person;
+	private UserData userData;
 	private List<Authority> authorities;
 
 
@@ -80,11 +80,11 @@ public class UserEntity extends AuditableEntity implements User {
 	@OneToOne
 	@JoinColumn(name="userDataId")
 	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-	public UserData getPerson() {
-		return person;
+	public UserData getUserData() {
+		return userData;
 	}
-	public void setPerson(UserData person) {
-		this.person = person;
+	public void setUserData(UserData person) {
+		this.userData = person;
 	}
 
 	public String getEmailAddress() {

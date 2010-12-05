@@ -7,7 +7,7 @@ import java.util.Map;
 import mr.common.dao.HibernateUtils;
 import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
-import mr.common.security.exception.DuplicateUserException;
+import mr.common.security.exception.DuplicatedUserException;
 import mr.common.security.model.form.FindUserForm;
 import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
@@ -36,7 +36,7 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     	if(list.size()==0) {
     		return null;
     	} else if(list.size()!=1) {
-    		throw new DuplicateUserException("Duplicate username");
+    		throw new DuplicatedUserException("Duplicate username");
     	}
     	return list.get(0);
 	}
@@ -51,7 +51,7 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     	if(list.size()==0) {
     		return null;
     	} else if(list.size()!=1) {
-    		throw new DuplicateUserException("Duplicate email user");
+    		throw new DuplicatedUserException("Duplicate email user");
     	}
     	return list.get(0);
 	}
@@ -90,9 +90,9 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 		}
 
 		if (StringUtils.hasText(form.getCommonName())) {
-			hql += " and (lower(u.person.commonName) like :commonName"
-			     + "      or lower(u.person.givenName) like :commonName"
-			     + "      or lower(u.person.surname) like :commonName)";
+			hql += " and (lower(u.userData.commonName) like :commonName"
+			     + "      or lower(u.userData.givenName) like :commonName"
+			     + "      or lower(u.userData.surname) like :commonName)";
 			 params.put("commonName", QueryUtils.likeParam(form.getCommonName()));
 		}
 
