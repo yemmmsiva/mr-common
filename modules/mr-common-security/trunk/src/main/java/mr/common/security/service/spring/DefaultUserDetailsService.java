@@ -2,6 +2,7 @@ package mr.common.security.service.spring;
 
 import java.util.Properties;
 
+import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.User;
 import mr.common.security.service.UserService;
 import mr.common.security.spring.model.UserDetailsWrapper;
@@ -45,12 +46,13 @@ public class DefaultUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		User user;
-		if(getAuthenticateMethod().equals(AUTHENTICATE_BY_EMAIL)) {
-			user = userService.getByEmailAddress(username);
-		} else {
-			user = userService.getByUsername(username);
-		}
-		if(user==null) {
+		try {
+			if(getAuthenticateMethod().equals(AUTHENTICATE_BY_EMAIL)) {
+				user = userService.getByEmailAddress(username);
+			} else {
+				user = userService.getByUsername(username);
+			}
+		} catch(UserNotExistException e) {
 			throw new BadCredentialsException("User not exist");
 		}
 		return new UserDetailsWrapper(user);
