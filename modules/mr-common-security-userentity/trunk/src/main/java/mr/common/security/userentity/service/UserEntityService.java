@@ -8,19 +8,26 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
-import mr.common.business.exception.spring.BusinessException;
 import mr.common.format.validator.ValidatorUtils;
 import mr.common.security.EncodeUtils;
+import mr.common.security.exception.DuplicatedEmailAddressException;
+import mr.common.security.exception.DuplicatedUserException;
+import mr.common.security.exception.EncodePasswordException;
+import mr.common.security.exception.InvalidEmailAddressException;
+import mr.common.security.exception.InvalidPasswordException;
+import mr.common.security.exception.InvalidUsernameException;
+import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
+import mr.common.security.model.form.BasicUserForm;
 import mr.common.security.model.form.FindUserForm;
 import mr.common.security.model.form.UserForm;
 import mr.common.security.service.UserSecurityService;
 import mr.common.security.service.UserService;
 import mr.common.security.userentity.dao.AuthorityDao;
 import mr.common.security.userentity.dao.RoleDao;
-import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.dao.UserDataDao;
+import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.RoleEntity;
 import mr.common.security.userentity.model.UserData;
@@ -49,6 +56,8 @@ public class UserEntityService implements UserService {
 
 	//private final Log logger = LogFactory.getLog(getClass());
 	private static final Log logger = LogFactory.getLog(UserEntityService.class);
+
+	private EmailValidator emailValidator = EmailValidator.getInstance();
 
 	@Resource
 	private UserEntityDao userDao;
@@ -82,7 +91,12 @@ public class UserEntityService implements UserService {
 	 */
     @Transactional
 	public User getByUsername(String username) {
-		return userDao.getByUsername(username);
+		User user = userDao.getByUsername(username);
+		if(user==null) {
+			throw new UserNotExistException(
+					"User with username='" + username + "' not exist");
+		}
+		return user;
 	}
 
 	/**
@@ -90,7 +104,12 @@ public class UserEntityService implements UserService {
 	 */
     @Transactional
 	public User getByEmailAddress(String emailAddress) {
-		return userDao.getByEmailAddress(emailAddress);
+		User user = userDao.getByEmailAddress(emailAddress);
+		if(user==null) {
+			throw new UserNotExistException(
+					"User with emailAddress='" + emailAddress + "' not exist");
+		}
+		return user;
 	}
 
 	/**
@@ -127,19 +146,16 @@ public class UserEntityService implements UserService {
 	 */
     @Transactional(readOnly = false)
 	public void deleteByUsername(String username) {
-    	UserEntity u = (UserEntity) userDao.getByUsername(username);
-		userDataDao.delete(u.getPerson());
+    	UserEntity u = (UserEntity) getByUsername(username);
+		userDataDao.delete(u.getUserData());
 		authorithyDao.deleteList(u.getAuthorities());
 		userDao.delete(u);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-    @Transactional
-	public User get(Serializable id) {
-		return userDao.get((Long)id);
-	}
+    @Transactional(readOnly = false)
+    public void update(BasicUserForm form) {
+    	
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -153,8 +169,8 @@ public class UserEntityService implements UserService {
 		// Recuperamos el usuario o creamos el nuevo
 		boolean userExist = form.getId()!=null;
 		if(userExist) {
-			user = userDao.get(form.getId());
-			userData = user.getPerson();
+			user = (UserEntity) getById(form.getId());
+			userData = user.getUserData();
 		} else {
 			user = new UserEntity();
 			userData = new UserData();
@@ -162,15 +178,15 @@ public class UserEntityService implements UserService {
 
 		// Validamos los campos
 		if(!isValidUsername(form.getUsername())) {
-			throw new BusinessException("user.edit.error.invalidUserName");
+			throw new InvalidUsernameException(form.getUsername());
 		}
 		if(StringUtils.hasText(form.getPassword())) {
 			if(!isValidPassword(form.getPassword())) {
-				throw new BusinessException("user.edit.error.invalidPassword");
+				throw new InvalidPasswordException();
 			}
 		}
-		if(!EmailValidator.getInstance().isValid(form.getMail())) {
-			throw new BusinessException("user.edit.error.invalidMail");
+		if(!isValidEmailAddress(form.getMail())) {
+			throw new InvalidEmailAddressException();
 		}
 
 		// Si el usuario existía verificamos que cambio
@@ -192,12 +208,12 @@ public class UserEntityService implements UserService {
 		UserEntity duplicado = userDao.getByUsername(form.getUsername());
 		if(duplicado!=null && (user.getId()==null
 				|| (user.getId()!=null && user.getId().longValue()!=duplicado.getId().longValue()))) {
-			throw new BusinessException("user.edit.error.duplicatedName");
+			throw new DuplicatedEmailAddressException();
 		}
 		duplicado = userDao.getByEmailAddress(form.getMail());
 		if(duplicado!=null && (user.getId()==null
 				|| (user.getId()!=null && user.getId().longValue()!=duplicado.getId().longValue()))) {
-			throw new BusinessException("user.edit.error.duplicatedEmailAddress");
+			throw new DuplicatedEmailAddressException();
 		}
 		userData.setCommonName(form.getCommonName());
 		userData.setSurname(form.getSurname());
@@ -207,14 +223,14 @@ public class UserEntityService implements UserService {
 		if(StringUtils.hasText(form.getPassword())) {
 			try {
 				user.setPassword(encodePassword(form.getPassword()));
-			} catch (Exception e) {
-				logger.error("Error al codificar la password del usuario '" + form.getUsername() + "'.", e);
-				throw new BusinessException("user.edit.error.encode");
+			} catch (EncodePasswordException e) {
+				logger.error("An error occurred when encoding the password of the user=" + user.getUsername(), e);
+				throw e;
 			}
 		}
 
 		// Guardamos o actualizamos el usuario
-		user.setPerson(userData);
+		user.setUserData(userData);
 		userData.setUser(user);
 		userDataDao.saveOrUpdate(userData);
 		userDao.saveOrUpdate(user);
@@ -297,15 +313,12 @@ public class UserEntityService implements UserService {
 		return roleDao.getList();
 	}
 
-	private void changePassword(UserEntity user, String newPassword) {
-		if(!isValidPassword(newPassword)) {
-			throw new BusinessException("user.edit.error.invalidPassword");
-		}
+	private void updatePassword(UserEntity user, String newPassword) {
 		try {
 			user.setPassword(encodePassword(newPassword));
-		} catch (Exception e) {
-			logger.error("Error al codificar la password del usuario '" + user.getUsername() + "'.", e);
-			throw new BusinessException("user.edit.error.encode");
+		} catch (EncodePasswordException e) {
+			logger.error("An error occurred when encoding the password of the user= '" + user.getUsername() + "'.", e);
+			throw e;
 		}
 		userDao.update(user);
 		sendMail(user, newPassword, true);
@@ -315,33 +328,47 @@ public class UserEntityService implements UserService {
      * {@inheritDoc}
      */
     @Transactional(readOnly = false)
-	public void changePassword(String username, String newPassword) {
-		UserEntity user = userDao.getByUsername(username);
-		changePassword(user, newPassword);
+	public void updatePassword(String username, String newPassword) {
+    	if(!isValidPassword(newPassword)) {
+    		throw new InvalidPasswordException();
+    	}
+		UserEntity user = (UserEntity) getByUsername(username);
+		updatePassword(user, newPassword);
 	}
 
     @Transactional(readOnly = false)
-	public void changePassword(Serializable id, String newPassword) {
-		UserEntity user = userDao.get((Long)id);
-		changePassword(user, newPassword);
+	public void updatePassword(Serializable id, String newPassword) {
+    	if(!isValidPassword(newPassword)) {
+    		throw new InvalidPasswordException();
+    	}
+		UserEntity user = (UserEntity) getById(id);
+		updatePassword(user, newPassword);
 	}
 
     @Transactional
 	public User getById(Serializable id) {
-		return userDao.get((Long)id);
+		User user = userDao.get((Long)id);
+		if(user==null) {
+			throw new UserNotExistException(
+					"User with id=" + id + " not exist");
+		}
+		return user;
 	}
 
     @Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
-		userDao.deleteById((Long)id);
+    	UserEntity u = (UserEntity) getById(id);
+		userDataDao.delete(u.getUserData());
+		authorithyDao.deleteList(u.getAuthorities());
+		userDao.delete(u);
 	}
 
 	public String encodePassword(String plainPassword) {
 		try {
 			return EncodeUtils.md5(plainPassword);
 		} catch(Exception e) {
-			logger.error("No se pudo codificar la password", e);
-			throw new RuntimeException(e);
+			logger.error("An error occurred when encoding the password", e);
+			throw new EncodePasswordException(e);
 		}
 	}
 
@@ -352,6 +379,10 @@ public class UserEntityService implements UserService {
 	public boolean isValidPassword(String password) {
 		// Se valida la password de la misma forma que el nombre de usuario
 		return ValidatorUtils.isValidUsername(password);
+	}
+
+	public boolean isValidEmailAddress(String emailAddress) {
+		return emailValidator.isValid(emailAddress);
 	}
 
 	public boolean hasRole(User user, Role role) {
@@ -376,5 +407,85 @@ public class UserEntityService implements UserService {
 			}
 		}
 		return false;
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCommonName(String username, String newCommonName) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setCommonName(newCommonName);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCommonName(Serializable id, String newCommonName) {
+		UserEntity user = (UserEntity) getById(id);
+		user.getUserData().setCommonName(newCommonName);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateEmailAddress(String username, String newEmailAddress) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
+		if(user2!=null && !user2.getId().equals(user.getId())) {
+			throw new DuplicatedUserException(
+					"A user with email address='" + newEmailAddress + "' exist.");
+		}
+		user.setEmailAddress(newEmailAddress);
+		userDao.update(user);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateEmailAddress(Serializable id, String newEmailAddress) {
+		UserEntity user = (UserEntity) getById(id);
+		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
+		if(user2!=null && !user2.getId().equals(user.getId())) {
+			throw new DuplicatedUserException(
+					"A user with email address='" + newEmailAddress + "' exist.");
+		}
+		user.setEmailAddress(newEmailAddress);
+		userDao.update(user);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateUsername(String username, String newUsername) {
+		if(!isValidUsername(newUsername)) {
+			throw new InvalidUsernameException();
+		}
+		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user2 = userDao.getByUsername(newUsername);
+		if(user2!=null && !user2.getId().equals(user.getId())) {
+			throw new DuplicatedUserException(
+					"A user with username='" + newUsername + "' exist.");
+		}
+		user.setUsername(newUsername);
+		userDao.update(user);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateUsername(Serializable id, String newUsername) {
+		if(!isValidUsername(newUsername)) {
+			throw new InvalidUsernameException();
+		}
+		UserEntity user = (UserEntity) getById(id);
+		UserEntity user2 = userDao.getByUsername(newUsername);
+		if(user2!=null && !user2.getId().equals(user.getId())) {
+			throw new DuplicatedUserException(
+					"A user with username='" + newUsername + "' exist.");
+		}
+		user.setUsername(newUsername);
+		userDao.update(user);
+	}
+
+	@Transactional
+	public boolean checkPassword(String username, String password) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		return user.getPassword().equals(encodePassword(password));
+	}
+
+	@Transactional
+	public boolean checkPassword(Serializable id, String password) {
+		UserEntity user = (UserEntity) getById(id);
+		return user.getPassword().equals(encodePassword(password));
 	}
 }
