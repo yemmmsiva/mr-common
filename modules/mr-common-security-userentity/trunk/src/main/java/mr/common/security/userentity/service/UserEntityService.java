@@ -2,9 +2,7 @@ package mr.common.security.userentity.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import javax.annotation.Resource;
 
@@ -36,9 +34,6 @@ import mr.common.security.userentity.model.UserEntity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.EmailValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,12 +66,7 @@ public class UserEntityService implements UserService {
 	@Resource
 	private UserSecurityService userSecurityService;
 
-	@Autowired(required=false)
-	private Properties appProperties;
 
-	@Autowired(required=false)
-	private JavaMailSender mailSender;
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -188,22 +178,6 @@ public class UserEntityService implements UserService {
 		if(!isValidEmailAddress(form.getMail())) {
 			throw new InvalidEmailAddressException();
 		}
-
-		// Si el usuario existía verificamos que cambio
-		boolean usernameChange = false;
-		boolean emailAddressChange = false;
-		boolean passwordChange = false;
-		if(userExist) {
-			if(!user.getUsername().equals(form.getUsername())) {
-				usernameChange = true;
-			}
-			if(!user.getEmailAddress().equals(form.getMail())) {
-				emailAddressChange = true;
-			}
-			if(StringUtils.hasText(form.getPassword())) {
-				passwordChange = true;
-			}
-		}
 		
 		UserEntity duplicado = userDao.getByUsername(form.getUsername());
 		if(duplicado!=null && (user.getId()==null
@@ -251,58 +225,7 @@ public class UserEntityService implements UserService {
 			au.setUser(user);
 			authorithyDao.save(au);
 		}
-		// Enviamos un mail si el usuario es nuevo o si alguno
-		// de los campos siguientes cambió
-		if(!userExist || usernameChange || passwordChange || emailAddressChange) {
-			sendMail(user, form.getPassword(), userExist);
-		}
 	}
-
-    /**
-     * Envía un mail al usuario nuevo o actualizado con sus credenciales.<br/>
-     * Se envía solo si están configuradas ciertas propiedad y objectos, ver código.<br/>
-     * En caso de producirse errores se loguea el mismo en los logs, pero no se relanza
-     * la exception a quien llama.
-     */
-    private void sendMail(User user, String password, boolean userExist) {
-		if(mailSender!=null && appProperties!=null
-				&& appProperties.getProperty("user.sendMail").equals("true")) {
-			try {
-				SimpleMailMessage message = new SimpleMailMessage();
-				message.setSentDate(new Date());
-				message.setTo(user.getEmailAddress());
-				String cc = (String)appProperties.getProperty("mail.cc.to", "");
-				if(StringUtils.hasText(cc)) {
-					message.setCc((cc).split("; "));
-				}
-				String from = getCurrentUser().getEmailAddress();
-				if(from==null) {
-					from = appProperties.getProperty("mail.cc.from");
-				}
-				message.setFrom(from);
-				message.setSubject((String)appProperties.getProperty("newuser.email.subject"));
-				String start;
-				if(userExist) {
-					start = (String)appProperties.getProperty("updateduser.email.message");
-				} else {
-					start = (String)appProperties.getProperty("newuser.email.message");
-				}
-				message.setText(parseBodyMessageMail(start, user.getUsername(), user.getEmailAddress(), password));
-				mailSender.send(message);
-			} catch(Exception e) {
-				logger.error("Error al enviar mail de notificacion al nuevo usuario '" + user.getUsername() + "'.", e);
-			}
-		}
-    }
-
-    private String parseBodyMessageMail(String start, String username, String emailAddress, String password) {
-    	String bodyMessage = start + "\n\n"
-        + "Username: " +username + "\n"
-        + "Email: " + emailAddress + "\n"
-        + "Password: " + password + "\n\n"
-        + "Ingresa desde: " + (String)appProperties.getProperty("newuser.email.url");
-    	return bodyMessage;
-    }
 
 	/**
 	 * {@inheritDoc}
@@ -321,7 +244,6 @@ public class UserEntityService implements UserService {
 			throw e;
 		}
 		userDao.update(user);
-		sendMail(user, newPassword, true);
 	}
 
     /**
