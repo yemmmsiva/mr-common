@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import mr.common.model.BaseEntity;
+import mr.common.spring.context.Bean;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
@@ -122,11 +123,37 @@ public class HibernateUtils {
      * @param entity {@link mr.common.model.BaseEntity}
      * @return El mismo objeto pero si 'proxear' por Hibernate.
      */
-    public static BaseEntity unproxy(BaseEntity entity) {
+    @SuppressWarnings("unchecked")
+	public static <DomainObject extends BaseEntity> DomainObject unproxy(DomainObject entity) {
         if (entity instanceof HibernateProxy) {
-            return (BaseEntity)((HibernateProxy)entity).getHibernateLazyInitializer().getImplementation();
+            return (DomainObject)((HibernateProxy)entity).getHibernateLazyInitializer().getImplementation();
         } else {
             return entity;
         }
+    }
+
+    /**
+     * Detacha el objeto persistente de la sesión.
+     * @param entity {@link mr.common.model.BaseEntity}
+     */
+	public static void detach(BaseEntity entity) {
+		((Session)Bean.get(Session.class)).evict(entity);
+	}
+
+    /**
+     * Atacha el objeto persistente a la sesión, y devuelve
+     * una versión refrezcada del mismo.
+     * @param entity {@link mr.common.model.BaseEntity}
+     */
+	@SuppressWarnings("unchecked")
+	public static <DomainObject extends BaseEntity> DomainObject attach(DomainObject entity) {
+		return (DomainObject) ((Session)Bean.get(Session.class)).merge(entity);
+	}
+
+	/**
+	 * Flush de la cache de sesión.
+	 */
+    public static void flush() {
+        ((Session)Bean.get(Session.class)).flush();
     }
 }
