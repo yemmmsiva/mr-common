@@ -313,6 +313,9 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean isValidEmailAddress(String emailAddress) {
+		if(emailAddress==null) {
+			throw new NullPointerException();
+		}
 		return emailValidator.isValid(emailAddress);
 	}
 
@@ -321,7 +324,7 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean hasRole(Serializable userId, String roleName) {
-		List <Authority> authorities = userDao.getAuthorityList((Long)userId);
+		List <Authority> authorities = userDao.getAuthorityList((Long)getById(userId).getId());
 		for(Authority authority : authorities) {
 			if(authority.getRole().getAuthority().equals(roleName)) {
 				return true;
@@ -331,7 +334,7 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean hasRole(String username, String roleName) {
-		List <Authority> authorities = userDao.getAuthorityList(username);
+		List <Authority> authorities = userDao.getAuthorityList((Long)getByUsername(username).getId());
 		for(Authority authority : authorities) {
 			if(authority.getRole().getAuthority().equals(roleName)) {
 				return true;
