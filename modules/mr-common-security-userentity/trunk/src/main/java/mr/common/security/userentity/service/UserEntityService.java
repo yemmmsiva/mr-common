@@ -81,6 +81,9 @@ public class UserEntityService implements UserService {
 	 */
     @Transactional
 	public User getByUsername(String username) {
+    	if(username==null) {
+    		throw new NullPointerException("username = null");
+    	}
 		User user = userDao.getByUsername(username);
 		if(user==null) {
 			throw new UserNotExistException(
@@ -94,6 +97,9 @@ public class UserEntityService implements UserService {
 	 */
     @Transactional
 	public User getByEmailAddress(String emailAddress) {
+    	if(emailAddress==null) {
+    		throw new NullPointerException("emailAddress = null");
+    	}
 		User user = userDao.getByEmailAddress(emailAddress);
 		if(user==null) {
 			throw new UserNotExistException(
@@ -269,6 +275,9 @@ public class UserEntityService implements UserService {
 
     @Transactional
 	public User getById(Serializable id) {
+    	if(id==null) {
+    		throw new NullPointerException("id = null");
+    	}
 		User user = userDao.get((Long)id);
 		if(user==null) {
 			throw new UserNotExistException(
