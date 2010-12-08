@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
 
+import org.springframework.util.StringUtils;
+
 /**
  * Clase con métodos encargados de realizar formateo de texto, fechas y números.
  * @author Mariano Ruiz
@@ -77,33 +79,33 @@ public class FormatUtils {
     /**
      * Obtiene el/los apellidos y el nombre de una persona en el formato:
      * <ul>
-     * <li>"Apellido1 [Apellido2][, Nombre]" -> Si tiene al menos un apellido</li>
-     * <li>"Nombre" -> Si tiene al menos un apellido</li>
-     * <li>"" -> Si no tiene ni nombre ni apellidos</li>
+     *   <li>'lastName1 [lastName2][, firstName]' -> Si tiene al menos un apellido</li>
+     *   <li>'fisrtName' -> Si no tiene apellidos</li>
+     * <li>'' -> Si no tiene ni nombre ni apellidos</li>
      * </ul>
-     * @param apellido1 String
-     * @param apellido2 String
-     * @param nombre String
+     * @param lastName1 String
+     * @param lastName2 String
+     * @param firstName String
      * @return String
      */
-    public static String getApellidoNombre(String apellido1, String apellido2, String nombre) {
-        String apellidoNombre = "";
-        if (apellido1 != null && apellido1.trim().length() > 0) {
-            apellidoNombre += apellido1.trim();
+    public static String getFullName(String lastName1, String lastName2, String firstName) {
+        String fullName = "";
+        if (StringUtils.hasText(lastName1)) {
+            fullName += lastName1.trim();
         }
-        if (apellido2 != null && apellido2.trim().length() > 0) {
-        	if(apellidoNombre.length() > 0) {
-        		apellidoNombre += " ";
+        if (StringUtils.hasText(lastName2)) {
+        	if(fullName.length() > 0) {
+        		fullName += " ";
         	}
-            apellidoNombre += apellido2.trim();
+            fullName += lastName2.trim();
         }
-        if (apellidoNombre.trim().length() > 0) {
-            apellidoNombre += ", ";
+        if (fullName.trim().length() > 0) {
+            fullName += ", ";
         }
-        if (nombre != null && nombre.trim().length() > 0) {
-            apellidoNombre += nombre.trim();
+        if (StringUtils.hasText(firstName)) {
+            fullName += firstName.trim();
         }
-        return apellidoNombre;
+        return fullName;
     }
 
 	/**
