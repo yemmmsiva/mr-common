@@ -36,7 +36,7 @@ public abstract class Person extends AuditableEntity {
 	 */
 	public String getCommonName() {
 		if(commonName == null) {
-			FormatUtils.getApellidoNombre(surname, "", givenName);
+			FormatUtils.getFullName(surname, "", givenName);
 		}
 		return commonName;
 	}
