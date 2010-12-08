@@ -47,4 +47,10 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 	 * @return lista de usuarios
 	 */
 	List<UserEntity> find(FindUserForm form);
+
+	/**
+	 * Obtiene la cantidad de usuarios según criterios del form.
+	 * @return int
+	 */
+	int findCount(FindUserForm form);
 }

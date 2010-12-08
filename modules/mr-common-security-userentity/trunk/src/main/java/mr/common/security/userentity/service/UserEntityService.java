@@ -137,6 +137,11 @@ public class UserEntityService implements UserService {
 		return userDao.find(form);
 	}
 
+    @Transactional
+	public int findCount(FindUserForm form) {
+		return userDao.findCount(form);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -158,7 +163,7 @@ public class UserEntityService implements UserService {
 	 * @throws Exception 
 	 */
     @Transactional(readOnly = false)
-	public void saveOrUpdate(UserForm form) {
+	public User saveOrUpdate(UserForm form) {
 		UserEntity user;
 		UserData userData;
 
@@ -231,6 +236,8 @@ public class UserEntityService implements UserService {
 			au.setUser(user);
 			authorithyDao.save(au);
 		}
+
+		return user;
 	}
 
 	/**

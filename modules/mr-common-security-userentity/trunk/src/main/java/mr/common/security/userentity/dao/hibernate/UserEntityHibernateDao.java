@@ -81,6 +81,17 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 	 */
 	@SuppressWarnings("unchecked")
 	public List<UserEntity> find(FindUserForm form) {
+        return prepareQuery(form, false).list();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public int findCount(FindUserForm form) {
+        return ((Number) prepareQuery(form, true).uniqueResult()).intValue();
+	}
+
+	private Query prepareQuery(FindUserForm form, boolean countQuery) {
 		String hql = "select u from " + UserEntity.class.getName() + " u where u.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
 
@@ -106,10 +117,20 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 			 params.put("enabled", form.getEnabled());
 		}
 
-        Query query = getSession().createQuery(hql.toString());
-        HibernateUtils.setParameters(query, params);
+		Query query;
+		if(!countQuery) {
+	        query = getSession().createQuery(hql);
+	        HibernateUtils.setParameters(query, params);
+	
+	        if(form.isPageable()) {
+	        	query.setFirstResult(form.getStart());
+	        	query.setMaxResults(form.getLimit());
+	        }
+		} else {
+			query = HibernateUtils.countQuery(getSession(), hql, params);
+		}
         query.setCacheable(true);
 
-        return query.list();
+        return query;
 	}
 }
