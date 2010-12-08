@@ -70,11 +70,30 @@ public class HibernateUtils {
      * @param hql String
      * @param parameters {@code Map<String, Object>}
      * @return int
+     * @see #countQuery(Session, String, Map)
+     * @see #countCollection(Session, Collection)
      */
     public static int count(Session session, String hql, Map<String, Object> parameters) {
         Query q = session.createSQLQuery("select count(*) from (" + hqlToSql(session, hql, parameters) + ") as t");
         setParameters(q, parameters);
         return ((Number) q.uniqueResult()).intValue();
+    }
+
+    /**
+     * Retorna un objeto {@link org.hibernate.Query Query} a partir de la query HQL pasada
+     * y los parámetros, pero convertida a una query que cuente los elementos en vez de
+     * traerlos.
+     * @param session {@link org.hibernate.Session}
+     * @param hql String
+     * @param parameters {@code Map<String, Object>}
+     * @return {@link org.hibernate.Query Query}
+     * @see #count(Session, String, Map)
+     * @see #countCollection(Session, Collection)
+     */
+    public static Query countQuery(Session session, String hql, Map<String, Object> parameters) {
+        Query q = session.createSQLQuery("select count(*) from (" + hqlToSql(session, hql, parameters) + ") as t");
+        setParameters(q, parameters);
+        return q;
     }
 
     /**
