@@ -81,6 +81,15 @@ public interface UserService {
 	List<User> find(FindUserForm form);
 
 	/**
+	 * Obtiene la cantidad de usuarios por determinados parámetros.
+	 * @param form - datos a machear
+	 * @return int
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int findCount(FindUserForm form);
+
+	/**
 	 * Borrar el usario por su useraname.
 	 * @throws UserNotExistException si el usuario no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -99,6 +108,7 @@ public interface UserService {
 	/**
 	 * Crea o actualiza un usuario.
 	 * @param form {@link mr.common.security.model.UserForm UserForm}
+	 * @return el usuario nuevo o actualizado
 	 * @throws UserNotExistException si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
@@ -107,7 +117,7 @@ public interface UserService {
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	void saveOrUpdate(UserForm form);
+	User saveOrUpdate(UserForm form);
 
 	/**
 	 * Actualiza la información del usuario.

@@ -1,13 +1,14 @@
 package mr.common.security.model.form;
 
-import java.io.Serializable;
+import mr.common.model.form.PagingForm;
+
 
 
 /**
  * Form para buscar usuarios.
  * @author Mariano Ruiz
  */
-public class FindUserForm implements Serializable {
+public class FindUserForm extends PagingForm {
 
 	private static final long serialVersionUID = 1L;
 
