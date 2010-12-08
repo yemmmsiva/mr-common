@@ -12,26 +12,45 @@ public abstract class PagingForm implements Pageable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int start = 0;
-	private int limit = 0;
+	private Integer start;
+	private Integer limit;
 
-	public int getStart() {
+	public Integer getStart() {
+		if(start==null && getLimit()!=null) {
+			return 0;
+		}
 		return start;
 	}
 
-	public void setStart(int start) {
+	public void setStart(Integer start) {
 		this.start = start;
 	}
 
-	public int getLimit() {
+	public Integer getLimit() {
 		return limit;
 	}
 
-	public void setLimit(int limit) {
+	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
 
 	public boolean isPageable() {
-		return getLimit()!=0;
+		return getLimit()!=null && getStart()!=null && getLimit()!=0;
+	}
+
+	/**
+	 * Método no soprtado
+	 * @throws UnsupportedOperationException
+	 */
+	public String[] getSort() {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Método no soprtado
+	 * @throws UnsupportedOperationException
+	 */
+	public boolean isSorteable() {
+		throw new UnsupportedOperationException();
 	}
 }
