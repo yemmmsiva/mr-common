@@ -1,4 +1,4 @@
-package mr.common.model.form;
+package mr.common.model;
 
 import mr.common.model.Pageable;
 
@@ -8,7 +8,7 @@ import mr.common.model.Pageable;
  * implementa {@link mr.common.model.Pageable}.
  * @author Mariano Ruiz
  */
-public abstract class PagingForm implements Pageable {
+public class Page implements Pageable {
 
 	private static final long serialVersionUID = 1L;
 
