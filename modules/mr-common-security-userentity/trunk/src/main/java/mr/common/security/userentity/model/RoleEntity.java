@@ -24,8 +24,4 @@ public class RoleEntity extends AuditableDictionary implements Role {
 	public String getAuthority() {
 		return getCode();
 	}
-
-	public int compareTo(RoleEntity role) {
-		return this.getAuthority().compareTo(role.getAuthority());
-	}
 }

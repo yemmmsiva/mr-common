@@ -1,25 +1,23 @@
 package mr.common.security.userentity.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import mr.common.format.validator.ValidatorUtils;
+import mr.common.model.Pageable;
 import mr.common.security.EncodeUtils;
 import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
 import mr.common.security.exception.EncodePasswordException;
 import mr.common.security.exception.InvalidEmailAddressException;
 import mr.common.security.exception.InvalidPasswordException;
+import mr.common.security.exception.InvalidRoleException;
 import mr.common.security.exception.InvalidUsernameException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
-import mr.common.security.model.form.BasicUserForm;
-import mr.common.security.model.form.FindUserForm;
-import mr.common.security.model.form.UserForm;
 import mr.common.security.service.UserSecurityService;
 import mr.common.security.service.UserService;
 import mr.common.security.userentity.dao.AuthorityDao;
@@ -67,18 +65,12 @@ public class UserEntityService implements UserService {
 	private UserSecurityService userSecurityService;
 
 
-	/**
-	 * {@inheritDoc}
-	 */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
 	public List getList() {
     	return userDao.getList();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @Transactional
 	public User getByUsername(String username) {
     	if(username==null) {
@@ -92,9 +84,6 @@ public class UserEntityService implements UserService {
 		return user;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @Transactional
 	public User getByEmailAddress(String emailAddress) {
     	if(emailAddress==null) {
@@ -108,9 +97,6 @@ public class UserEntityService implements UserService {
 		return user;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @Transactional
 	public User getCurrentUser() {
 		String user = userSecurityService.getCurrentUsername();
@@ -120,31 +106,22 @@ public class UserEntityService implements UserService {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @Transactional
 	public String getCurrentUsername() {
 		return userSecurityService.getCurrentUsername();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
-	public List find(FindUserForm form) {
-		return userDao.find(form);
+	public List find(User user, Boolean activeFilter, Pageable page) {
+		return userDao.find(user, activeFilter, page);
 	}
 
     @Transactional
-	public int findCount(FindUserForm form) {
-		return userDao.findCount(form);
+	public int findCount(User user, Boolean activeFilter) {
+		return userDao.findCount(user, activeFilter);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
     @Transactional(readOnly = false)
 	public void deleteByUsername(String username) {
     	UserEntity u = (UserEntity) getByUsername(username);
@@ -153,101 +130,123 @@ public class UserEntityService implements UserService {
 		userDao.delete(u);
 	}
 
-    @Transactional(readOnly = false)
-    public void update(BasicUserForm form) {
-    	
-    }
-
-	/**
-	 * {@inheritDoc}
-	 * @throws Exception 
-	 */
-    @Transactional(readOnly = false)
-	public User saveOrUpdate(UserForm form) {
-		UserEntity user;
+	private User saveOrUpdate(UserEntity user) {
+		UserEntity userEntity;
 		UserData userData;
 
 		// Recuperamos el usuario o creamos el nuevo
-		boolean userExist = form.getId()!=null;
+		boolean userExist = user.getId()!=null;
 		if(userExist) {
-			user = (UserEntity) getById(form.getId());
-			userData = user.getUserData();
+			userEntity = (UserEntity) getById(user.getId());
+			userData = userEntity.getUserData();
 		} else {
-			user = new UserEntity();
+			userEntity = new UserEntity();
 			userData = new UserData();
 		}
 
 		// Validamos los campos
-		if(!isValidUsername(form.getUsername())) {
-			throw new InvalidUsernameException(form.getUsername());
+		if(!isValidUsername(user.getUsername())) {
+			throw new InvalidUsernameException(user.getUsername());
 		}
-		if(StringUtils.hasText(form.getPassword())) {
-			if(!isValidPassword(form.getPassword())) {
-				throw new InvalidPasswordException();
-			}
+		if((user.getPassword()!=null && !isValidPassword(user.getPassword()))
+				|| (user.getId()==null && user.getPassword()==null)) {
+			throw new InvalidPasswordException();
 		}
-		if(!isValidEmailAddress(form.getMail())) {
+		if(!isValidEmailAddress(user.getEmailAddress())) {
 			throw new InvalidEmailAddressException();
 		}
 		
-		UserEntity duplicado = userDao.getByUsername(form.getUsername());
-		if(duplicado!=null && (user.getId()==null
-				|| (user.getId()!=null && user.getId().longValue()!=duplicado.getId().longValue()))) {
+		UserEntity duplicate = userDao.getByUsername(user.getUsername());
+		if(duplicate!=null && (userEntity.getId()==null
+				|| (userEntity.getId()!=null && !userEntity.getId().equals(duplicate.getId())))) {
 			throw new DuplicatedUserException();
 		}
-		duplicado = userDao.getByEmailAddress(form.getMail());
-		if(duplicado!=null && (user.getId()==null
-				|| (user.getId()!=null && user.getId().longValue()!=duplicado.getId().longValue()))) {
+		duplicate = userDao.getByEmailAddress(user.getEmailAddress());
+		if(duplicate!=null && (userEntity.getId()==null
+				|| (userEntity.getId()!=null && !userEntity.getId().equals(duplicate.getId())))) {
 			throw new DuplicatedEmailAddressException();
 		}
-		userData.setCommonName(form.getCommonName());
-		userData.setSurname(form.getSurname());
-		user.setUsername(form.getUsername());
-		user.setEmailAddress(form.getMail());
-		user.setEnabled(form.getEnabled());
-		if(StringUtils.hasText(form.getPassword())) {
+		userData.setCommonName(user.getUserData().getCommonName());
+		userData.setSurname(user.getUserData().getSurname());
+		userEntity.setUsername(user.getUsername());
+		userEntity.setEmailAddress(user.getEmailAddress());
+		userEntity.setEnabled(user.isEnabled());
+		if(user.getPassword()!=null) {
 			try {
-				user.setPassword(encodePassword(form.getPassword()));
+				userEntity.setPassword(encodePassword(user.getPassword()));
 			} catch (EncodePasswordException e) {
-				logger.error("An error occurred when encoding the password of the user=" + user.getUsername(), e);
+				logger.error("An error occurred when encoding the password of the user=" + userEntity.getUsername(), e);
 				throw e;
 			}
 		}
 
 		// Guardamos o actualizamos el usuario
-		user.setUserData(userData);
-		userData.setUser(user);
+		userEntity.setUserData(userData);
+		userData.setUser(userEntity);
 		userDataDao.saveOrUpdate(userData);
-		userDao.saveOrUpdate(user);
+		userDao.saveOrUpdate(userEntity);
 
 		// Guardamos los roles
-		if(user.getAuthorities()!=null) {
-			for(Authority au : user.getAuthorities()) {
+		if(userEntity.getAuthorities()!=null) {
+			for(Authority au : userEntity.getAuthorities()) {
 				authorithyDao.delete(au);
 			}
 		}
-		List<RoleEntity> roles = new ArrayList<RoleEntity>();
-		for(String role : form.getRolesAsList()) {
-			roles.add(roleDao.getByCode(role));
-		}
-		for(RoleEntity role : roles) {
+		for(Role role : user.getRoles()) {
 			Authority au = new Authority();
-			au.setRole(role);
-			au.setUser(user);
+			au.setRole((RoleEntity)role);
+			au.setUser(userEntity);
 			authorithyDao.save(au);
 		}
 
-		return user;
+		return userEntity;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Transactional(readOnly = false)
+	public User newUser(User user) {
+		if(user.getId()!=null) {
+			throw new IllegalArgumentException(
+					"new user should not have set the id.");
+		}
+		return saveOrUpdate((UserEntity)user);
+	}
+
+	@Transactional(readOnly = false)
+	public User updateUser(Serializable id, User user) {
+		if(user.getId()!=null) {
+			throw new IllegalArgumentException(
+					"Argument `user` should not have set the id.");
+		}
+		UserEntity userEntity = (UserEntity) user;
+		userEntity.setId((Long)id);
+		return saveOrUpdate((UserEntity)user);
+	}
+
+	@Transactional(readOnly = false)
+	public User updateUser(String username, User user) {
+		if(user.getId()!=null) {
+			throw new IllegalArgumentException(
+					"Argument `user` should not have set the id.");
+		}
+		UserEntity userEntity = (UserEntity) user;
+		userEntity.setId((Long)getByUsername(username).getId());
+		return saveOrUpdate((UserEntity)user);
+	}
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
 	public List getRolesList() {
 		return roleDao.getList();
 	}
+
+    @Transactional
+    public Role getRole(String roleName) {
+    	Role role = roleDao.getByCode(roleName);
+    	if(role==null) {
+    		throw new InvalidRoleException("role='" + roleName + "' not exist");
+    	}
+    	return role;
+    }
 
 	private void updatePassword(UserEntity user, String newPassword) {
 		try {
@@ -259,9 +258,6 @@ public class UserEntityService implements UserService {
 		userDao.update(user);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
     @Transactional(readOnly = false)
 	public void updatePassword(String username, String newPassword) {
     	if(!isValidPassword(newPassword)) {
@@ -315,6 +311,9 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean isValidPassword(String password) {
+		if(!StringUtils.hasText(password)) {
+			return false;
+		}
 		// Se valida la password de la misma forma que el nombre de usuario
 		return ValidatorUtils.isValidUsername(password);
 	}
@@ -331,9 +330,10 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean hasRole(Serializable userId, String roleName) {
+		Role role = getRole(roleName);
 		List <Authority> authorities = userDao.getAuthorityList((Long)getById(userId).getId());
 		for(Authority authority : authorities) {
-			if(authority.getRole().getAuthority().equals(roleName)) {
+			if(authority.getRole().equals(role)) {
 				return true;
 			}
 		}

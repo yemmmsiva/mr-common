@@ -3,7 +3,8 @@ package mr.common.security.userentity.dao;
 import java.util.List;
 
 import mr.common.dao.AbstractAuditableDao;
-import mr.common.security.model.form.FindUserForm;
+import mr.common.model.Pageable;
+import mr.common.security.model.User;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
 
@@ -43,14 +44,14 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 	List<Authority> getAuthorityList(Long userId);
 
 	/**
-	 * Búsqueda de usuario según criterios del form.
+	 * Búsqueda de usuario según criterios pasados.
 	 * @return lista de usuarios
 	 */
-	List<UserEntity> find(FindUserForm form);
+	List<UserEntity> find(User user, Boolean activeFilter, Pageable page);
 
 	/**
-	 * Obtiene la cantidad de usuarios según criterios del form.
+	 * Obtiene la cantidad de usuarios según criterios pasados.
 	 * @return int
 	 */
-	int findCount(FindUserForm form);
+	int findCount(User user, Boolean activeFilter);
 }

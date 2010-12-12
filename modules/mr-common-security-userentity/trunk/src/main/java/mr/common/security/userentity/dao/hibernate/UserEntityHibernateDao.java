@@ -7,8 +7,9 @@ import java.util.Map;
 import mr.common.dao.HibernateUtils;
 import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
+import mr.common.model.Pageable;
 import mr.common.security.exception.DuplicatedUserException;
-import mr.common.security.model.form.FindUserForm;
+import mr.common.security.model.User;
 import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
@@ -80,41 +81,42 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public List<UserEntity> find(FindUserForm form) {
-        return prepareQuery(form, false).list();
+	public List<UserEntity> find(User user, Boolean activeFilter, Pageable page) {
+        return prepareQuery(user, activeFilter, page, false).list();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int findCount(FindUserForm form) {
-        return ((Number) prepareQuery(form, true).uniqueResult()).intValue();
+	public int findCount(User user, Boolean activeFilter) {
+        return ((Number) prepareQuery(user, activeFilter, null, true).uniqueResult()).intValue();
 	}
 
-	private Query prepareQuery(FindUserForm form, boolean countQuery) {
+	private Query prepareQuery(User user, Boolean activeFilter, Pageable page, boolean countQuery) {
+		UserEntity userEntity = (UserEntity) user;
 		String hql = "select u from " + UserEntity.class.getName() + " u where u.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
 
-		if (StringUtils.hasText(form.getUsername())) {
+		if (StringUtils.hasText(userEntity.getUsername())) {
 			hql += " and lower(u.username) like :username";
-			 params.put("username", QueryUtils.likeParam(form.getUsername()));
+			 params.put("username", QueryUtils.likeParam(userEntity.getUsername()));
 		}
 
-		if (StringUtils.hasText(form.getCommonName())) {
+		if (StringUtils.hasText(userEntity.getUserData().getCommonName())) {
 			hql += " and (lower(u.userData.commonName) like :commonName"
 			     + "      or lower(u.userData.givenName) like :commonName"
 			     + "      or lower(u.userData.surname) like :commonName)";
-			 params.put("commonName", QueryUtils.likeParam(form.getCommonName()));
+			 params.put("commonName", QueryUtils.likeParam(userEntity.getUserData().getCommonName()));
 		}
 
-		if (StringUtils.hasText(form.getMail())) {
+		if (StringUtils.hasText(userEntity.getEmailAddress())) {
 			hql += " and lower(u.emailAddress) like :mail";
-			 params.put("mail", QueryUtils.likeParam(form.getMail()));
+			 params.put("mail", QueryUtils.likeParam(userEntity.getEmailAddress()));
 		}
 
-		if(form.getEnabled()!=null) {
+		if(activeFilter!=null) {
 			hql += " and u.enabled = :enabled";
-			 params.put("enabled", form.getEnabled());
+			 params.put("enabled", activeFilter);
 		}
 
 		Query query;
@@ -122,9 +124,9 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 	        query = getSession().createQuery(hql);
 	        HibernateUtils.setParameters(query, params);
 	
-	        if(form.isPageable()) {
-	        	query.setFirstResult(form.getStart());
-	        	query.setMaxResults(form.getLimit());
+	        if(page!=null && page.isPageable()) {
+	        	query.setFirstResult(page.getStart());
+	        	query.setMaxResults(page.getLimit());
 	        }
 		} else {
 			query = HibernateUtils.countQuery(getSession(), hql, params);
