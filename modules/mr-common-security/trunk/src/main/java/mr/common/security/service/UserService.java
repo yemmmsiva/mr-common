@@ -3,14 +3,16 @@ package mr.common.security.service;
 import java.io.Serializable;
 import java.util.List;
 
+import mr.common.model.Pageable;
+import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
+import mr.common.security.exception.EncodePasswordException;
 import mr.common.security.exception.InvalidPasswordException;
+import mr.common.security.exception.InvalidRoleException;
 import mr.common.security.exception.InvalidUsernameException;
+import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
-import mr.common.security.model.form.BasicUserForm;
-import mr.common.security.model.form.FindUserForm;
-import mr.common.security.model.form.UserForm;
 
 
 /**
@@ -73,21 +75,28 @@ public interface UserService {
 
 	/**
 	 * Busca usuarios por determinados parámetros.
-	 * @param form - datos a machear
+	 * @param user - datos a machear
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
+	 * @param page - página de datos, <code>null</code>
+	 * si se deben traer todos los datos
 	 * @return listado de usuarios
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<User> find(FindUserForm form);
+	List<User> find(User user, Boolean activeFilter, Pageable page);
 
 	/**
 	 * Obtiene la cantidad de usuarios por determinados parámetros.
-	 * @param form - datos a machear
+	 * @param user - datos a machear
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
 	 * @return int
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	int findCount(FindUserForm form);
+	int findCount(User user, Boolean activeFilter);
 
 	/**
 	 * Borrar el usario por su useraname.
@@ -106,26 +115,59 @@ public interface UserService {
 	void deleteById(Serializable id);
 
 	/**
-	 * Crea o actualiza un usuario.
-	 * @param form {@link mr.common.security.model.UserForm UserForm}
-	 * @return el usuario nuevo o actualizado
+	 * crea el un usuario con la información pasada.
+	 * @param user: datos del usuario nuevo
+	 * @return el usuario actualizado
+	 * @throws InvalidPasswordException Si la password es
+	 * inválida
+	 * @throws InvalidUsernameException Si el nombre
+	 * del usuario no es válido
+	 * @throws DuplicatedUserException Si un usuario
+	 * ya existe con el mismo nombre
+	 * @throws DuplicatedEmailAddressException Si un usuario
+	 * ya existe con el mismo email
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	User newUser(User user);
+
+	/**
+	 * Actualiza la información del usuario.
+	 * @param id: identificador del usuario
+	 * @param user: datos nuevos a actualizar
+	 * @return el usuario actualizado
 	 * @throws UserNotExistException si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
 	 * @throws InvalidUsernameException si el nombre
 	 * del usuario no es válido
+	 * @throws DuplicatedUserException Si un usuario
+	 * ya existe con el mismo nombre
+	 * @throws DuplicatedEmailAddressException Si un usuario
+	 * ya existe con el mismo email
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	User saveOrUpdate(UserForm form);
+	User updateUser(Serializable id, User user);
 
 	/**
 	 * Actualiza la información del usuario.
-	 * @param form {@link mr.common.security.model.form.BasicUserForm BasicUserForm}
+	 * @param username: nombre del usuario
+	 * @param user: datos nuevos a actualizar
+	 * @return el usuario actualizado
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws InvalidPasswordException Si la password es
+	 * inválida
+	 * @throws InvalidUsernameException si el nombre
+	 * del usuario no es válido
+	 * @throws DuplicatedUserException Si un usuario
+	 * ya existe con el mismo nombre
+	 * @throws DuplicatedEmailAddressException Si un usuario
+	 * ya existe con el mismo email
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	void update(BasicUserForm form);
+	User updateUser(String username, User user);
 
 	/**
 	 * Codifica la password pasada al encoding usado para almacenar las password.
@@ -306,6 +348,14 @@ public interface UserService {
 	List<Role> getRolesList();
 
 	/**
+	 * Obtiene el role por su nombre.
+	 * @param roleName String
+	 * @return {@link mr.common.security.model.Role Role}
+	 * @throws InvalidRoleException Si el role no existe
+	 */
+	Role getRole(String roleName);
+
+	/**
 	 * @param user {@link mr.common.security.model.User User}
 	 * @param role {@link mr.common.security.model.Role Role}
 	 * @return <code>true</code> si el usuario tiene el rol.
@@ -318,6 +368,7 @@ public interface UserService {
 	 * @param userId Serializable
 	 * @param roleName String
 	 * @return <code>true</code> si el usuario tiene el rol.
+	 * @throws InvalidRoleException Si el role no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
