@@ -27,12 +27,12 @@ public interface Pageable extends Serializable {
 	boolean isPageable();
 	/**
 	 * Campo (o campos) por los que se deber ordernar.
-	 * @return array de string, cada uno con los siguiente
-	 * formatos:
+	 * @return array de string, cada uno con formatos
+	 * como los siguientes:
 	 * <ul>
-	 *   <li>id (<i>por default order ascendente</i>)</li>
-	 *   <li>id ASC (<i>ascendente</i>)</li>
-	 *   <li>name DESC (<i>descendente</i>)</li>
+	 *   <li>'id' (<i>por default order ascendente</i>)</li>
+	 *   <li>'id ASC' (<i>ascendente</i>)</li>
+	 *   <li>'name DESC' (<i>descendente</i>)</li>
 	 * </ul>
 	 */
 	String[] getSort();
