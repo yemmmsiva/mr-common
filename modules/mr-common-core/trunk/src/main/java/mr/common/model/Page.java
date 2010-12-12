@@ -1,6 +1,6 @@
 package mr.common.model;
 
-import mr.common.model.Pageable;
+import mr.common.collection.CollectionUtils;
 
 
 /**
@@ -14,6 +14,7 @@ public class Page implements Pageable {
 
 	private Integer start;
 	private Integer limit;
+	private String sort;
 
 	public Integer getStart() {
 		if(start==null && getLimit()!=null) {
@@ -38,12 +39,16 @@ public class Page implements Pageable {
 		return getLimit()!=null && getStart()!=null && getLimit()!=0;
 	}
 
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
 	/**
 	 * Método no soprtado
 	 * @throws UnsupportedOperationException
 	 */
 	public String[] getSort() {
-		throw new UnsupportedOperationException();
+		return CollectionUtils.stringToObjectList(sort).toArray(new String[]{});
 	}
 
 	/**
