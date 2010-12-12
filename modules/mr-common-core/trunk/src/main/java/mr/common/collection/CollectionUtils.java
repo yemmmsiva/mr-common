@@ -78,7 +78,8 @@ public class CollectionUtils {
      * a una lista de <code>String</code>.
      * @param stringList String: cadena que contiene las palabras a separar
      * @param regex String: Expresión regular (o literal)
-     * @return Lista de String
+     * @return lista de String, vacía si <code>stringList</code> es no
+     * contiene texto
      */
     public static List<String> stringToObjectList(String stringList, String regex) {
 		if(StringUtils.hasText(stringList)) {
@@ -91,8 +92,8 @@ public class CollectionUtils {
      * Transforma una cadena de texto con palabras separadas por comas <code>,</code>
      * a una lista de <code>String</code>.
      * @param stringList String: cadena que contiene las palabras a separar
-     * @return Lista de String, o <code>null</code> si <code>stringList</code> es
-     * vacío o nulo.
+     * @return lista de String, vacía si <code>stringList</code> es no
+     * contiene texto
      */
     public static List<String> stringToObjectList(String stringList) {
     	return stringToObjectList(stringList, ",");
