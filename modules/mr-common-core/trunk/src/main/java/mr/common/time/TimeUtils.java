@@ -105,10 +105,9 @@ public abstract class TimeUtils {
 	}
 
     /**
-     * Retorna la misma fecha pero sin la información de la hora (o sea con hora 00:00).
+     * Retorna la misma fecha pero sin la información de la hora (o sea con hora 00:00:000).
      * @param d Date
      * @return Date
-     * @throws RuntimeException excepción {@link ParseException} wrappeada en una runtime
      */
     public static Date dateWithoutHour(Date d) {
         Date fecha = null;
@@ -118,6 +117,20 @@ public abstract class TimeUtils {
 			throw new RuntimeException(e);
 		}
         return fecha;
+    }
+
+    /**
+     * Retorna la misma fecha pero sin la información de la hora (o sea con hora 00:00:000).
+     * @param c Calendar
+     * @return Calendar
+     */
+    public static Calendar calendarWithoutHour(Calendar c) {
+		Calendar cal = (Calendar) c.clone();
+		cal.set(Calendar.HOUR_OF_DAY, cal.getMinimum(Calendar.HOUR_OF_DAY));
+		cal.set(Calendar.MINUTE, cal.getMinimum(Calendar.MINUTE));
+		cal.set(Calendar.SECOND, cal.getMinimum(Calendar.SECOND));
+		cal.set(Calendar.MILLISECOND, cal.getMinimum(Calendar.MILLISECOND));
+		return cal;
     }
 
 	/**
