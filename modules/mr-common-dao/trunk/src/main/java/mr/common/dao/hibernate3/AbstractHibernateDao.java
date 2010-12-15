@@ -85,6 +85,20 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     }
 
     /**
+	 * @see mr.common.dao.AbstractDao#persist(DomainObject)
+	 */
+    public void persist(DomainObject t) {
+        getHibernateTemplate().persist(t);
+    }
+
+    /**
+	 * @see mr.common.dao.AbstractDao#merge(DomainObject)
+	 */
+    public void merge(DomainObject t) {
+        getHibernateTemplate().merge(t);
+    }
+
+    /**
 	 * @see mr.common.dao.AbstractDao#delete(DomainObject)
 	 */
 	@Transactional

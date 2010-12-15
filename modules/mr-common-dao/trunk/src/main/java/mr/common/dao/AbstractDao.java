@@ -13,6 +13,7 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Obtiene el objeto por su identificador.
+	 * 
 	 * @param id Long: identificador del objeto
 	 * @return DomainObject
 	 */
@@ -20,55 +21,76 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Guarda un objeto que no estaba guardado.
+	 * 
 	 * @param entity DomainObject: objeto a guardar
 	 * @return id Long: identificador del nuevo objeto
 	 */
-    Long save(DomainObject entity);
+	Long save(DomainObject entity);
 
-    /**
-     * Actualiza un objeto que ya estaba guardado.
-     * @param entity DomainObject
-     */
-    void update(DomainObject entity);
+	/**
+	 * Actualiza un objeto que ya estaba guardado.
+	 * 
+	 * @param entity DomainObject
+	 */
+	void update(DomainObject entity);
 
-    /**
-     * Guarda un objeto nuevo o actualiza si ya existe.
-     * @param entity DomainObject
-     */
-    void saveOrUpdate(DomainObject entity);
+	/**
+	 * Guarda un objeto nuevo o actualiza si ya existe.
+	 * 
+	 * @param entity DomainObject
+	 */
+	void saveOrUpdate(DomainObject entity);
 
-    /**
-     * Recupera todos los objetos.
-     * @return List DomainObject
-     */
-    List<DomainObject> getList();
+	/**
+	 * Marca un objeto como persistente en la sesión actual.
+	 * @param entity DomainObject: objeto
+	 */
+    void persist(DomainObject entity);
 
-    /**
-     * Cuenta todos los objetos guardados.
-     * @return long
-     */
-    long count();
+	/**
+	 * Marca un objeto como persistente en la sesión actual,
+	 * y si hubiera otro con el mismo ID, lo remplaza por este.
+	 * @param entity DomainObject: objeto
+	 */
+    void merge(DomainObject entity);
 
-    /**
-     * Borra el objeto pasado.
-     * @param entity DomainObject
-     */
-    void delete(DomainObject entity);
+	/**
+	 * Recupera todos los objetos.
+	 * 
+	 * @return List DomainObject
+	 */
+	List<DomainObject> getList();
 
-    /**
-     * Borra el objeto con el id pasado.
-     * @param entity Long
-     */
-    void deleteById(Long entity);
+	/**
+	 * Cuenta todos los objetos guardados.
+	 * 
+	 * @return long
+	 */
+	long count();
 
-    /**
-     * Borra todos los objetos de la lista.
-     * @param list List
-     */
-    void deleteList(List<DomainObject> list);
+	/**
+	 * Borra el objeto pasado.
+	 * 
+	 * @param entity DomainObject
+	 */
+	void delete(DomainObject entity);
 
-    /**
-     * Borra todos los objetos de la tabla.
-     */
-    void deleteAll();
+	/**
+	 * Borra el objeto con el id pasado.
+	 * 
+	 * @param entity Long
+	 */
+	void deleteById(Long entity);
+
+	/**
+	 * Borra todos los objetos de la lista.
+	 * 
+	 * @param list List
+	 */
+	void deleteList(List<DomainObject> list);
+
+	/**
+	 * Borra todos los objetos de la tabla.
+	 */
+	void deleteAll();
 }
