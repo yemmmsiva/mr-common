@@ -94,8 +94,22 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#merge(DomainObject)
 	 */
-    public void merge(DomainObject t) {
-        getHibernateTemplate().merge(t);
+    public DomainObject merge(DomainObject t) {
+        return (DomainObject) getHibernateTemplate().merge(t);
+    }
+
+    /**
+	 * @see mr.common.dao.AbstractDao#detach(DomainObject)
+	 */
+    public void detach(DomainObject t) {
+        getHibernateTemplate().evict(t);
+    }
+
+    /**
+	 * @see mr.common.dao.AbstractDao#refresh(DomainObject)
+	 */
+    public void refresh(DomainObject t) {
+        getHibernateTemplate().refresh(t);
     }
 
     /**

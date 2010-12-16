@@ -51,8 +51,21 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 	 * Marca un objeto como persistente en la sesión actual,
 	 * y si hubiera otro con el mismo ID, lo remplaza por este.
 	 * @param entity DomainObject: objeto
+	 * @return DomainObject
 	 */
-    void merge(DomainObject entity);
+    DomainObject merge(DomainObject entity);
+
+	/**
+	 * Quita de la sesión al objeto.
+	 * @param entity DomainObject: objeto persistente
+	 */
+    void detach(DomainObject entity);
+
+	/**
+	 * Refrezca el objeto desde la base de datos.
+	 * @param entity DomainObject: objeto persistente
+	 */
+    void refresh(DomainObject entity);
 
 	/**
 	 * Recupera todos los objetos.

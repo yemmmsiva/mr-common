@@ -98,9 +98,23 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#merge(DomainObject)
 	 */
-    public void merge(DomainObject t) {
+    public DomainObject merge(DomainObject t) {
 		saveAudit(t);
-        getHibernateTemplate().merge(t);
+        return (DomainObject) getHibernateTemplate().merge(t);
+    }
+
+    /**
+	 * @see mr.common.dao.AbstractAuditableDao#detach(DomainObject)
+	 */
+    public void detach(DomainObject t) {
+        getHibernateTemplate().evict(t);
+    }
+
+    /**
+	 * @see mr.common.dao.AbstractAuditableDao#refresh(DomainObject)
+	 */
+    public void refresh(DomainObject t) {
+        getHibernateTemplate().refresh(t);
     }
 
     /**
@@ -302,8 +316,11 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
         auditoria.setDeleted(true);
     }
 
-    /** lógica que se llamará al guardar un objeto.
-     * @param auditable auditable
+    /**
+     * Crea la información de auditoría en los objetos nuevos,
+     * o la actualiza en los ya existentes.
+     * 
+     * @param auditable
      */
     protected void saveAudit(AuditableEntity auditable) {
         Audit audit = auditable.getAudit();
