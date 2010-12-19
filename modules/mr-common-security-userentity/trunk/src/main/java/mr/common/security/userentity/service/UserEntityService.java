@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mr.common.format.validator.ValidatorUtils;
-import mr.common.model.Pageable;
+import mr.common.model.ConfigurableData;
 import mr.common.security.EncodeUtils;
 import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
@@ -113,7 +113,7 @@ public class UserEntityService implements UserService {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
-	public List find(User user, Boolean activeFilter, Pageable page) {
+	public List find(User user, Boolean activeFilter, ConfigurableData page) {
 		return userDao.find(user, activeFilter, page);
 	}
 

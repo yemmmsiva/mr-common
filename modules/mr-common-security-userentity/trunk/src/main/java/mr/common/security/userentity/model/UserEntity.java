@@ -134,6 +134,7 @@ public class UserEntity extends AuditableEntity implements User {
 		return false;
 	}
 
+	@Transient
 	public String getCommonName() {
 		return userData.getCommonName();
 	}

@@ -7,14 +7,16 @@ import java.util.Map;
 import mr.common.dao.HibernateUtils;
 import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
-import mr.common.model.Pageable;
+import mr.common.model.ConfigurableData;
 import mr.common.security.exception.DuplicatedUserException;
+import mr.common.security.exception.IllegalArgumentUserFindException;
 import mr.common.security.model.User;
 import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
 
 import org.hibernate.Query;
+import org.hibernate.QueryException;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -81,7 +83,7 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public List<UserEntity> find(User user, Boolean activeFilter, Pageable page) {
+	public List<UserEntity> find(User user, Boolean activeFilter, ConfigurableData page) {
         return prepareQuery(user, activeFilter, page, false).list();
 	}
 
@@ -92,7 +94,7 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
         return ((Number) prepareQuery(user, activeFilter, null, true).uniqueResult()).intValue();
 	}
 
-	private Query prepareQuery(User user, Boolean activeFilter, Pageable page, boolean countQuery) {
+	private Query prepareQuery(User user, Boolean activeFilter, ConfigurableData page, boolean countQuery) {
 		UserEntity userEntity = (UserEntity) user;
 		String hql = "select u from " + UserEntity.class.getName() + " u where u.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -121,9 +123,24 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 
 		Query query;
 		if(!countQuery) {
-	        query = getSession().createQuery(hql);
+	        // Ordenación
+	        if(page.isSortable()) {
+	        	hql += " order by ";
+	        	for(String sort : page.getSorts()) {
+	        		hql += getOrderByParam(sort);
+	        	}
+	        } else {
+	        	hql += " order by u.username ";
+	        }
+
+	        try {
+	        	query = getSession().createQuery(hql);
+	        } catch(QueryException e) {
+	        	throw new IllegalArgumentUserFindException();
+	        }
 	        HibernateUtils.setParameters(query, params);
-	
+
+			// Paginación
 	        if(page!=null && page.isPageable()) {
 	        	query.setFirstResult(page.getStart());
 	        	query.setMaxResults(page.getLimit());
@@ -134,5 +151,22 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
         query.setCacheable(true);
 
         return query;
+	}
+
+	private String getOrderByParam(String sort) {
+		if(sort.contains("username")) {
+			return "u." + sort;
+		}
+		if(sort.contains("emailAddress")) {
+			return "u." + sort;
+		}
+		if(sort.contains("enabled")) {
+			return "u." + sort;
+		}
+		if(sort.contains("commonName")) {
+			return "u.userData." + sort;
+		}
+		throw new IllegalArgumentUserFindException(
+				"Invalid sort arguments in user find.");
 	}
 }
