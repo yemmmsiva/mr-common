@@ -1,14 +1,21 @@
 package mr.common.model;
 
-import mr.common.collection.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 
 /**
  * Form base con parámetros de paginación, que
- * implementa {@link mr.common.model.Pageable}.
+ * implementa {@link mr.common.model.Pageable Pageable},
+ * y de ordenamiento
+ * ({@link mr.common.model.Sortable Sortable}).<br/>
+ * Los parámetros de ordenamiento se setean con
+ * {@link #setSort(String)} como un único string con
+ * los campos de ordenación separados por coma (,).
+ * Pero {@link #getSorts()} los devuelve como un array
+ * string como lo determina {@link mr.common.model.Sortable Sortable}.
  * @author Mariano Ruiz
  */
-public class Page implements Pageable {
+public class Page implements ConfigurableData {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,19 +50,18 @@ public class Page implements Pageable {
 		this.sort = sort;
 	}
 
-	/**
-	 * Método no soprtado
-	 * @throws UnsupportedOperationException
-	 */
-	public String[] getSort() {
-		return CollectionUtils.stringToObjectList(sort).toArray(new String[]{});
+	public String getSort() {
+		return sort;
 	}
 
-	/**
-	 * Método no soprtado
-	 * @throws UnsupportedOperationException
-	 */
-	public boolean isSorteable() {
-		throw new UnsupportedOperationException();
+	public String[] getSorts() {
+		if(!StringUtils.hasText(sort)) {
+			return new String[]{};
+		}
+		return sort.split(",");
+	}
+
+	public boolean isSortable() {
+		return StringUtils.hasText(getSort());
 	}
 }

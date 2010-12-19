@@ -4,9 +4,15 @@ import java.io.Serializable;
 
 
 /**
- * Modelo de datos paginable.
+ * Modelo de datos paginable.<br/>
+ * Los datos son traídos desde {@link #getStart()},
+ * con un límite de datos máximo obtenido
+ * de {@link #getLimit()}.<br/>
+ * Como la paginación puede ser opcional,
+ * {@link #isPageable()} determina si
+ * hay paginación.
+ * 
  * @author Mariano Ruiz
- *
  */
 public interface Pageable extends Serializable {
 
@@ -25,21 +31,4 @@ public interface Pageable extends Serializable {
 	 * actual es paginable
 	 */
 	boolean isPageable();
-	/**
-	 * Campo (o campos) por los que se deber ordernar.
-	 * @return array de string, cada uno con formatos
-	 * como los siguientes:
-	 * <ul>
-	 *   <li>'id' (<i>por default order ascendente</i>)</li>
-	 *   <li>'id ASC' (<i>ascendente</i>)</li>
-	 *   <li>'name DESC' (<i>descendente</i>)</li>
-	 * </ul>
-	 */
-	String[] getSort();
-
-	/**
-	 * @return <code>true</code> si los datos
-	 * deben ser odernados
-	 */
-	boolean isSorteable();
 }
