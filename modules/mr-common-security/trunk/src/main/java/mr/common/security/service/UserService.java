@@ -387,4 +387,17 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	boolean hasRole(String username, String roleName);
+
+	/**
+	 * Retorna un nuevo objeto usuario de la implementación
+	 * usada. Esta instancia no representa un usuario
+	 * en el sistema, solo retorna un objeto 'en blanco',
+	 * que puede ser usado para crear un nuevo usuario,
+	 * o cargarle parámetros de búsqueda, etc.
+	 * @return instancia de la implementación usada
+	 * de {@link mr.common.security.model.User User}
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	User getInstance();
 }
