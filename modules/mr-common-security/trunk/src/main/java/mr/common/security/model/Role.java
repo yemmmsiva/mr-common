@@ -3,7 +3,7 @@ package mr.common.security.model;
 import java.io.Serializable;
 
 /**
- * Roles que pueden tener los usuarios.
+ * Rol que puede tener un usuario en el sistema.
  * @author Mariano Ruiz
  */
 public interface Role extends Serializable {
