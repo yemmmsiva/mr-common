@@ -3,10 +3,11 @@ package mr.common.security.service;
 import java.io.Serializable;
 import java.util.List;
 
-import mr.common.model.Pageable;
+import mr.common.model.ConfigurableData;
 import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
 import mr.common.security.exception.EncodePasswordException;
+import mr.common.security.exception.IllegalArgumentUserFindException;
 import mr.common.security.exception.InvalidPasswordException;
 import mr.common.security.exception.InvalidRoleException;
 import mr.common.security.exception.InvalidUsernameException;
@@ -80,12 +81,14 @@ public interface UserService {
 	 * su valor indica si se debe filtrar usuarios
 	 * activados/desactivados
 	 * @param page - página de datos, <code>null</code>
-	 * si se deben traer todos los datos
+	 * si se deben traer todos los datos y sin ordenar
 	 * @return listado de usuarios
+	 * @throws IllegalArgumentUserFindException Si los argumentos
+	 * de búsqueda o paginación son inválidos
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<User> find(User user, Boolean activeFilter, Pageable page);
+	List<User> find(User user, Boolean activeFilter, ConfigurableData page);
 
 	/**
 	 * Obtiene la cantidad de usuarios por determinados parámetros.
@@ -93,6 +96,8 @@ public interface UserService {
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * @return int
+	 * @throws IllegalArgumentUserFindException Si los argumentos
+	 * de búsqueda son inválidos
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
