@@ -130,7 +130,7 @@ public class UserEntityService implements UserService {
 		userDao.delete(u);
 	}
 
-	private User saveOrUpdate(UserEntity user) {
+	private UserEntity saveOrUpdate(UserEntity user) {
 		UserEntity userEntity;
 		UserData userData;
 
@@ -206,7 +206,7 @@ public class UserEntityService implements UserService {
 	public User newUser(User user) {
 		if(user.getId()!=null) {
 			throw new IllegalArgumentException(
-					"new user should not have set the id.");
+					"New user should not have set the id.");
 		}
 		return saveOrUpdate((UserEntity)user);
 	}
@@ -428,5 +428,23 @@ public class UserEntityService implements UserService {
 	public boolean checkPassword(Serializable id, String password) {
 		UserEntity user = (UserEntity) getById(id);
 		return user.getPassword().equals(encodePassword(password));
+	}
+
+	/**
+	 * Crea una instancia de
+	 * {@link mr.common.security.userentity.model.UserEntity UserEntity}
+	 * que implementa {@link mr.common.security.model.User User}. También
+	 * se crea y linkea una instancia de
+	 * {@link mr.common.security.userentity.model.UserData UserData}
+	 * (<code>user.userData</code>).<br/>
+	 * Tener en cuenta que el objeto no representa un usuario
+	 * válido del sistema, como especifica
+	 * {@link mr.common.security.service.UserService#getInstance()}
+	 */
+	public User getInstance() {
+		UserEntity user = new UserEntity();
+		UserData userData = new UserData();
+		user.setUserData(userData);
+		return user;
 	}
 }
