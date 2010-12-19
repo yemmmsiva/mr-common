@@ -53,13 +53,14 @@ public class JSPView extends JstlView {
 
     /**
      * Introduce todas las variables necesarias en el modelo. Todas irán
-     * bajo el nombre "fwk".
+     * bajo el nombre 'response'.
      * 
      * @param model Map
      */
     @SuppressWarnings("rawtypes")
 	protected void addVariables(Map model) {
-        // introducimos el valor de success true/false (necesario para ExtJS)
+        // introducimos el valor 'success' true/false, según se halla lanzado
+    	// una excepción o no.
 
     	Object appProperties = getAttributesMap().get(APP_PROPERTIES);
         if (appProperties != null) {
@@ -68,7 +69,7 @@ public class JSPView extends JstlView {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uuid", UUID.randomUUID().toString());
-        model.put("fwk", params);
+        model.put("response", params);
 
         Throwable ex = null;
         if(model.containsKey(ERRORS)) {
@@ -76,11 +77,9 @@ public class JSPView extends JstlView {
         	logger.debug(ExceptionUtils.getStackTraceAsString(ex));
         	List<String> errors = new ArrayList<String>(0);
         	errors.add(ex.getMessage());
-        	params.put("fwkExceptions", errors);
+        	params.put("exceptions", errors);
         	params.put("success", Boolean.FALSE);
-            model.put("__success", Boolean.FALSE);
         } else {
-            model.put("__success", Boolean.TRUE);
         	params.put("success", Boolean.TRUE);
         }
     }
