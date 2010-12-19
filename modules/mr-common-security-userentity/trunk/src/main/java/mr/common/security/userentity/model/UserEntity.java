@@ -47,6 +47,18 @@ public class UserEntity extends AuditableEntity implements User {
 		return roles;
 	}
 
+	/**
+	 * @deprecated Operación no soportada, usar {@link #setAuthorities(List)}
+	 * para configurar los roles.
+	 * @throws UnsupportedOperationException si es invocado el método
+	 */
+	@Deprecated
+	public void setRoles(List<Role> roles) {
+		throw new UnsupportedOperationException(
+				"Use `mr.common.security.userentity.model.UserEntity.setAuthorities(List<Authority>)`"
+				+ " to set roles.");
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -66,6 +78,10 @@ public class UserEntity extends AuditableEntity implements User {
 		this.enabled = enabled;
 	}
 
+	/**
+	 * Listado de credenciales del usuario.
+	 * @return {@link mr.common.security.userentity.model.Authority}
+	 */
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
 	@Where(clause = Audit.UNDELETED_RESTRICTION)
@@ -73,6 +89,12 @@ public class UserEntity extends AuditableEntity implements User {
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
+	/**
+	 * 
+	 * @param authorities - lista de credenciales
+	 * {@link mr.common.security.userentity.model.Authority Authority}
+	 * a setear al usuario
+	 */
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
 	}
@@ -110,5 +132,13 @@ public class UserEntity extends AuditableEntity implements User {
 			}
 		}
 		return false;
+	}
+
+	public String getCommonName() {
+		return userData.getCommonName();
+	}
+
+	public void setCommonName(String commonName) {
+		userData.setCommonName(commonName);
 	}
 }

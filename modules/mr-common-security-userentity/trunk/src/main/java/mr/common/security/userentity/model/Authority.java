@@ -11,7 +11,9 @@ import org.hibernate.annotations.CascadeType;
 import mr.common.model.AuditableEntity;
 
 /**
- * Relación <i>usuario - role</i>.
+ * Relación <i>usuario - role</i>.<br/>
+ * Cada usuario tiene una lista de estas credenciales
+ * {@link mr.common.security.userentity.model.UserEntity#getAuthorities()}. 
  * @author Mariano Ruiz
  */
 @Entity(name="authority")

@@ -11,7 +11,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 /**
- * Diccionario de roles que pueden tener los usuarios.
+ * Implementación de la interfaz {@link mr.common.security.model.Role Role},
+ * que representa un tipo de rol de usuario.
  * @author Mariano Ruiz
  */
 @Entity(name="role")
