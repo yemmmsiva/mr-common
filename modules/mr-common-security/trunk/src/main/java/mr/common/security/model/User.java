@@ -21,6 +21,7 @@ public interface User extends Serializable {
 	 */
 	List<Role> getRoles();
 	/**
+	 * Setea los roles del usuario en el sistema.
 	 * @param roles - lista de roles del usuario
 	 */
 	void setRoles(List<Role> roles);
