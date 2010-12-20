@@ -48,15 +48,22 @@ public class UserEntity extends AuditableEntity implements User {
 	}
 
 	/**
-	 * @deprecated Operación no soportada, usar {@link #setAuthorities(List)}
-	 * para configurar los roles.
-	 * @throws UnsupportedOperationException si es invocado el método
+	 * Setea los roles del usuario en el sistema.<br/>
+	 * Tener en cuenta que la persistencia
+	 * de los roles no es en cascada con la del usuario. Para
+	 * hacerlo se deben persistir los objetos
+	 * {@link mr.common.security.userentity.model.Authority Authority}
+	 * que se obtienen con {@link #getAuthorities()}
 	 */
-	@Deprecated
 	public void setRoles(List<Role> roles) {
-		throw new UnsupportedOperationException(
-				"Use `mr.common.security.userentity.model.UserEntity.setAuthorities(List<Authority>)`"
-				+ " to set roles.");
+		List<Authority> authorities = new ArrayList<Authority>(roles.size());
+		for(Role role : roles) {
+			Authority au = new Authority();
+			au.setRole((RoleEntity) role);
+			au.setUser(this);
+			authorities.add(au);
+		}
+		setAuthorities(authorities);
 	}
 
 	public String getUsername() {
