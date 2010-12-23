@@ -1,12 +1,14 @@
 package mr.common.collection;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import mr.common.i18n.spring.MessageUtils;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.comparators.ComparatorChain;
 import org.springframework.util.StringUtils;
 
@@ -19,11 +21,11 @@ public class CollectionUtils {
 
 
     /**
-     * Recorre toda la lista he invoca por cada elemento el método <code>name</code>, y concatena
+     * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpresion</code>, y concatena
      * en un <code>String</code> el resultado de cada uno separados por <code>separator</code>,
      * y encerrado cada valor por <code>enclosedSymbol</code>.
      * @param list List: lista de objetos
-     * @param methodName String: nombre del método
+     * @param propertyExpresion String: expresión java bean de la propiedad con el texto o clave i18n
      * @param separator String: literal que separará cada elemento en la cadena,
      * ej. una coma y espacio: <code>', '</code>
      * @param enclosedSymbol String: literal que contendrá cada elemento en la cadena,
@@ -31,24 +33,47 @@ public class CollectionUtils {
      * @return String
 	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	public static String objectListToString(List list, String methodName, String separator, String enclosedSymbol) throws RuntimeException {
+    @SuppressWarnings("rawtypes")
+	public static String objectListToString(List list, String propertyExpresion, String separator, String enclosedSymbol) throws RuntimeException {
+    	return objectListToString(list, propertyExpresion, separator, enclosedSymbol, null);
+    }
+
+
+    /**
+     * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpresion</code>, y concatena
+     * en un <code>String</code> el resultado (internacionalizado o no) de cada uno separados por <code>separator</code>,
+     * y encerrado cada valor por <code>enclosedSymbol</code>.<br/>
+     * Si <code>prefix</code> es distinto de nulo se usa como prefijo del string de <code>propertyExpresion</code> para
+     * armar la clave i18n y obtener el texto internacionalizado.
+     * @param list List: lista de objetos
+     * @param propertyExpresion String: expresión java bean de la propiedad con el texto o clave i18n
+     * @param separator String: literal que separará cada elemento en la cadena,
+     * ej. una coma y espacio: <code>', '</code>
+     * @param enclosedSymbol String: literal que contendrá cada elemento en la cadena,
+     * ej. comillas simples: <code>''</code>
+     * @param prefix String: prefijo de clave i18n
+     * @return String
+	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
+     */
+    @SuppressWarnings("rawtypes")
+	public static String objectListToString(List list, String propertyExpresion, String separator, String enclosedSymbol, String prefix) throws RuntimeException {
     	if(list==null || list.size()==0) {
     		return "";
     	}
     	String text = "";
-    	Class c = list.get(0).getClass();
-    	Class params[] = {};
-    	Object paramsObj[] = {};
     	try {
-	    	Method method = c.getMethod(methodName, params);
 	    	for(Object obj : list) {
 	    		if(!text.equals("")) {
 	    			text += enclosedSymbol + separator + enclosedSymbol;
 	    		} else {
 	    			text += enclosedSymbol;
 	    		}
-	    		text += method.invoke(obj, paramsObj).toString();
+	    		if(prefix==null) {
+	    			text += PropertyUtils.getProperty(obj, propertyExpresion).toString();
+	    		} else {
+	    			text += MessageUtils.getMessageSource().getMessage(prefix + PropertyUtils.getProperty(obj, propertyExpresion).toString(),
+	    					                                           null, MessageUtils.getLocale());
+	    		}
 	    	}
 			if(!text.equals("")) {
 				text += enclosedSymbol;
@@ -60,16 +85,33 @@ public class CollectionUtils {
     }
 
     /**
-     * Recorre toda la lista he invoca por cada elemento el método <code>name</code>, y concatena
+     * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpresion</code>, y concatena
      * en un <code>String</code> el resultado de cada uno separados por coma.
      * @param list List: lista de objetos
-     * @param methodName String: nombre del método
+     * @param propertyExpresion String: expresión java bean de la propiedad con el texto o clave i18n
      * @return String
 	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
      */
     @SuppressWarnings({ "rawtypes" })
-	public static String objectListToString(List list, String methodName) throws RuntimeException {
-    	return objectListToString(list, methodName, ", ", "");
+	public static String objectListToString(List list, String propertyExpresion) throws RuntimeException {
+    	return objectListToString(list, propertyExpresion, ", ", "");
+    }
+
+    /**
+     * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpresion</code>,
+     * le concatena el <code>prefix</code> y se obtiene el valor internacionalizado y se concatena
+     * en un <code>String</code> el resultado de cada uno separados por coma.<br/>
+     * Si <code>prefix</code> es distinto de nulo se usa como prefijo del string de <code>propertyExpresion</code> para
+     * armar la clave i18n y obtener el texto internacionalizado.
+     * @param list List: lista de objetos
+     * @param propertyExpresion String: expresión java bean de la propiedad con el texto o clave i18n
+     * @param prefix String: prefijo de clave i18n
+     * @return String
+	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
+     */
+    @SuppressWarnings({ "rawtypes" })
+	public static String objectListToString(List list, String propertyExpresion, String prefix) throws RuntimeException {
+    	return objectListToString(list, propertyExpresion, ", ", "", prefix);
     }
 
     /**
@@ -107,17 +149,17 @@ public class CollectionUtils {
  	 * @see java.util.Comparator
  	 * @see mr.common.collection.ValueMethodComparator
      * @param list List: lista a ser ordenada
-     * @param methodName String: nombre del método que se utiliza para la ordenación.
+     * @param propertyExpresion String: nombre del método que se utiliza para la ordenación.
 	 * @param ascending boolean: <code>true</code> si es comparación ascendente
      * @return List: lista ordenada
 	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List sortListByMethod(List list, String methodName, boolean ascending) {
+	public static List sortListByMethod(List list, String propertyExpresion, boolean ascending) {
 		if(list.isEmpty()) {
 			return list;
 		}
-		Comparator comparator = new ValueMethodComparator(list.get(0).getClass(), methodName, ascending);
+		Comparator comparator = new ValueMethodComparator(list.get(0).getClass(), propertyExpresion, ascending);
 		Collections.sort(list, comparator);
 		return list;
 	}
@@ -130,13 +172,13 @@ public class CollectionUtils {
  	 * @see java.util.Comparator
  	 * @see mr.common.collection.ValueMethodComparator
      * @param list List: lista a ser ordenada
-     * @param methodName String: nombre del método que se utiliza para la ordenación.
+     * @param propertyExpresion String: nombre del método que se utiliza para la ordenación.
      * @return List: lista ordenada
 	 * @throws RuntimeException si el nombre del método es erroneo o no accesible
      */
 	@SuppressWarnings("rawtypes")
-	public static List sorListtByMethod(List list, String methodName) {
-		return sortListByMethod(list, methodName, true);
+	public static List sorListtByMethod(List list, String propertyExpresion) {
+		return sortListByMethod(list, propertyExpresion, true);
 	}
 
     /**
