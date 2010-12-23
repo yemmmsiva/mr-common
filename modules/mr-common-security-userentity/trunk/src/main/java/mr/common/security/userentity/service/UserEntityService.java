@@ -167,7 +167,7 @@ public class UserEntityService implements UserService {
 			throw new DuplicatedEmailAddressException();
 		}
 		userData.setCommonName(user.getUserData().getCommonName());
-		userData.setSurname(user.getUserData().getSurname());
+		userData.setLastName(user.getUserData().getLastName());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
 		userEntity.setEnabled(user.isEnabled());
@@ -320,7 +320,7 @@ public class UserEntityService implements UserService {
 
 	public boolean isValidEmailAddress(String emailAddress) {
 		if(emailAddress==null) {
-			throw new NullPointerException();
+			throw new NullPointerException("Email address can't be null.");
 		}
 		return emailValidator.isValid(emailAddress);
 	}

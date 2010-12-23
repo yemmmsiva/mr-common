@@ -106,14 +106,14 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 
 		if (StringUtils.hasText(userEntity.getUserData().getCommonName())) {
 			hql += " and (lower(u.userData.commonName) like :commonName"
-			     + "      or lower(u.userData.givenName) like :commonName"
-			     + "      or lower(u.userData.surname) like :commonName)";
+			     + "      or lower(u.userData.firstName) like :commonName"
+			     + "      or lower(u.userData.lastName) like :commonName)";
 			 params.put("commonName", QueryUtils.likeParam(userEntity.getUserData().getCommonName()));
 		}
 
 		if (StringUtils.hasText(userEntity.getEmailAddress())) {
-			hql += " and lower(u.emailAddress) like :mail";
-			 params.put("mail", QueryUtils.likeParam(userEntity.getEmailAddress()));
+			hql += " and lower(u.emailAddress) like :emailAddress";
+			 params.put("emailAddress", QueryUtils.likeParam(userEntity.getEmailAddress()));
 		}
 
 		if(activeFilter!=null) {
