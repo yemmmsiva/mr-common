@@ -101,4 +101,69 @@ public interface User extends Serializable {
 	 * para su identificación
 	 */
 	void setCommonName(String commonName);
+
+	/**
+	 * @return - primer nombre (nombre de pila)
+	 */
+	String getFirstName();
+	/**
+	 * @param firstName - primer nombre (nombre de pila)
+	 */
+	void setFirstName(String firstName);
+
+	/**
+	 * @return apellido de la persona
+	 */
+	String getLastName();
+	/**
+	 * @param lastName - apellido de la persona
+	 */
+	void setLastName(String lastName);
+	
+	String getTelephoneNumber();
+
+	void setTelephoneNumber(String telephoneNumber);
+	/**
+	 * @return descripción o comentario útil acerca
+	 * del usuario
+	 */
+	String getDescription();
+	/**
+	 * @param description - descripción o comentario útil acerca
+	 * del usuario
+	 */
+	void setDescription(String description);
+
+	String getPostalAddress();
+
+	void setPostalAddress(String postalAddress);
+
+	String getPostalCode();
+
+	void setPostalCode(String postalCode);
+
+	String getStateOrProvinceName();
+
+	void setStateOrProvinceName(String stateOrProvinceName);
+
+	/**
+	 * @return <code>true</code> si es una organización
+	 * (persona jurídica)
+	 */
+	Boolean getOrg();
+	/**
+	 * @param org: <code>true</code> si es una organización
+	 * (persona jurídica)
+	 */
+	void setOrg(Boolean org);
+
+	/**
+	 * 
+	 * @return <code>true</code> si es hombre
+	 */
+	Boolean getMale();
+	/**
+	 * @param male: <code>true</code> si es hombre
+	 */
+	void setMale(Boolean male);
 }
