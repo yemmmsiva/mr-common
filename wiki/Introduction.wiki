@@ -33,6 +33,46 @@ http://mr-common.googlecode.com/files/mr-common-modules.png
 Java SE 1.5 (recommended 1.6), Maven 2.0.6. For web applications: Servlet 2.4, JSP 2.0 (for Tomcat Servers, required 5.5, recommended 6.0).
 
 
+== Maven configuration ==
+
+Example of modules dependency of mr-common jars in *pom.xml*:
+
+{{{
+    <dependencies>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-security</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-security-userentity</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-web</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mr.common</groupId>
+            <artifactId>mr-common-birt</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+}}}
+
+
 == Maven repository ==
 
 A Maven 2 repository with the jar modules are available [http://repo.mrdev.com.ar/artifactory here].
