@@ -145,8 +145,79 @@ public class UserEntity extends AuditableEntity implements User {
 	public String getCommonName() {
 		return userData.getCommonName();
 	}
-
 	public void setCommonName(String commonName) {
 		userData.setCommonName(commonName);
+	}
+
+	@Transient
+	public String getFirstName() {
+		return userData.getFirstName();
+	}
+	public void setFirstName(String firstName) {
+		userData.setFirstName(firstName);
+	}
+
+	@Transient
+	public String getLastName() {
+		return userData.getLastName();
+	}
+	public void setLastName(String lastName) {
+		userData.setLastName(lastName);
+	}
+
+	@Transient
+	public String getTelephoneNumber() {
+		return userData.getTelephoneNumber();
+	}
+	public void setTelephoneNumber(String telephoneNumber) {
+		userData.setTelephoneNumber(telephoneNumber);
+	}
+
+	@Transient
+	public String getDescription() {
+		return userData.getDescription();
+	}
+	public void setDescription(String description) {
+		userData.setDescription(description);
+	}
+
+	@Transient
+	public String getPostalAddress() {
+		return userData.getPostalAddress();
+	}
+	public void setPostalAddress(String postalAddress) {
+		userData.setPostalAddress(postalAddress);
+	}
+
+	@Transient
+	public String getPostalCode() {
+		return userData.getPostalCode();
+	}
+	public void setPostalCode(String postalCode) {
+		userData.setPostalCode(postalCode);
+	}
+
+	@Transient
+	public String getStateOrProvinceName() {
+		return userData.getStateOrProvinceName();
+	}
+	public void setStateOrProvinceName(String stateOrProvinceName) {
+		userData.setStateOrProvinceName(stateOrProvinceName);
+	}
+
+	@Transient
+	public Boolean getOrg() {
+		return userData.getOrg();
+	}
+	public void setOrg(Boolean org) {
+		userData.setOrg(org);
+	}
+
+	@Transient
+	public Boolean getMale() {
+		return userData.getMale();
+	}
+	public void setMale(Boolean male) {
+		userData.setMale(male);
 	}
 }
