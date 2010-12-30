@@ -6,4 +6,19 @@ A implementation of this is [CommonSecurityUserEntity mr-common-security-userent
 
 It also provides some useful classes for [http://static.springframework.org/spring-security/ Spring Security].
 
+
+== Classes ==
+
+This is the diagram of the most important classes:
+
+http://mr-common.googlecode.com/files/mr-common-security.png
+
+
+== Spring Security classes ==
+
+Implementations of the *Spring Security framework* interfaces:
+
+http://mr-common.googlecode.com/files/mr-common-security-springsupport.png
+
+
 _This module is a part of *[Introduction mr-common]* framework_.
