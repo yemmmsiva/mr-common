@@ -4,15 +4,15 @@
 <json:object>
 	<jsp:doBody />
 	<json:object name="fwk">
-		<c:if test="${fwk.fwkExceptions!=null}">
-			<json:array name="fwkExceptions" items="${fwk.fwkExceptions}" />
+		<c:if test="${response.fwkExceptions!=null}">
+			<json:array name="fwkExceptions" items="${response.fwkExceptions}" />
 		</c:if>
 		<c:if test="${uuid!=null}">
-			<json:array name="uuid" items="${fwk.uuid}" />
+			<json:array name="uuid" items="${response.uuid}" />
 		</c:if>
 		<c:if test="${flowExecutionKey!=null}">
-			<json:property name="flowExecutionKey" value="${fwk.flowExecutionKey}" />
+			<json:property name="flowExecutionKey" value="${response.flowExecutionKey}" />
 		</c:if>
 	</json:object>
-	<json:property name="success" value="${fwk.success}" />
+	<json:property name="success" value="${response.success}" />
 </json:object><%request.removeAttribute("javax.servlet.error.exception");%>
