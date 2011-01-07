@@ -144,48 +144,6 @@ public class CollectionUtils {
     }
 
     /**
-     * Ordena la lista utilizando el nombre del método pasado en el constructor para obtener el valor
-     * que será utilizado en la comparación.
-     * El valor de retorno del mismo debe implementar {@link java.lang.Comparable#compareTo(Object)},
-     * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.
-     * @param list List: lista a ser ordenada
-     * @param propertyExpression String: nombre del método que se utiliza para la ordenación.
-	 * @param ascending boolean: <code>true</code> si es comparación ascendente
-     * @return List: lista ordenada
-	 * @throws RuntimeException si la property expression es erronea
-	 *
- 	 * @see java.util.Comparator
- 	 * @see mr.common.collection.PropertyComparator
-     */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List sortListByMethod(List list, String propertyExpression, boolean ascending) {
-		if(list.isEmpty()) {
-			return list;
-		}
-		Comparator comparator = new PropertyComparator(propertyExpression, ascending);
-		Collections.sort(list, comparator);
-		return list;
-	}
-
-    /**
-     * Ordena la lista utilizando el nombre del método pasado en el constructor para obtener el valor
-     * que será utilizado en la comparación.
-     * El valor de retorno del mismo debe implementar {@link java.lang.Comparable#compareTo(Object)},
-     * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.
-     * @param list List: lista a ser ordenada
-     * @param propertyExpression String: nombre del método que se utiliza para la ordenación.
-     * @return List: lista ordenada
-	 * @throws RuntimeException si la property expression es erronea
-	 *
- 	 * @see java.util.Comparator
- 	 * @see mr.common.collection.PropertyComparator
-     */
-	@SuppressWarnings("rawtypes")
-	public static List sorListtByMethod(List list, String propertyExpression) {
-		return sortListByMethod(list, propertyExpression, true);
-	}
-
-    /**
      * Ordena la lista utilizando los nombres de los métodos pasados en el constructor para
      * obtener los valores que serán utilizados en la comparación.
      * El valor de retorno del mismo debe implementar {@link java.lang.Comparable#compareTo(Object)},
@@ -200,7 +158,7 @@ public class CollectionUtils {
  	 * @see mr.common.collection.PropertyComparator
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List sortListByMethods(List list, String [] propertyExpressions, boolean [] ascending) {
+	public static List sortListByProperties(List list, String [] propertyExpressions, boolean [] ascending) {
 		if(list.isEmpty()) {
 			return list;
 		}
@@ -208,7 +166,7 @@ public class CollectionUtils {
 			throw new IllegalArgumentException("propertyExpressions.length = 0");
 		}
 		if(propertyExpressions.length != ascending.length) {
-			throw new IllegalArgumentException("propertyExpressions.length = 0");
+			throw new IllegalArgumentException("propertyExpressions.length != ascending.length");
 		}
 		ComparatorChain comparators = new ComparatorChain();
 		Comparator comparator;
