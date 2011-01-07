@@ -6,33 +6,31 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 
 /**
- * Este comparador utiliza el el property expression pasado en el constructor para obtener el valor
+ * Este comparador utiliza el property expression pasado en el constructor para obtener el valor
  * que será utilizado en la comparación.
- * El valor de retorno del mismo debe implementar {@link java.lang.Comparable#compareTo(Object)},
+ * El valor de retorno del mismo debe implementar {@link java.lang.Comparable},
  * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.
  *
  * @see java.util.Comparator
  * @author Mariano Ruiz
  */
 @SuppressWarnings("rawtypes")
-public class ValueMethodComparator implements Comparator {
+public class PropertyComparator implements Comparator {
 
 	private boolean ascending;
 	private String propertyExpression;
 
 
 	/**
-	 * @see mr.common.collection.ValueMethodComparator
-	 * @param objectClass Class: clase del objecto del cual se ejecutará
-	 * <code>methodName</code>
+	 * @see mr.common.collection.PropertyComparator
 	 * @param propertyExpression String: expresión java beans del valor a comparar.<br/>
 	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}
 	 * @param ascending boolean: <code>true</code> si es comparación ascendente
-	 * @throws RuntimeException: si el nombre del método es erroneo o no accesible
+	 * @throws RuntimeException si la property expression es erronea
 	 *
-	 * @see ValueMethodComparator
+	 * @see PropertyComparator
 	 */
-	public ValueMethodComparator(Class objectClass, String propertyExpression, boolean ascending) {
+	public PropertyComparator(String propertyExpression, boolean ascending) {
 		this.ascending = ascending;
 		this.propertyExpression = propertyExpression;
 	}

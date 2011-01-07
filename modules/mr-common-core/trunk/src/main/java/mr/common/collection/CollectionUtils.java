@@ -155,14 +155,14 @@ public class CollectionUtils {
 	 * @throws RuntimeException si la property expression es erronea
 	 *
  	 * @see java.util.Comparator
- 	 * @see mr.common.collection.ValueMethodComparator
+ 	 * @see mr.common.collection.PropertyComparator
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List sortListByMethod(List list, String propertyExpression, boolean ascending) {
 		if(list.isEmpty()) {
 			return list;
 		}
-		Comparator comparator = new ValueMethodComparator(list.get(0).getClass(), propertyExpression, ascending);
+		Comparator comparator = new PropertyComparator(propertyExpression, ascending);
 		Collections.sort(list, comparator);
 		return list;
 	}
@@ -178,7 +178,7 @@ public class CollectionUtils {
 	 * @throws RuntimeException si la property expression es erronea
 	 *
  	 * @see java.util.Comparator
- 	 * @see mr.common.collection.ValueMethodComparator
+ 	 * @see mr.common.collection.PropertyComparator
      */
 	@SuppressWarnings("rawtypes")
 	public static List sorListtByMethod(List list, String propertyExpression) {
@@ -197,7 +197,7 @@ public class CollectionUtils {
 	 * @throws RuntimeException si la property expression es erronea
 	 *
  	 * @see java.util.Comparator
- 	 * @see mr.common.collection.ValueMethodComparator
+ 	 * @see mr.common.collection.PropertyComparator
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List sortListByMethods(List list, String [] propertyExpressions, boolean [] ascending) {
@@ -213,7 +213,7 @@ public class CollectionUtils {
 		ComparatorChain comparators = new ComparatorChain();
 		Comparator comparator;
 		for(int i=0; i<propertyExpressions.length; i++) {
-			comparator = new ValueMethodComparator(list.get(0).getClass(), propertyExpressions[i], ascending[i]);
+			comparator = new PropertyComparator(propertyExpressions[i], ascending[i]);
 			comparators.addComparator(comparator);
 		}
 		Collections.sort(list, comparators);
