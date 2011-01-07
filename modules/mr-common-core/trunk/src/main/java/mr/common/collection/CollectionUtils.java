@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mr.common.comparator.ConfigurableComparator;
 import mr.common.comparator.PropertyComparator;
 import mr.common.i18n.spring.MessageUtils;
 
@@ -145,13 +146,19 @@ public class CollectionUtils {
     }
 
     /**
-     * Ordena la lista utilizando los nombres de los métodos pasados en el constructor para
-     * obtener los valores que serán utilizados en la comparación.
-     * El valor de retorno del mismo debe implementar {@link java.lang.Comparable#compareTo(Object)},
-     * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.
+     * Ordena la lista utilizando las property expression de java beans pasadas para
+     * obtener los valores que serán utilizados en la comparación.<br/>
+     * El objeto retornado por la expresión debe implementar {@link java.lang.Comparable#compareTo(Object)},
+     * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.<br/>
+     * Si son strings los objetos obtenidos de la expresión, se usa
+     * {@link String#compareToIgnoreCase(String)}.
      * @param list List: lista a ser ordenada
      * @param methodName String []: nombre del método que se utiliza para la ordenación.
-	 * @param ascending boolean []: <code>true</code> si es comparación ascendente en cada methodName
+	 * @param orders [] int: para cada expression el orden de comparación,
+	 * <ul>
+	 *   <li><i>{@link ConfigurableComparator#ORDER_AZ}  (1)</i>: orden ascendente</li>
+	 *   <li><i>{@link ConfigurableComparator#ORDER_ZA} (-1)</i>: orden descendente</li>
+	 * </ul>
      * @return List: lista ordenada
 	 * @throws RuntimeException si la property expression es erronea
 	 *
@@ -159,20 +166,20 @@ public class CollectionUtils {
  	 * @see mr.common.comparator.PropertyComparator
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List sortListByProperties(List list, String [] propertyExpressions, boolean [] ascending) {
+	public static List sortListByProperties(List list, String [] propertyExpressions, int [] orders) {
 		if(list.isEmpty()) {
 			return list;
 		}
 		if(propertyExpressions.length == 0) {
 			throw new IllegalArgumentException("propertyExpressions.length = 0");
 		}
-		if(propertyExpressions.length != ascending.length) {
-			throw new IllegalArgumentException("propertyExpressions.length != ascending.length");
+		if(propertyExpressions.length != orders.length) {
+			throw new IllegalArgumentException("propertyExpressions.length != orders.length");
 		}
 		ComparatorChain comparators = new ComparatorChain();
 		Comparator comparator;
 		for(int i=0; i<propertyExpressions.length; i++) {
-			comparator = new PropertyComparator(propertyExpressions[i], ascending[i]);
+			comparator = new PropertyComparator(propertyExpressions[i], orders[i]);
 			comparators.addComparator(comparator);
 		}
 		Collections.sort(list, comparators);
