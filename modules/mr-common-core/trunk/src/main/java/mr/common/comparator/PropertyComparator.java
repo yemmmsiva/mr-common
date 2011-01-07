@@ -1,4 +1,4 @@
-package mr.common.collection;
+package mr.common.comparator;
 
 import java.util.Comparator;
 
@@ -22,7 +22,7 @@ public class PropertyComparator implements Comparator {
 
 
 	/**
-	 * @see mr.common.collection.PropertyComparator
+	 * @see mr.common.comparator.PropertyComparator
 	 * @param propertyExpression String: expresión java beans del valor a comparar.<br/>
 	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}
 	 * @param ascending boolean: <code>true</code> si es comparación ascendente

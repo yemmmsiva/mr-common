@@ -1,5 +1,6 @@
 package mr.common.model.comparator;
 
+import mr.common.comparator.ConfigurableComparator;
 import mr.common.model.OptionData;
 
 
@@ -8,13 +9,13 @@ import mr.common.model.OptionData;
  * de {@link mr.common.model.OptionData#getCode() OptionData.getCode()}
  * de ambos objetos, ignarando si son may/minus.
  *
- * @see mr.common.model.comparator.ConfigurableComparator
+ * @see mr.common.comparator.ConfigurableComparator
  * @author Mariano Ruiz
  */
 public class OptionDataByCodeComparator extends ConfigurableComparator<OptionData> {
 
 	/**
-	 * @see mr.common.model.comparator.ConfigurableComparator
+	 * @see mr.common.comparator.ConfigurableComparator
 	 * #ConfigurableComparator()
 	 */
 	public OptionDataByCodeComparator() {
@@ -22,7 +23,7 @@ public class OptionDataByCodeComparator extends ConfigurableComparator<OptionDat
 	}
 
 	/**
-	 * @see mr.common.model.comparator.ConfigurableComparator
+	 * @see mr.common.comparator.ConfigurableComparator
 	 * #ConfigurableComparator(int)
 	 */
 	public OptionDataByCodeComparator(int order) {

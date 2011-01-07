@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mr.common.comparator.PropertyComparator;
 import mr.common.i18n.spring.MessageUtils;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -155,7 +156,7 @@ public class CollectionUtils {
 	 * @throws RuntimeException si la property expression es erronea
 	 *
  	 * @see java.util.Comparator
- 	 * @see mr.common.collection.PropertyComparator
+ 	 * @see mr.common.comparator.PropertyComparator
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List sortListByProperties(List list, String [] propertyExpressions, boolean [] ascending) {
