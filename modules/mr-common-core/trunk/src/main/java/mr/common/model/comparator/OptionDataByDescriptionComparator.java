@@ -29,6 +29,9 @@ public class OptionDataByDescriptionComparator extends ConfigurableComparator<Op
 		super(order);
 	}
 
+	/**
+	 * Compara por el campo descripción.
+	 */
 	@Override
 	public int compare(OptionData o1, OptionData o2) {
 		return getOrder() * o1.getDescription().compareToIgnoreCase(o2.getDescription());
