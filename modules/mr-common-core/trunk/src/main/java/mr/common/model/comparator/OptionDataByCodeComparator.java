@@ -29,6 +29,7 @@ public class OptionDataByCodeComparator extends ConfigurableComparator<OptionDat
 		super(order);
 	}
 
+	@Override
 	public int compare(OptionData o1, OptionData o2) {
 		return getOrder() * o1.getCode().compareToIgnoreCase(o2.getCode());
 	}
