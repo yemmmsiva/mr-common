@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import mr.common.i18n.spring.MessageUtils;
 
@@ -216,5 +218,22 @@ public class CollectionUtils {
 		}
 		Collections.sort(list, comparators);
 		return list;
+	}
+
+	/**
+	 * Similar a {@link java.util.Arrays#asList(Object...)}, pero retorna
+	 * un {@link java.util.Set Set} en vez de una lista (tener en cuenta que
+	 * los objetos repetidos solo serán incluidos una vez).
+	 * @param array
+	 * @return {@link java.util.Set}
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Set asSet(Object... array) {
+		Arrays.asList(array);
+		Set set = new HashSet(array.length);
+		for(int i=0; i<array.length; i++) {
+			set.add(array[i]);
+		}
+		return set;
 	}
 }
