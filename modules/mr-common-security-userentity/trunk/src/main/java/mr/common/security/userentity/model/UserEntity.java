@@ -220,4 +220,12 @@ public class UserEntity extends AuditableEntity implements User {
 	public void setMale(Boolean male) {
 		userData.setMale(male);
 	}
+
+	@Transient
+	public String getTimeZoneId() {
+		return userData.getTimeZoneId();
+	}
+	public void setTimeZoneId(String timeZone) {
+		userData.setTimeZoneId(timeZone);
+	}
 }

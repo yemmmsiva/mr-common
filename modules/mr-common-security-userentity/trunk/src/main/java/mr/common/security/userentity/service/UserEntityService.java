@@ -168,6 +168,7 @@ public class UserEntityService implements UserService {
 		}
 		userData.setCommonName(user.getUserData().getCommonName());
 		userData.setLastName(user.getUserData().getLastName());
+		userData.setTimeZoneId(user.getUserData().getTimeZoneId());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
 		userEntity.setEnabled(user.isEnabled());

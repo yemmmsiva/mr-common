@@ -26,6 +26,7 @@ public abstract class Person extends AuditableEntity {
 	private String postalCode;
 	private String stateOrProvinceName;
 	private Boolean org;
+	private String timeZoneId;
 
 
 	/**
@@ -108,5 +109,12 @@ public abstract class Person extends AuditableEntity {
 	}
 	public void setMale(Boolean male) {
 		this.male = male;
+	}
+
+	public String getTimeZoneId() {
+		return timeZoneId;
+	}
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
 	}
 }
