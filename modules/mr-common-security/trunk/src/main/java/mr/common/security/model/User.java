@@ -166,4 +166,14 @@ public interface User extends Serializable {
 	 * @param male: <code>true</code> si es hombre
 	 */
 	void setMale(Boolean male);
+
+	/**
+	 * @return time zone id del usuario
+	 * @see java.util.TimeZone
+	 */
+	String getTimeZoneId();
+	/**
+	 * @param timeZone id del time zone del usuario
+	 */
+	void setTimeZoneId(String timeZone);
 }
