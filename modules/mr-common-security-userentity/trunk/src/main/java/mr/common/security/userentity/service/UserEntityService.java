@@ -439,9 +439,9 @@ public class UserEntityService implements UserService {
 	 * (<code>user.userData</code>).<br/>
 	 * Tener en cuenta que el objeto no representa un usuario
 	 * válido del sistema, como especifica
-	 * {@link mr.common.security.service.UserService#getInstance()}
+	 * {@link mr.common.security.service.UserService#getUserInstance()}
 	 */
-	public User getInstance() {
+	public User getUserInstance() {
 		UserEntity user = new UserEntity();
 		UserData userData = new UserData();
 		user.setUserData(userData);
