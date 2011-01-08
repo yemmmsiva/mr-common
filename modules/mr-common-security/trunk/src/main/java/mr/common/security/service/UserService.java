@@ -399,5 +399,5 @@ public interface UserService {
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	User getInstance();
+	User getUserInstance();
 }
