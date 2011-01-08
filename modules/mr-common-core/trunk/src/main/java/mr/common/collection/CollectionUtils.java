@@ -159,6 +159,7 @@ public class CollectionUtils {
 	 *   <li><i>{@link ConfigurableComparator#ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link ConfigurableComparator#ORDER_ZA} (-1)</i>: orden descendente</li>
 	 * </ul>
+	 * Si <code>orders</code> es <code>null</code>, se orderna con todas las expresiones en forma ascendente
      * @return List: lista ordenada
 	 * @throws RuntimeException si la property expression es erronea
 	 *
@@ -173,13 +174,19 @@ public class CollectionUtils {
 		if(propertyExpressions.length == 0) {
 			throw new IllegalArgumentException("propertyExpressions.length = 0");
 		}
-		if(propertyExpressions.length != orders.length) {
+		if(orders!=null && propertyExpressions.length != orders.length) {
 			throw new IllegalArgumentException("propertyExpressions.length != orders.length");
 		}
 		ComparatorChain comparators = new ComparatorChain();
 		Comparator comparator;
 		for(int i=0; i<propertyExpressions.length; i++) {
-			comparator = new PropertyComparator(propertyExpressions[i], orders[i]);
+			int order;
+			if(orders!=null) {
+				order = orders[i];
+			} else {
+				order = ConfigurableComparator.ORDER_AZ;
+			}
+			comparator = new PropertyComparator(propertyExpressions[i], order);
 			comparators.addComparator(comparator);
 		}
 		Collections.sort(list, comparators);
