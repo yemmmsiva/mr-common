@@ -83,13 +83,15 @@ public abstract class TimeUtils {
     }
 
     /**
-     * Formatea a string la fecha pasada con la máscara pasada.
+     * Formatea a string la fecha pasada con la máscara pasada,
+     * y usando el time zone del calendar.
      * @param cal {@link java.util.Calendar}
      * @param mask String
      * @return String
      */
 	public static String format(Calendar cal, String mask) {
 		DateFormat df = new SimpleDateFormat(mask);
+		df.setTimeZone(cal.getTimeZone());
 		return df.format(cal.getTime());
 	}
 
