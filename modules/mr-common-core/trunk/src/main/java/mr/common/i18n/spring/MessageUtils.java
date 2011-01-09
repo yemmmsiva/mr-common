@@ -40,4 +40,14 @@ public class MessageUtils {
     public static Locale getLocale() {
     	return LocaleContextHolder.getLocale();
     }
+
+    /**
+     * Devuelve el mensaje internacionalizado de la <code>key</code>
+     * en la localización del hilo actual.
+     * @param key String
+     * @return mensaje traducido
+     */
+    public static String getMessage(String key) {
+    	return getMessageSource().getMessage(key, null, getLocale());
+    }
 }
