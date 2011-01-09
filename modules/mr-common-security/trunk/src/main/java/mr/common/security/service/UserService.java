@@ -345,6 +345,28 @@ public interface UserService {
 	void updateCommonName(Serializable userId, String newCommonName);
 
 	/**
+	 * Cambia el time zone del usuario.
+	 * @param username String: username del usuario
+	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateTimeZoneId(String username, String newTimeZoneId);
+
+	/**
+	 * Cambia la time zone del usuario.
+	 * @param userId Serializable: id del usuario
+	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateTimeZoneId(Serializable userId, String newTimeZoneId);
+
+	/**
 	 * Listado de roles de la aplicación.
 	 * @return List Roles
 	 * @throws UnsupportedOperationException Si la operación
