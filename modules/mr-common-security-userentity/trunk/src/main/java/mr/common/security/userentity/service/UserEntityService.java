@@ -66,12 +66,12 @@ public class UserEntityService implements UserService {
 
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Transactional
+	@Transactional(readOnly = true)
 	public List getList() {
     	return userDao.getList();
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public User getByUsername(String username) {
     	if(username==null) {
     		throw new NullPointerException("username = null");
@@ -84,7 +84,7 @@ public class UserEntityService implements UserService {
 		return user;
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public User getByEmailAddress(String emailAddress) {
     	if(emailAddress==null) {
     		throw new NullPointerException("emailAddress = null");
@@ -97,7 +97,7 @@ public class UserEntityService implements UserService {
 		return user;
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public User getCurrentUser() {
 		String user = userSecurityService.getCurrentUsername();
 		if(user != null) {
@@ -106,18 +106,18 @@ public class UserEntityService implements UserService {
 		return null;
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public String getCurrentUsername() {
 		return userSecurityService.getCurrentUsername();
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Transactional
+	@Transactional(readOnly = true)
 	public List find(User user, Boolean activeFilter, ConfigurableData page) {
 		return userDao.find(user, activeFilter, page);
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public int findCount(User user, Boolean activeFilter) {
 		return userDao.findCount(user, activeFilter);
 	}
@@ -235,12 +235,12 @@ public class UserEntityService implements UserService {
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@Transactional
+	@Transactional(readOnly = true)
 	public List getRolesList() {
 		return roleDao.getList();
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Role getRole(String roleName) {
     	Role role = roleDao.getByCode(roleName);
     	if(role==null) {
@@ -277,7 +277,7 @@ public class UserEntityService implements UserService {
 		updatePassword(user, newPassword);
 	}
 
-    @Transactional
+    @Transactional(readOnly = true)
 	public User getById(Serializable id) {
     	if(id==null) {
     		throw new NullPointerException("id = null");
@@ -330,6 +330,7 @@ public class UserEntityService implements UserService {
 		return ((UserEntity)user).hasRole(role);
 	}
 
+	@Transactional(readOnly = true)
 	public boolean hasRole(Serializable userId, String roleName) {
 		Role role = getRole(roleName);
 		List <Authority> authorities = userDao.getAuthorityList((Long)getById(userId).getId());
@@ -341,6 +342,7 @@ public class UserEntityService implements UserService {
 		return false;
 	}
 
+	@Transactional(readOnly = true)
 	public boolean hasRole(String username, String roleName) {
 		List <Authority> authorities = userDao.getAuthorityList((Long)getByUsername(username).getId());
 		for(Authority authority : authorities) {
@@ -433,13 +435,13 @@ public class UserEntityService implements UserService {
 		userDao.update(user);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public boolean checkPassword(String username, String password) {
 		UserEntity user = (UserEntity) getByUsername(username);
 		return user.getPassword().equals(encodePassword(password));
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public boolean checkPassword(Serializable id, String password) {
 		UserEntity user = (UserEntity) getById(id);
 		return user.getPassword().equals(encodePassword(password));
