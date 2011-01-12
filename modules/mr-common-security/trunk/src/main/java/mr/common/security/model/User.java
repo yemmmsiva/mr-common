@@ -1,6 +1,7 @@
 package mr.common.security.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -176,4 +177,13 @@ public interface User extends Serializable {
 	 * @param timeZone id del time zone del usuario
 	 */
 	void setTimeZoneId(String timeZone);
+
+	/**
+	 * @return fecha de nacimiento del usuario
+	 */
+	public Date getBirthdayDate();
+	/**
+	 * @param date: fecha de nacimiento del usuario
+	 */
+	public void setBirthdayDate(Date date);
 }
