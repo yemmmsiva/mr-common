@@ -1,5 +1,7 @@
 package mr.common.security.userentity.model;
 
+import java.util.Date;
+
 import javax.persistence.MappedSuperclass;
 
 import mr.common.format.FormatUtils;
@@ -27,6 +29,7 @@ public abstract class Person extends AuditableEntity {
 	private String stateOrProvinceName;
 	private Boolean org;
 	private String timeZoneId;
+	private Date birthdayDate;
 
 
 	/**
@@ -116,5 +119,12 @@ public abstract class Person extends AuditableEntity {
 	}
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
+	}
+
+	public Date getBirthdayDate() {
+		return birthdayDate;
+	}
+	public void setBirthdayDate(Date birthdayDate) {
+		this.birthdayDate = birthdayDate;
 	}
 }

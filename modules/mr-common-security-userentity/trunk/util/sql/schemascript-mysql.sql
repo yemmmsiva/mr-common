@@ -17,6 +17,7 @@ CREATE TABLE userdata (
   male						BOOLEAN			DEFAULT NULL,
   org						BOOLEAN			DEFAULT NULL,
   timeZoneId				VARCHAR(50)		DEFAULT NULL,
+  birthdayDate				DATE			DEFAULT NULL,
 
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,

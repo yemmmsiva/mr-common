@@ -1,6 +1,7 @@
 package mr.common.security.userentity.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -227,5 +228,13 @@ public class UserEntity extends AuditableEntity implements User {
 	}
 	public void setTimeZoneId(String timeZone) {
 		userData.setTimeZoneId(timeZone);
+	}
+
+	@Transient
+	public Date getBirthdayDate() {
+		return userData.getBirthdayDate();
+	}
+	public void setBirthdayDate(Date date) {
+		userData.setBirthdayDate(date);
 	}
 }
