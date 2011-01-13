@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 
@@ -103,6 +104,20 @@ public abstract class TimeUtils {
      */
 	public static String format(Date date, String mask) {
 		DateFormat df = new SimpleDateFormat(mask);
+		return df.format(date.getTime());
+	}
+
+    /**
+     * Formatea a string la fecha pasada con la máscara pasada, teniendo
+     * en cuenta la zona horaria.
+     * @param date {@link java.util.Date}
+     * @param zone {@link java.util.TimeZone}
+     * @param mask String
+     * @return String
+     */
+	public static String format(Date date, TimeZone zone, String mask) {
+		DateFormat df = new SimpleDateFormat(mask);
+		df.setTimeZone(zone);
 		return df.format(date.getTime());
 	}
 
