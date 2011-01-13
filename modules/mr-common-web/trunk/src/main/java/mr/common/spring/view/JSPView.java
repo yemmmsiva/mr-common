@@ -24,7 +24,10 @@ import org.springframework.web.servlet.view.JstlView;
  * Si se lanzara una excepción desde la JSP, devolverá como respuesta
  * <code>application/error</code> como contentType al cliente, con la
  * cadena <code>{success:false}</code> por si es capturado por algún
- * objeto en el navegador que halla echo la petición por Ajax.
+ * objeto en el navegador que halla echo la petición por Ajax.<br/>
+ * En el JSON abrá un array <code>exceptions</code> con los mensajes
+ * de las excepciones, o el mensaje adecuado i18n de las keys
+ * pasadas como error.
  */
 @SuppressWarnings("unchecked")
 public class JSPView extends JstlView {
