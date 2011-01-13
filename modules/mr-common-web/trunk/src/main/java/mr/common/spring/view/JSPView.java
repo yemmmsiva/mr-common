@@ -32,6 +32,9 @@ import org.springframework.web.servlet.view.JstlView;
 @SuppressWarnings("unchecked")
 public class JSPView extends JstlView {
 
+	/**
+	 * <i>`default`</i>: Página por default para redirigir respuestas.
+	 */
 	public static final String DEFAULT_VIEW = "default";
 	public static final String ERRORS = "errors";
 	public static final String JSON_ERROR = "{success:false}";

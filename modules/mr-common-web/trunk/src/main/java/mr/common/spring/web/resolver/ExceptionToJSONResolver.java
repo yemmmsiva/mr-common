@@ -20,11 +20,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * Captura las excepciones lanzadas por los controllers y flows, y parsea
- * la excepción en un objeto JSON para que pueda ser leído por Ajax.
+ * Captura las excepciones lanzadas por los controllers y flows, y envía
+ * la excepción a la página por default de errores
+ * {@link mr.common.spring.view.JSPView#DEFAULT_VIEW JSPView.DEFAULT_VIEW}.<br/>
+ * Si el entorno es `production` (ver {@link #isProductionEnviroment()})
+ * y la excepción no es esperada (no extiende de
+ * {@link mr.common.exception.spring.FrameworkException FrameworkException})
+ * se envía un mensaje internacionalizado con la key
+ * <code>fwk.constant.generic.errorWithId</code> y un número de error. El
+ * mensaje debe ser algo así: <i>An error occurred (id <code>{0}</code>)</i>.<br/>
+ * En caso de el entorno ser distinto de producción (ej. `development`),
+ * se enviará en la respuesta la traza de la excepción con el id y el
+ * mensaje de error.<br>
+ * En ambos casos también se logueará con <i>log4j</i> la traza, el id de error y
+ * el mensaje como <code>ERROR</code>.
  *
  * @author Mariano Ruiz
- *
  */
 public class ExceptionToJSONResolver implements HandlerExceptionResolver {
 
@@ -45,8 +56,7 @@ public class ExceptionToJSONResolver implements HandlerExceptionResolver {
             } else {
             	Integer errordId = RandomUtils.nextInt();
                 logger.error("An error occurred (id " + errordId + ")\n" + ExceptionUtils.getStackTraceAsString(e));
-            	if(appProperties==null
-            		  || appProperties.getProperty("enviroment", "production").equals("production")) {
+            	if(isProductionEnviroment()) {
             		model.put(JSPView.ERRORS, new FrameworkException(e, "fwk.constant.generic.errorWithId", errordId.toString()));
             	} else {
             		model.put(JSPView.ERRORS, e);
@@ -57,4 +67,12 @@ public class ExceptionToJSONResolver implements HandlerExceptionResolver {
             return null;
         }
     }
+
+    /**
+     * @return <code>true</code> si el entorno es de producción
+     */
+	public boolean isProductionEnviroment() {
+		return appProperties==null
+		  || appProperties.getProperty("enviroment", "production").equals("production");
+	}
 }
