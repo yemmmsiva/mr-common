@@ -2,6 +2,8 @@ package mr.common.model;
 
 import javax.persistence.MappedSuperclass;
 
+import mr.common.model.OptionData;
+
 
 /**
  * Tabla base para dicccionarios de datos.
@@ -9,7 +11,7 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class AuditableDictionary extends AuditableEntity
-                                   implements Comparable<AuditableDictionary> {
+                     implements OptionData, Comparable<AuditableDictionary> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,16 +21,13 @@ public abstract class AuditableDictionary extends AuditableEntity
 
 
 	/**
-	 * @return int - usa el <code>compareTo()</code> de {@link getCode()}
+	 * Usa el <code>compareToIgnoreCase()</code> de {@link getCode()} para
+	 * la comparación.
 	 */
 	public int compareTo(AuditableDictionary a) {
-		return getCode().compareTo(a.getCode());
+		return getCode().compareToIgnoreCase(a.getCode());
 	}
 
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public String toString() {
 		return description;
 	}
