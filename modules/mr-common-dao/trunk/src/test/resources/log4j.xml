@@ -48,7 +48,7 @@
 	</logger>
 
 	<logger name="org.springframework.binding">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 	
 	<logger name="org.springframework.jdbc">
@@ -64,7 +64,7 @@
 	</logger>
 
 	<logger name="org.hibernate.SQL">
-		<level value="debug" />
+		<level value="warn" />
 		<appender-ref ref="console" />
 		<appender-ref ref="errorFile" />
 	</logger>
