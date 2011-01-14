@@ -10,12 +10,20 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import mr.common.i18n.spring.MessageUtils;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.context.NoSuchMessageException;
+
 
 /**
  * Clases útiles para trabajar con fechas, horas, conversiones, etc.
  * @author Mariano Ruiz
  */
 public abstract class TimeUtils {
+
+	private static final Log logger = LogFactory.getLog(TimeUtils.class);
 
     /**
      * Formato de fecha latinoamericano, ej. <code>20/12/2009</code>.
@@ -49,6 +57,14 @@ public abstract class TimeUtils {
 
     // Formateador estándar usado por algunos métodos
     private static SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_YYYYMMDD);
+
+    /**
+     * <i>`app.date.format`</i>: Key i18n usada para obtener la máscara (pattern)
+     * para formatear una fecha de un objeto calendar o date.<br/>
+     * En los archivos de internacionalización se debe tener para cada
+     * lenguaje la máscara correspondiente.
+     */
+    public static String KEYI18N_DATE_FORMAT = "app.date.format";
 
     /**
      * Método que recibe una fecha en formato String y la devuelve como un objecto {@link java.util.Date}.
@@ -119,6 +135,80 @@ public abstract class TimeUtils {
 		DateFormat df = new SimpleDateFormat(mask);
 		df.setTimeZone(zone);
 		return df.format(date.getTime());
+	}
+
+    /**
+     * Devuelve un {@link java.text.DateFormat DateFormat} con la localización
+     * del thread. Usa la key {@link TimeUtils#KEYI18N_DATE_FORMAT},
+     * y en caso de no haber un mensaje configurado para esa
+     * localización, se utiliza la máscara {@link #TIME_FORMAT_YYYYMMDD}.
+     *
+     * @return {@link java.text.DateFormat DateFormat}
+     * @throws NullPointerException si a {@link mr.common.i18n.spring.MessageUtils
+     * MessageUtils} no se le inyecto el bean `messageSource`.
+     */
+	public static DateFormat getDateFormatLocalized() {
+		String format = TIME_FORMAT_YYYYMMDD;
+		try {
+			format = MessageUtils.getMessage(KEYI18N_DATE_FORMAT);
+		} catch(NoSuchMessageException e) {
+			logger.warn("Key '" + KEYI18N_DATE_FORMAT
+			  +"' not found for locale='" + MessageUtils.getLocale().getLanguage() +"'");
+		}
+		return new SimpleDateFormat(format);
+	}
+
+    /**
+     * Formatea a string la fecha pasada con la máscara de la localización
+     * del thread. Usa la key {@link TimeUtils#KEYI18N_DATE_FORMAT},
+     * y en caso de no haber un mensaje configurado para esa
+     * localización, se utiliza la máscara {@link #TIME_FORMAT_YYYYMMDD}.
+     *
+     * @param date {@link java.util.Date}
+     * @return String
+     * @throws NullPointerException si a {@link mr.common.i18n.spring.MessageUtils
+     * MessageUtils} no se le inyecto el bean `messageSource`.
+     * @see #getDateFormatLocalized()
+     */
+	public static String formatLocalized(Date date) {
+		return getDateFormatLocalized().format(date);
+	}
+
+    /**
+     * Formatea a string la fecha pasada con la máscara de la localización
+     * del thread. Usa la key {@link TimeUtils#KEYI18N_DATE_FORMAT},
+     * y en caso de no haber un mensaje configurado para esa
+     * localización, se utiliza la máscara {@link #TIME_FORMAT_YYYYMMDD}.
+     *
+     * @param cal {@link java.util.Calendar}
+     * @return String
+     * @throws NullPointerException si a {@link mr.common.i18n.spring.MessageUtils
+     * MessageUtils} no se le inyecto el bean `messageSource`.
+     * @see #getDateFormatLocalized()
+     */
+	public static String formatLocalized(Calendar cal) {
+		DateFormat df = getDateFormatLocalized();
+		df.setTimeZone(cal.getTimeZone());
+		return df.format(cal.getTime());
+	}
+
+    /**
+     * Formatea a string la fecha pasada con la máscara de la localización
+     * del thread. Usa la key {@link TimeUtils#KEYI18N_DATE_FORMAT},
+     * y en caso de no haber un mensaje configurado para esa
+     * localización, se utiliza la máscara {@link #TIME_FORMAT_YYYYMMDD}.<br/>
+     * Usa el timezone pasado para hacer el cálculo y el formateo.
+     *
+     * @param date {@link java.util.Date}
+     * @return String
+     * @throws NullPointerException si a {@link mr.common.i18n.spring.MessageUtils
+     * MessageUtils} no se le inyecto el bean `messageSource`.
+     * @see #getDateFormatLocalized()
+     */
+	public static String formatLocalized(Date date, TimeZone zone) {
+		DateFormat df = getDateFormatLocalized();
+		df.setTimeZone(zone);
+		return df.format(date);
 	}
 
     /**
