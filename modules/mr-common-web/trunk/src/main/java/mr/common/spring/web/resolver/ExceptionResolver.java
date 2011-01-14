@@ -38,9 +38,9 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author Mariano Ruiz
  */
-public class ExceptionToJSONResolver implements HandlerExceptionResolver {
+public class ExceptionResolver implements HandlerExceptionResolver {
 
-    private static final Log logger = LogFactory.getLog(ExceptionToJSONResolver.class);
+    private static final Log logger = LogFactory.getLog(ExceptionResolver.class);
 
 	@Autowired(required=false)
 	private Properties appProperties;
