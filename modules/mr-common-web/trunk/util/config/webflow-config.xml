@@ -16,7 +16,7 @@
 		</webflow:flow-execution-listeners>
 	</webflow:flow-executor>
 
-	<bean id="conversionService" class="mr.common.web.spring.converter.ApplicationConversionService" />
+	<bean id="conversionService" class="mr.common.web.spring.binding.converter.ApplicationConversionService" />
 
 	<!-- The registry of executable flow definitions -->
 	<webflow:flow-registry id="flowRegistry" flow-builder-services="flowBuilderServices" base-path="/WEB-INF">

@@ -1,4 +1,4 @@
-package mr.common.web.spring.converter;
+package mr.common.web.spring.binding.converter;
 
 import mr.common.web.spring.binding.converter.converters.StringToLocalizedDate;
 
