@@ -53,7 +53,7 @@
 
 	<!-- Captura las excepciones lanzadas por los controllers y flows, y parsea -->
 	<!-- la excepción en un objeto JSON para que pueda ser leído por ExtJS      -->
-    <bean id="exceptionResolver" class="mr.common.spring.web.resolver.ExceptionResolver" />
+    <bean id="exceptionResolver" class="mr.common.web.spring.resolver.ExceptionResolver" />
 
 
 	<!-- Dispatches requests mapped to POJO @Controllers implementations -->

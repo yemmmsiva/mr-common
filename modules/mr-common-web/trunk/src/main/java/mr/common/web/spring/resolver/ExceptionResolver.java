@@ -1,4 +1,4 @@
-package mr.common.spring.web.resolver;
+package mr.common.web.spring.resolver;
 
 import java.util.HashMap;
 import java.util.Map;
