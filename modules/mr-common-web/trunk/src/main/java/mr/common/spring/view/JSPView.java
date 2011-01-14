@@ -79,7 +79,7 @@ public class JSPView extends JstlView {
         model.put("response", params);
 
         if(model.containsKey(ERRORS)) {
-        	List<String> errors = new ArrayList<String>(0);
+        	List<String> errors = new ArrayList<String>();
         	Object error = model.get(ERRORS);
         	if(error instanceof Object[]) {
         		Object[] errorsArray = (Object[]) error;
@@ -108,11 +108,16 @@ public class JSPView extends JstlView {
     }
 
     private String getErrorMessage(Object e) {
-		Throwable ex = (Throwable) e;
-		String message = ex.getMessage();
-		if(message==null) {
-			message = ExceptionUtils.getStackTraceAsString(ex);
-		}
+    	String message;
+    	if(e instanceof Throwable) {
+			Throwable ex = (Throwable) e;
+			message = ex.getMessage();
+			if(message==null) {
+				message = ExceptionUtils.getStackTraceAsString(ex);
+			}
+    	} else {
+    		message = e.toString();
+    	}
 		return message;
     }
 
