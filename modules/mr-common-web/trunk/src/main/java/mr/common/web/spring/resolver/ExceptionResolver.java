@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mr.common.exception.ExceptionUtils;
 import mr.common.exception.spring.FrameworkException;
-import mr.common.spring.view.JSPView;
+import mr.common.web.spring.view.JSPView;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
@@ -81,7 +81,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 
 	/**
 	 * Devuelve el nombre de la página donde se renderiza el error.<br/>
-	 * Esta implementación devuelve {@link mr.common.spring.view.JSPView
+	 * Esta implementación devuelve {@link mr.common.web.spring.view.JSPView
 	 * #DEFAULT_VIEW JSPView.DEFAULT_VIEW}, o la página seteada con
 	 * {@link #setDefaultErrorPage(String)}, pero puede sobreescribirse
 	 * para direccionarse el error a otro JSP.

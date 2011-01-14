@@ -1,4 +1,4 @@
-package mr.common.spring.view;
+package mr.common.web.spring.view;
 
 import java.io.IOException;
 import java.util.ArrayList;

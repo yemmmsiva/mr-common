@@ -38,7 +38,7 @@
 
     <!-- Maps logical view names selected by the url filename controller to .jsp view templates within the /WEB-INF directory -->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-    	<property name="viewClass" value="mr.common.spring.view.JSPView" />
+    	<property name="viewClass" value="mr.common.web.spring.view.JSPView" />
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
         <property name="order" value="40"/>
