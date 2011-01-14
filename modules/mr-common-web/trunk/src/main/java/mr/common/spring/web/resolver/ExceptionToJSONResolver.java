@@ -40,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ExceptionToJSONResolver implements HandlerExceptionResolver {
 
-    private final Log logger = LogFactory.getLog(getClass());
+    private static final Log logger = LogFactory.getLog(ExceptionToJSONResolver.class);
 
 	@Autowired(required=false)
 	private Properties appProperties;
