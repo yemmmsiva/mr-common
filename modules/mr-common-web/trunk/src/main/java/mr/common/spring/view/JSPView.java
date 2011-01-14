@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mr.common.exception.ExceptionUtils;
 import mr.common.i18n.spring.MessageUtils;
 
 import org.springframework.web.servlet.view.JstlView;
@@ -79,9 +80,18 @@ public class JSPView extends JstlView {
         if(model.containsKey(ERRORS)) {
         	List<String> errors = new ArrayList<String>(0);
         	Object error = model.get(ERRORS);
-        	if(error instanceof Throwable) {
-        		Throwable ex = (Throwable) error;
-            	errors.add(ex.getMessage());
+        	if(error instanceof Object[]) {
+        		Object[] errorsArray = (Object[]) error;
+        		for(Object e : errorsArray) {
+                	errors.add(getErrorMessage(e));
+        		}
+        	} else if(error instanceof List) {
+        		List errorsList = (List) error;
+        		for(Object e : errorsList) {
+        			errors.add(getErrorMessage(e));
+        		}
+        	} else if(error instanceof Throwable) {
+        		errors.add(getErrorMessage(error));
         	} else {
         		// El error es una key i18n, o en caso de que no lo sea,
         		// el resolver al no encontrar la key devolverá el string
@@ -94,6 +104,15 @@ public class JSPView extends JstlView {
         } else {
         	params.put("success", Boolean.TRUE);
         }
+    }
+
+    private String getErrorMessage(Object e) {
+		Throwable ex = (Throwable) e;
+		String message = ex.getMessage();
+		if(message==null) {
+			message = ExceptionUtils.getStackTraceAsString(ex);
+		}
+		return message;
     }
 
     protected void error(HttpServletResponse response) throws IOException {
