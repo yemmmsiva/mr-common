@@ -57,10 +57,10 @@ public class ExceptionToJSONResolver implements HandlerExceptionResolver {
             	logger.debug(ExceptionUtils.getStackTraceAsString(e));
             	model.put(JSPView.ERRORS, e);
             } else {
-            	String errordId = new Integer(RandomUtils.nextInt()).toString();
-                logger.error("An error occurred (id " + errordId + ")\n" + ExceptionUtils.getStackTraceAsString(e));
+            	String errorId = new Integer(RandomUtils.nextInt()).toString();
+                logger.error("An error occurred (id " + errorId + ")\n" + ExceptionUtils.getStackTraceAsString(e));
             	if(isProductionEnviroment()) {
-            		model.put(JSPView.ERRORS, new FrameworkException(e, "fwk.constant.generic.errorWithId", errordId));
+            		model.put(JSPView.ERRORS, new FrameworkException(e, "fwk.constant.generic.errorWithId", errorId));
             	} else {
             		model.put(JSPView.ERRORS, e);
             	}
