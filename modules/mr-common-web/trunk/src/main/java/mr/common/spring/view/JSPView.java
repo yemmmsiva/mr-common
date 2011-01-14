@@ -2,6 +2,7 @@ package mr.common.spring.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,8 +86,8 @@ public class JSPView extends JstlView {
         		for(Object e : errorsArray) {
                 	errors.add(getErrorMessage(e));
         		}
-        	} else if(error instanceof List) {
-        		List errorsList = (List) error;
+        	} else if(error instanceof Collection) {
+        		Collection errorsList = (Collection) error;
         		for(Object e : errorsList) {
         			errors.add(getErrorMessage(e));
         		}
