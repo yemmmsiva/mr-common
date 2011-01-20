@@ -38,6 +38,15 @@ public abstract class TimeZoneUtils {
 	 */
 	private static Map<String, String> validTimeZones;
 
+	/**
+	 * Cachea el cálculo de los time zones ids válidos.
+	 */
+	private static List<String> timeZoneIDs = null;
+	/**
+	 * Cachea el cálculo de los time zones válidos.
+	 */
+	private static List<TimeZone> timeZones = null;
+
 	static {
 		validTimeZones = new HashMap<String, String>(23) {
 			private static final long serialVersionUID = 1L;
@@ -164,17 +173,21 @@ public abstract class TimeZoneUtils {
 	 */
 	public static List<String> getAvailableIDs() {
 		String[] allTimeZones = TimeZone.getAvailableIDs();
-		List<String> timeZones = new ArrayList<String>(allTimeZones.length);
-		for(int i=0; i<allTimeZones.length; i++) {
-			String key = validTimeZones.get(allTimeZones[i]);
-			if(key!=null && (key.equals(allTimeZones[i]) || allTimeZones[i].startsWith("Etc/GMT"))
-					&& !timeZones.contains(key)) {
-				timeZones.add(key);
-			} else {
-				logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
+		if(timeZoneIDs==null) {
+			timeZoneIDs = new ArrayList<String>(allTimeZones.length);
+			synchronized(timeZoneIDs) {
+				for(int i=0; i<allTimeZones.length; i++) {
+					String key = validTimeZones.get(allTimeZones[i]);
+					if(key!=null && (key.equals(allTimeZones[i]) || allTimeZones[i].startsWith("Etc/GMT"))
+							&& !timeZones.contains(key)) {
+						timeZoneIDs.add(key);
+					} else {
+						logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
+					}
+				}
 			}
 		}
-		return timeZones;
+		return timeZoneIDs;
 	}
 
 	/**
@@ -200,16 +213,29 @@ public abstract class TimeZoneUtils {
 	 */
 	public static List<TimeZone> getAvailableTimeZones() {
 		String[] allTimeZones = TimeZone.getAvailableIDs();
-		List<TimeZone> timeZones = new ArrayList<TimeZone>(allTimeZones.length);
-		for(int i=0; i<allTimeZones.length; i++) {
-			String key = validTimeZones.get(allTimeZones[i]);
-			if(key!=null && (key.equals(allTimeZones[i]) || allTimeZones[i].startsWith("Etc/GMT"))
-					&& !timeZones.contains(key)) {
-				timeZones.add(TimeZone.getTimeZone(key));
-			} else {
-				logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
+		if(timeZones==null) {
+			timeZones = new ArrayList<TimeZone>(allTimeZones.length);
+			synchronized(timeZones) {
+				for(int i=0; i<allTimeZones.length; i++) {
+					String key = validTimeZones.get(allTimeZones[i]);
+					if(key!=null && (key.equals(allTimeZones[i]) || allTimeZones[i].startsWith("Etc/GMT"))
+							&& !timeZones.contains(key)) {
+						timeZones.add(TimeZone.getTimeZone(key));
+					} else {
+						logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
+					}
+				}
 			}
 		}
 		return timeZones;
+	}
+
+	/**
+	 * Borra la caché de los time zones devueltos por
+	 * {@link #getAvailableTimeZones()} y {@link #getAvailableIDs()}
+	 */
+	public synchronized static void cleanAvailableTimeZonesCache() {
+		timeZones = null;
+		timeZoneIDs = null;
 	}
 }
