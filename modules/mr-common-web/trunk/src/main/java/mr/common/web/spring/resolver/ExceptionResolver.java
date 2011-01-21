@@ -26,9 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
  * Si el método {@link #showErrorMessageId()} retorna <code>true</code>
  * y la excepción no es esperada (no extiende de
  * {@link mr.common.exception.spring.FrameworkException FrameworkException})
- * se envía un mensaje internacionalizado con la key
- * <code>fwk.constant.generic.errorWithId</code> y un número de error. El
- * mensaje debe ser algo así: <i>An error occurred (id <code>{0}</code>)</i>.<br/>
+ * se envía un mensaje internacionalizado con la key devuelta por
+ * {@link #getErrorWithIdKey()} con un número de error.
  * En caso de que el método devuelva <code>false</code>,
  * se enviará en la respuesta la traza de la excepción con el id y el
  * mensaje de error.<br>
@@ -47,6 +46,8 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 
 	private String errorPage = JSPView.DEFAULT_VIEW;
 
+	private String errorWithIdKey = "errorWithId";
+
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
@@ -61,7 +62,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
             	String stack = "An error occurred (id " + errorId + ")\n" + ExceptionUtils.getStackTraceAsString(e);
                 logger.error(stack);
             	if(showErrorMessageId()) {
-            		model.put(JSPView.ERRORS, new FrameworkException(e, "fwk.constant.generic.errorWithId", errorId));
+            		model.put(JSPView.ERRORS, new FrameworkException(e, getErrorWithIdKey(), errorId));
             	} else {
             		model.put(JSPView.ERRORS, stack);
             	}
@@ -111,5 +112,29 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 	 */
 	public void setDefaultErrorPage(String errorPage) {
 		this.errorPage = errorPage;
+	}
+
+	/**
+	 * key i18n con el mensaje de error con id. Por default
+	 * devuelve la key <code><i>errorWithId</i></code>, pero
+	 * puede ser cambiado por
+	 * {@link #setErrorWithIdKey(String)}.<br/>
+	 * El mensaje debe ser algo así:
+	 * <i>An error occurred (id <code>{0}</code>)</i>.
+	 * @return String
+	 */
+	public String getErrorWithIdKey() {
+		return errorWithIdKey ; 
+	}
+
+	/**
+	 * Setea la key i18n con el mensaje de error con id.
+	 * Por default <code><i>errorWithId</i></code>.<br/>
+	 * El mensaje debe ser algo así:
+	 * <i>An error occurred (id <code>{0}</code>)</i>.
+	 * @return String
+	 */
+	public void setErrorWithIdKey(String key) {
+		this.errorWithIdKey = key;
 	}
 }
