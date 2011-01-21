@@ -1,4 +1,4 @@
-package mr.common.spring.context;
+package mr.common.context.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
  * Para poder usarla hay que declararla en el contexto de Spring, se debe
  * especificar el factory method. Ej.:<br/><br/>
  * <code>
- * &lt;bean id="bean" class="mr.common.spring.context.Bean" factory-method="instance" /&gt;
+ * &lt;bean id="bean" class="mr.common.context.spring.Bean" factory-method="instance" /&gt;
  * </code>
  * @author Mariano Ruiz
  */
@@ -25,7 +25,7 @@ public class Bean implements BeanFactoryAware {
 
     /**
      * Factory method usado por Spring para crear el objeto.
-     * @return {@link mr.common.spring.context.Bean}
+     * @return {@link mr.common.context.spring.Bean}
      */
     public static Bean instance() {
         if (instance == null) {
