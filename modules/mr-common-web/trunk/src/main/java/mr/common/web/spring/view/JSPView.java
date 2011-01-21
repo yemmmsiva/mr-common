@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import mr.common.exception.ExceptionUtils;
 import mr.common.i18n.spring.MessageUtils;
 
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.web.servlet.view.JstlView;
 
 
@@ -97,7 +98,16 @@ public class JSPView extends JstlView {
         		// El error es una key i18n, o en caso de que no lo sea,
         		// el resolver al no encontrar la key devolverá el string
         		// tal cual
-        		String message = MessageUtils.getMessage(error.toString());
+        		String message;
+        		if(error instanceof String) {
+            		try {
+            			message = MessageUtils.getMessage((String)error);
+            		} catch(NoSuchMessageException e) {
+            			message = (String)error;
+            		}
+        		} else {
+        			message = error.toString();
+        		}
         		errors.add(message);
         	}
         	params.put("exceptions", errors);
