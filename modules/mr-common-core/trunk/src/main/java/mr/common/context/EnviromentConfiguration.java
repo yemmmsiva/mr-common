@@ -51,6 +51,8 @@ public interface EnviromentConfiguration {
 	 * @return <code>true</code> si el entorno de ejecución actual es
 	 * de desarrollo ({@link #ENVIROMENT_DEVELOPEMENT}).
 	 * @see #getEnviroment()
+	 * @throws IllegalStateException si este tipo de entorno
+	 * no es soportado por la aplicación
 	 */
 	boolean isDevelopmentEnviroment();
 
@@ -58,6 +60,8 @@ public interface EnviromentConfiguration {
 	 * @return <code>true</code> si el entorno de ejecución actual es
 	 * de test ({@link #ENVIROMENT_TEST}).
 	 * @see #getEnviroment()
+	 * @throws IllegalStateException si este tipo de entorno
+	 * no es soportado por la aplicación
 	 */
 	boolean isTestEnviroment();
 
@@ -65,6 +69,8 @@ public interface EnviromentConfiguration {
 	 * @return <code>true</code> si el entorno de ejecución actual es
 	 * de pre-producción ({@link #ENVIROMENT_PRE_PRODUCTION}).
 	 * @see #getEnviroment()
+	 * @throws IllegalStateException si este tipo de entorno
+	 * no es soportado por la aplicación
 	 */
 	boolean isPreProductionEnviroment();
 
@@ -72,6 +78,8 @@ public interface EnviromentConfiguration {
 	 * @return <code>true</code> si el entorno de ejecución actual es
 	 * de producción ({@link #ENVIROMENT_PRODUCTION}).
 	 * @see #getEnviroment()
+	 * @throws IllegalStateException si este tipo de entorno
+	 * no es soportado por la aplicación
 	 */
 	boolean isProductionEnviroment();
 }
