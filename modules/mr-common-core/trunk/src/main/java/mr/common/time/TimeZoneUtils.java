@@ -172,8 +172,8 @@ public abstract class TimeZoneUtils {
 	 * @return lista de ids de las zonas
 	 */
 	public static List<String> getAvailableIDs() {
-		String[] allTimeZones = TimeZone.getAvailableIDs();
 		if(timeZoneIDs==null) {
+			String[] allTimeZones = TimeZone.getAvailableIDs();
 			timeZoneIDs = new ArrayList<String>(allTimeZones.length);
 			synchronized(timeZoneIDs) {
 				for(int i=0; i<allTimeZones.length; i++) {
@@ -185,6 +185,7 @@ public abstract class TimeZoneUtils {
 						logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
 					}
 				}
+				return timeZoneIDs;
 			}
 		}
 		return timeZoneIDs;
@@ -212,8 +213,8 @@ public abstract class TimeZoneUtils {
 	 * @return lista de {@link java.util.TimeZone} de las zonas
 	 */
 	public static List<TimeZone> getAvailableTimeZones() {
-		String[] allTimeZones = TimeZone.getAvailableIDs();
 		if(timeZones==null) {
+			String[] allTimeZones = TimeZone.getAvailableIDs();
 			timeZones = new ArrayList<TimeZone>(allTimeZones.length);
 			synchronized(timeZones) {
 				for(int i=0; i<allTimeZones.length; i++) {
@@ -225,6 +226,7 @@ public abstract class TimeZoneUtils {
 						logger.debug("Invalid time zone '" + allTimeZones[i] + "'");
 					}
 				}
+				return timeZones;
 			}
 		}
 		return timeZones;
