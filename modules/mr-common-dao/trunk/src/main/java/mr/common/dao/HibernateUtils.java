@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import mr.common.context.spring.Bean;
 import mr.common.model.BaseEntity;
-import mr.common.spring.context.Bean;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
