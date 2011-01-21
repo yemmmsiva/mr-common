@@ -27,4 +27,10 @@
         <property name="localOverride" value="true" />
     </bean>
 
+	<!--
+	    Con el método #get(String) de este bean se puede acceder estáticamente
+	    a cualquier objecto de contexto
+     -->
+	<bean id="bean" class="mr.common.context.spring.Bean" factory-method="instance" />
+
 </beans>
