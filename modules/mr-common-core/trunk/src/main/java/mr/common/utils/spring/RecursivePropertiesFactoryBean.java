@@ -1,4 +1,4 @@
-package mr.common.spring.utils;
+package mr.common.utils.spring;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -13,11 +13,33 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 
 /**
- * Fusiona varios archivos properties en un solo bean.
+ * Fusiona varios archivos properties en un solo bean.<br/>
+ * Luego pueden usarse los placeholders <code>${ }</code> en
+ * los archivos de configuración del contexto de Spring
+ * para referenciar a valores de esos properties.<br/>
+ * Ejemplo de como configurar esta clase:<br/>
+ *
+ * <pre>
+ *     &lt;bean id="appProperties" class="mr.common.utils.spring.RecursivePropertiesFactoryBean"
+ *          p:ignoreUnresolvablePlaceholders="true" p:order="10" lazy-init="false"
+ *          p:systemPropertiesModeName="SYSTEM_PROPERTIES_MODE_OVERRIDE"&gt;
+ *        &lt;property name="ignoreResourceNotFound" value="true" /&gt;
+ *        &lt;property name="locations"&gt;
+ *            &lt;list&gt;
+ *				&lt;value&gt;classpath:config/app.properties&lt;/value&gt;
+ *				&lt;value&gt;classpath:config/mail.properties&lt;/value&gt;
+ *				&lt;value&gt;classpath:config/jdbc.properties&lt;/value&gt;
+ *            &lt;/list&gt;
+ *        &lt;/property&gt;
+ *        &lt;property name="localOverride" value="true" /&gt;
+ *    &lt;/bean&gt;
+ * </pre>
+ *
+ * @author Mariano Ruiz
  */
 public class RecursivePropertiesFactoryBean extends PropertyPlaceholderConfigurer implements FactoryBean {
 
-    Properties mergedProps;
+    private Properties mergedProps;
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -30,11 +52,10 @@ public class RecursivePropertiesFactoryBean extends PropertyPlaceholderConfigure
         }
     }
 
-    @SuppressWarnings("rawtypes")
 	@Override
+    @SuppressWarnings("rawtypes")
     protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props) throws BeansException {
-        // Pre-parse properties to hold the processed (de-nested) values.
-        for (Enumeration e = mergedProps.keys(); e.hasMoreElements(); /**/) {
+        for(Enumeration e = mergedProps.keys(); e.hasMoreElements(); ) {
             String key = (String) e.nextElement();
             String value = mergedProps.getProperty(key);
             String newValue = parseStringValue(value, mergedProps, new HashSet());
