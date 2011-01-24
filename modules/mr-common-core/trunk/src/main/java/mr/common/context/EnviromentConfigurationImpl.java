@@ -39,8 +39,17 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 
 	@PostConstruct
 	protected void logEnviroment() {
-		logger.info("\n\n\n**************  STARTING APPLICATION IN '"
-				+ getEnviroment() + "' ENVIROMENT.  **************\n\n");
+		String logMsg = "\n\n\n*****************************************************************************";
+		      logMsg += "\n      STARTING APPLICATION IN '" + getEnviroment() + "' ENVIROMENT.";
+		if(isProductionEnviroment()) {
+			logMsg += "\n*****************************************************************************\n\n";
+			logger.info(logMsg);
+		} else {
+			logMsg += "\n      Do NOT deploy to your live server(s) without changing this."
+				    + "\n      See EnviromentConfiguration.getEnviroment() for more information.";
+			logMsg += "\n*****************************************************************************\n\n";
+			logger.warn(logMsg);
+		}
 	}
 
 	public String getEnviroment() {
