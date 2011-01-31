@@ -14,19 +14,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * Implementación en Hibernate 3 de la interfaz {@link mr.common.dao.AbstractDao}
  * con el soporte de Spring.
  * @author Mariano Ruiz
  */
-@SuppressWarnings("unchecked")
 public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> extends HibernateDaoSupport implements AbstractDao<DomainObject> {
 
     protected Class<DomainObject> domainClass = getDomainClass();
 
-    protected Class<DomainObject> getDomainClass() {
+    @SuppressWarnings("unchecked")
+	protected Class<DomainObject> getDomainClass() {
         Object type = getClass().getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             return (Class<DomainObject>) ((ParameterizedType) type).getActualTypeArguments()[0];
@@ -55,7 +55,7 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#get(java.lang.Long)
 	 */
-	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
     public DomainObject get(Long id) {
         return (DomainObject) getHibernateTemplate().get(domainClass, id);
     }
@@ -63,7 +63,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#save(DomainObject)
 	 */
-	@Transactional
     public Long save(DomainObject t) {
         return (Long) getHibernateTemplate().save(t);
     }
@@ -71,7 +70,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#saveOrUpdate(DomainObject)
 	 */
-	@Transactional
     public void saveOrUpdate(DomainObject t) {
         getHibernateTemplate().saveOrUpdate(t);
     }
@@ -79,7 +77,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#update(DomainObject)
 	 */
-	@Transactional
     public void update(DomainObject t) {
         getHibernateTemplate().update(t);
     }
@@ -94,7 +91,8 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#merge(DomainObject)
 	 */
-    public DomainObject merge(DomainObject t) {
+    @SuppressWarnings("unchecked")
+	public DomainObject merge(DomainObject t) {
         return (DomainObject) getHibernateTemplate().merge(t);
     }
 
@@ -112,10 +110,25 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
         getHibernateTemplate().refresh(t);
     }
 
+	/**
+	 * @see mr.common.dao.AbstractDao#refreshEntity(BaseEntity)
+	 */
+    public DomainObject refreshEntity(DomainObject entity) {
+		flush();
+		detach(entity);
+		return get(entity.getId());
+    }
+
+    /**
+     * @see mr.common.dao.AbstractDao#flush()
+     */
+    public void flush() {
+    	getHibernateTemplate().flush();
+    }
+
     /**
 	 * @see mr.common.dao.AbstractDao#delete(DomainObject)
 	 */
-	@Transactional
     public void delete(DomainObject t) {
         getHibernateTemplate().delete(t);
     }
@@ -123,15 +136,14 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
 	/**
 	 * @see mr.common.dao.AbstractDao#getList()
 	 */
-	@Transactional(readOnly = true)
-    public List<DomainObject> getList(boolean cacheable) {
+    @SuppressWarnings("unchecked")
+	public List<DomainObject> getList(boolean cacheable) {
         return getSession().createQuery("from " + domainClass.getName()).setCacheable(cacheable).list();
     }
 
     /**
 	 * @see mr.common.dao.AbstractDao#getList()
 	 */
-	@Transactional(readOnly = true)
     public List<DomainObject> getList() {
         return getList(true);
     }
@@ -139,7 +151,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#deleteById(java.lang.Long)
 	 */
-	@Transactional
     public void deleteById(Long id) {
     	DomainObject obj = get(id);
         getHibernateTemplate().delete(obj);
@@ -148,7 +159,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#deleteList(List)
 	 */
-	@Transactional
     public void deleteList(List<DomainObject> list) {
 		for(DomainObject obj : list) {
 	        getHibernateTemplate().delete(obj);
@@ -158,10 +168,8 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#deleteAll()
 	 */
-	@Transactional
     public void deleteAll() {
         getHibernateTemplate().execute(new HibernateCallback() {
-
             public Object doInHibernate(Session session) throws HibernateException {
                 String hqlDelete = "delete " + domainClass.getName();
                 session.createQuery(hqlDelete).executeUpdate();
@@ -174,7 +182,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#count()
 	 */
-	@Transactional(readOnly = true)
     public long count() {
         Query query = getSession().createQuery("select count(*) from " + domainClass.getName() + " x");
         return ((Number)query.uniqueResult()).longValue();
