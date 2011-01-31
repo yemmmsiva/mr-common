@@ -39,15 +39,15 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 
 	@PostConstruct
 	protected void logEnviroment() {
-		String logMsg = "\n\n\n*****************************************************************************";
-		      logMsg += "\n      STARTING APPLICATION IN '" + getEnviroment() + "' ENVIROMENT.";
+		String logMsg = "\n\n*****************************************************************************"
+		              + "\n      STARTING APPLICATION IN '" + getEnviroment() + "' ENVIROMENT.";
 		if(isProductionEnviroment()) {
-			logMsg += "\n*****************************************************************************\n\n";
+			logMsg += "\n*****************************************************************************\n";
 			logger.info(logMsg);
 		} else {
 			logMsg += "\n      Do NOT deploy to your live server(s) without changing this."
 				    + "\n      See EnviromentConfiguration.getEnviroment() for more information.";
-			logMsg += "\n*****************************************************************************\n\n";
+			logMsg += "\n*****************************************************************************\n";
 			logger.warn(logMsg);
 		}
 	}
@@ -57,18 +57,18 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 	}
 
 	public boolean isDevelopmentEnviroment() {
-		return enviroment.equals(ENVIROMENT_DEVELOPEMENT);
+		return getEnviroment().equals(ENVIROMENT_DEVELOPEMENT);
 	}
 
 	public boolean isTestEnviroment() {
-		return enviroment.equals(ENVIROMENT_TEST);
+		return getEnviroment().equals(ENVIROMENT_TEST);
 	}
 
 	public boolean isPreProductionEnviroment() {
-		return enviroment.equals(ENVIROMENT_PRE_PRODUCTION);
+		return getEnviroment().equals(ENVIROMENT_PRE_PRODUCTION);
 	}
 
 	public boolean isProductionEnviroment() {
-		return enviroment.equals(ENVIROMENT_PRODUCTION);
+		return getEnviroment().equals(ENVIROMENT_PRODUCTION);
 	}
 }
