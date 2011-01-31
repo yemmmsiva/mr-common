@@ -24,7 +24,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
  * con el soporte de Spring.
  * @author Mariano Ruiz
  */
-@SuppressWarnings("unchecked")
 public abstract class AbstractHibernateAuditableDao<DomainObject extends AuditableEntity>
                   extends HibernateDaoSupport implements AbstractAuditableDao<DomainObject> {
 
@@ -34,7 +33,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 
     protected Class<DomainObject> domainClass = getDomainClass();
 
-    protected Class<DomainObject> getDomainClass() {
+    @SuppressWarnings("unchecked")
+	protected Class<DomainObject> getDomainClass() {
         Object type = getClass().getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             return (Class<DomainObject>) ((ParameterizedType) type).getActualTypeArguments()[0];
@@ -63,7 +63,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#get(java.lang.Long)
 	 */
-    public DomainObject get(Long id) {
+    @SuppressWarnings("unchecked")
+	public DomainObject get(Long id) {
     	List<DomainObject> list = getHibernateTemplate().find(
     			"from " + domainClass.getName() + " where id = ? and audit.deleted = false", id);
     	if(list.size()==0) {
@@ -75,7 +76,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#getIgnoreIsDeleted(java.lang.Long)
 	 */
-    public DomainObject getIgnoreIsDeleted(Long id) {
+    @SuppressWarnings("unchecked")
+	public DomainObject getIgnoreIsDeleted(Long id) {
         return (DomainObject) getHibernateTemplate().get(domainClass, id);
     }
 
@@ -98,7 +100,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#merge(DomainObject)
 	 */
-    public DomainObject merge(DomainObject t) {
+    @SuppressWarnings("unchecked")
+	public DomainObject merge(DomainObject t) {
 		saveAudit(t);
         return (DomainObject) getHibernateTemplate().merge(t);
     }
@@ -115,6 +118,22 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 	 */
     public void refresh(DomainObject t) {
         getHibernateTemplate().refresh(t);
+    }
+
+	/**
+	 * @see mr.common.dao.AbstractAuditableDao#refreshEntity(BaseEntity)
+	 */
+    public DomainObject refreshEntity(DomainObject entity) {
+		flush();
+		detach(entity);
+		return get(entity.getId());
+    }
+
+    /**
+     * @see mr.common.dao.AbstractAuditableDao#flush()
+     */
+    public void flush() {
+    	getHibernateTemplate().flush();
     }
 
     /**
@@ -151,7 +170,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 	/**
 	 * @see mr.common.dao.AbstractAuditableDao#getList(boolean)
 	 */
-    public List<DomainObject> getList(boolean cacheable) {
+    @SuppressWarnings("unchecked")
+	public List<DomainObject> getList(boolean cacheable) {
         return getSession().createQuery("from " + domainClass.getName()
         		                     + " where audit.deleted = false").setCacheable(cacheable).list();
     }
@@ -166,14 +186,16 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#getListAll()
 	 */
-    public List<DomainObject> getListAll() {
+    @SuppressWarnings("unchecked")
+	public List<DomainObject> getListAll() {
     	return getSession().createQuery("from " + domainClass.getName()).list();
     }
 
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#getDeletedList()
 	 */
-    public List<DomainObject> getDeletedList() {
+    @SuppressWarnings("unchecked")
+	public List<DomainObject> getDeletedList() {
         return getSession().createQuery("from " + domainClass.getName()
                                      + " where audit.deleted = true").list();
     }
@@ -251,8 +273,9 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#count()
 	 */
-    public long count() {
-        List<Long> list = getHibernateTemplate().find(
+    @SuppressWarnings("unchecked")
+	public long count() {
+        List<Number> list = getHibernateTemplate().find(
         		"select count(*) from " + domainClass.getName() + " x where x.audit.deleted = false");
         return list.get(0).longValue();
     }
@@ -260,16 +283,18 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#countAll()
 	 */
-    public long countAll() {
-        List<Long> list = getHibernateTemplate().find("select count(*) from " + domainClass.getName() + " x");
+    @SuppressWarnings("unchecked")
+	public long countAll() {
+        List<Number> list = getHibernateTemplate().find("select count(*) from " + domainClass.getName() + " x");
         return list.get(0).longValue();
     }
 
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#countAll()
 	 */
-    public long countDeleted() {
-        List<Long> list = getHibernateTemplate().find(
+	@SuppressWarnings("unchecked")
+	public long countDeleted() {
+        List<Number> list = getHibernateTemplate().find(
         		"select count(*) from " + domainClass.getName() + " x where x.audit.deleted = true");
         return list.get(0).longValue();
     }

@@ -60,6 +60,21 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 	 */
     void refresh(DomainObject entity);
 
+	/**
+	 * Quita de la sesión al objeto, ejecuta todas
+	 * las operaciones pendientes de la sesión,
+	 * y retorna una versión refrezcada de la entidad
+	 * @param entity DomainObject: objeto persistente
+	 * @return DomainObject
+	 */
+    DomainObject refreshEntity(DomainObject entity);
+
+    /**
+     * Ejecuta todos los cambios pendientes de la sesión
+     * en la base de datos.
+     */
+    void flush();
+
     /**
      * Actualiza un objeto que ya estaba guardado.
      * @param entity DomainObject
