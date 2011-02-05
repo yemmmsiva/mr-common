@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -59,12 +61,34 @@ public abstract class TimeUtils {
     private static SimpleDateFormat df = new SimpleDateFormat(TIME_FORMAT_YYYYMMDD);
 
     /**
-     * <i>`app.date.format`</i>: Key i18n usada para obtener la máscara (pattern)
+     * <i>`dateFormat`</i>: Key i18n usada para obtener la máscara (pattern)
      * para formatear una fecha de un objeto calendar o date.<br/>
      * En los archivos de internacionalización se debe tener para cada
      * lenguaje la máscara correspondiente.
      */
-    public static String KEYI18N_DATE_FORMAT = "app.date.format";
+    public static String KEYI18N_DATE_FORMAT = "dateFormat";
+
+    private static Map<DateFormatKey, DateFormat> dateFormats;
+
+    static {
+    	dateFormats = new HashMap<DateFormatKey, DateFormat>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public DateFormat get(Object key) {
+				DateFormatKey dateFormatKey = (DateFormatKey) key;
+				DateFormat f = super.get(dateFormatKey);
+				if(f==null) {
+					f = new SimpleDateFormat(dateFormatKey.getMask());
+					f.setTimeZone(dateFormatKey.getTimeZone());
+					put(dateFormatKey, f);
+					logger.debug("New date format [`"
+							+ dateFormatKey.getMask() + "`, "
+							+ dateFormatKey.getTimeZone().getID() + "]");
+				}
+				return f;
+			}
+    	};
+    }
 
     /**
      * Método que recibe una fecha en formato String y la devuelve como un objecto {@link java.util.Date}.
@@ -74,8 +98,7 @@ public abstract class TimeUtils {
      * @throws ParseException e
      */
     public static Date strToDate(String dateString, String mask) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat(mask);
-        return df.parse(dateString);
+        return getDateFormat(new DateFormatKey(mask)).parse(dateString);
     }
 
     /**
@@ -86,7 +109,7 @@ public abstract class TimeUtils {
      * @throws RuntimeException excepción {@link ParseException} wrappeada en una runtime
      */
     public static Calendar strToCalendar(String dateString, String mask) {
-        DateFormat df = new SimpleDateFormat(mask);
+        DateFormat df = getDateFormat(new DateFormatKey(mask));
         Date date;
 		try {
 			date = df.parse(dateString);
@@ -107,9 +130,8 @@ public abstract class TimeUtils {
      * @return String
      */
 	public static String format(Calendar cal, String mask) {
-		DateFormat df = new SimpleDateFormat(mask);
-		df.setTimeZone(cal.getTimeZone());
-		return df.format(cal.getTime());
+		return getDateFormat(
+				new DateFormatKey(mask, cal.getTimeZone())).format(cal.getTime());
 	}
 
     /**
@@ -119,8 +141,7 @@ public abstract class TimeUtils {
      * @return String
      */
 	public static String format(Date date, String mask) {
-		DateFormat df = new SimpleDateFormat(mask);
-		return df.format(date.getTime());
+		return getDateFormat(new DateFormatKey(mask)).format(date.getTime());
 	}
 
     /**
@@ -132,9 +153,41 @@ public abstract class TimeUtils {
      * @return String
      */
 	public static String format(Date date, TimeZone zone, String mask) {
-		DateFormat df = new SimpleDateFormat(mask);
-		df.setTimeZone(zone);
-		return df.format(date.getTime());
+		return getDateFormat(
+				new DateFormatKey(mask, zone)).format(date.getTime());
+	}
+
+	/**
+	 * Devuelve una instancia de {@link java.text.DateFormat DateFormat}
+	 * con el identificador pasado <code>dateFormatKey</code>.
+	 * Si <code>TimeUtils</code> ya tubiera una instancia del objeto
+	 * con las máscara pasada, retorna la misma,
+	 * sino la crea y mantiene una referencia para futuras
+	 * peticiones de un <code>DateFormat</code> con la misma máscara.
+	 * 
+	 * @param dateFormatKey {@link mr.common.time.DateFormatKey}
+	 * @return {@link java.text.DateFormat}
+	 */
+	private static DateFormat getDateFormat(DateFormatKey dateFormatKey) {
+		return dateFormats.get(dateFormatKey);
+	}
+
+	/**
+     * Devuelve la máscara para formatear fechas con la localización
+     * del thread. Usa la key {@link TimeUtils#KEYI18N_DATE_FORMAT},
+     * y en caso de no haber un mensaje configurado para esa
+     * localización, se utiliza la máscara {@link #TIME_FORMAT_YYYYMMDD}.
+	 * @return String
+	 */
+	public static String getDateFormatMaskLocalized() {
+		String format = TIME_FORMAT_YYYYMMDD;
+		try {
+			format = MessageUtils.getMessage(KEYI18N_DATE_FORMAT);
+		} catch(NoSuchMessageException e) {
+			logger.warn("Key '" + KEYI18N_DATE_FORMAT
+			  +"' not found for locale='" + MessageUtils.getLocale().getLanguage() +"'");
+		}
+		return format;
 	}
 
     /**
@@ -148,14 +201,7 @@ public abstract class TimeUtils {
      * MessageUtils} no se le inyecto el bean `messageSource`.
      */
 	public static DateFormat getDateFormatLocalized() {
-		String format = TIME_FORMAT_YYYYMMDD;
-		try {
-			format = MessageUtils.getMessage(KEYI18N_DATE_FORMAT);
-		} catch(NoSuchMessageException e) {
-			logger.warn("Key '" + KEYI18N_DATE_FORMAT
-			  +"' not found for locale='" + MessageUtils.getLocale().getLanguage() +"'");
-		}
-		return new SimpleDateFormat(format);
+		return new SimpleDateFormat(getDateFormatMaskLocalized());
 	}
 
     /**
@@ -171,7 +217,8 @@ public abstract class TimeUtils {
      * @see #getDateFormatLocalized()
      */
 	public static String formatLocalized(Date date) {
-		return getDateFormatLocalized().format(date);
+		return getDateFormat(
+				new DateFormatKey(getDateFormatMaskLocalized())).format(date);
 	}
 
     /**
@@ -187,9 +234,10 @@ public abstract class TimeUtils {
      * @see #getDateFormatLocalized()
      */
 	public static String formatLocalized(Calendar cal) {
-		DateFormat df = getDateFormatLocalized();
-		df.setTimeZone(cal.getTimeZone());
-		return df.format(cal.getTime());
+		return getDateFormat(
+				new DateFormatKey(
+						getDateFormatMaskLocalized(), cal.getTimeZone()))
+						           .format(cal.getTime());
 	}
 
     /**
@@ -206,9 +254,10 @@ public abstract class TimeUtils {
      * @see #getDateFormatLocalized()
      */
 	public static String formatLocalized(Date date, TimeZone zone) {
-		DateFormat df = getDateFormatLocalized();
-		df.setTimeZone(zone);
-		return df.format(date);
+		return getDateFormat(
+				new DateFormatKey(
+						getDateFormatMaskLocalized(), zone))
+						           .format(date);
 	}
 
     /**
