@@ -7,7 +7,7 @@ import java.text.Normalizer;
 import org.springframework.util.StringUtils;
 
 /**
- * Clase con métodos encargados de realizar formateo de texto, fechas y números.
+ * Clase con métodos encargados de realizar formateo de texto y números.
  * @author Mariano Ruiz
  */
 public class FormatUtils {
@@ -48,18 +48,18 @@ public class FormatUtils {
         if (num == 0.0 && total == 0.0) {
             return round(0.0, 2);
         }
-        final double CIEN_PORCIENTO = 100.0;
-        return round(num / total * CIEN_PORCIENTO, 2);
+        return round(num / total * 100.0, 2);
     }
 
     /**
-     * Retorna un número hasta una determinada cantidad de decimales redondeandoló.
-     * @param numero double
-     * @param decimales double
+     * Retorna un número hasta una determinada cantidad de decimales redondeandoló
+     * con el método {@link java.math.BigDecimal#ROUND_HALF_DOWN ROUND_HALF_DOWN}.
+     * @param num double
+     * @param scale int
      * @return double
      */
-    public static double round(double numero, int decimales) {
-        return (new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_DOWN)).doubleValue();
+    public static double round(double num, int scale) {
+        return (new BigDecimal(num).setScale(scale, BigDecimal.ROUND_HALF_DOWN)).doubleValue();
     }
 
     /**
