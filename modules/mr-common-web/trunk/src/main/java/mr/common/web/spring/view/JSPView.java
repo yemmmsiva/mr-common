@@ -19,7 +19,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 
 /**
- * Vista que intercepta la respuesta y añade el objecto
+ * Vista que extiende de {@link org.springframework.web.servlet.view.JstlView
+ * JstlView}. Intercepta la respuesta y añade el objecto
  * del contexto de Spring definido como <code>appProperties</code>.<br/>
  * Si este objecto es una instancia de {@link java.util.Properties},
  * podrán ser accedidas sus propiedades con la notación
@@ -27,12 +28,8 @@ import org.springframework.web.servlet.view.JstlView;
  * Si se lanzara una excepción desde la JSP, devolverá como respuesta
  * <code>application/error</code> como contentType al cliente, con la
  * cadena <code>{success:false}</code> por si es capturado por algún
- * objeto en el navegador que halla echo la petición por Ajax.<br/>
- * En el JSON abrá un array <code>exceptions</code> con los mensajes
- * de las excepciones, o el mensaje adecuado i18n de las keys
- * pasadas como error.
+ * objeto en el navegador que halla echo la petición por Ajax.
  */
-@SuppressWarnings("unchecked")
 public class JSPView extends JstlView {
 
 	/**
@@ -65,7 +62,7 @@ public class JSPView extends JstlView {
      * 
      * @param model Map
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void addVariables(Map model) {
         // introducimos el valor 'success' true/false, según se halla lanzado
     	// una excepción o no.
