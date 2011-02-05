@@ -6,9 +6,10 @@ import java.text.Format;
 /**
  * Wrapper de la clase {@link java.lang.Format Format}, que permite además configurar un String
  * como valor de retorno cuando el objeto pasado es nulo. Si no se setea el valor por defecto,
- * el formateador develoverá "".
+ * el formateador devolverá "".
  * @see java.text.Format
- * @author mruiz
+ *
+ * @author Mariano Ruiz
  */
 public class FormatWrapper {
 
