@@ -13,7 +13,9 @@ CREATE TABLE userdata (
   description				VARCHAR(200)	DEFAULT NULL,
   postalAddress				VARCHAR(50)		DEFAULT NULL,
   postalCode				VARCHAR(20)		DEFAULT NULL,
+  cityOrRegionName			VARCHAR(200)	DEFAULT NULL,
   stateOrProvinceName		VARCHAR(50)		DEFAULT NULL,
+  countryId					CHAR(3)			DEFAULT NULL,
   male						BOOLEAN			DEFAULT NULL,
   org						BOOLEAN			DEFAULT NULL,
   timeZoneId				VARCHAR(50)		DEFAULT NULL,
@@ -49,6 +51,8 @@ CREATE TABLE systemuser (
   PRIMARY KEY (id),
   CONSTRAINT FK_userDataId FOREIGN KEY (userDataId) REFERENCES userdata(id)
 ) /*! ENGINE = InnoDB */;
+ALTER TABLE systemuser ADD INDEX usernameIndex(username);
+ALTER TABLE systemuser ADD INDEX emailAddressIndex(emailAddress);
 
 
 CREATE TABLE role (
@@ -67,6 +71,7 @@ CREATE TABLE role (
   deleted					INTEGER(1)		DEFAULT 0 NOT NULL,
   PRIMARY KEY (id)
 ) /*! ENGINE = InnoDB */;
+ALTER TABLE role ADD INDEX codeIndex(code);
 
 
 CREATE TABLE authority (

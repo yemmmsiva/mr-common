@@ -26,7 +26,9 @@ public abstract class Person extends AuditableEntity {
 	private String description;
 	private String postalAddress;
 	private String postalCode;
+	private String cityOrRegionName;
 	private String stateOrProvinceName;
+	private String countryId;
 	private Boolean org;
 	private String timeZoneId;
 	private Date birthdayDate;
@@ -93,11 +95,25 @@ public abstract class Person extends AuditableEntity {
 		this.postalCode = postalCode;
 	}
 
+	public String getCityOrRegionName() {
+		return cityOrRegionName;
+	}
+	public void setCityOrRegionName(String cityOrRegionName) {
+		this.cityOrRegionName = cityOrRegionName;
+	}
+
 	public String getStateOrProvinceName() {
 		return stateOrProvinceName;
 	}
 	public void setStateOrProvinceName(String stateOrProvinceName) {
 		this.stateOrProvinceName = stateOrProvinceName;
+	}
+
+	public String getCountryId() {
+		return countryId;
+	}
+	public void setCountryId(String countryId) {
+		this.countryId = countryId;
 	}
 
 	public Boolean getOrg() {

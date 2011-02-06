@@ -207,6 +207,22 @@ public class UserEntity extends AuditableEntity implements User {
 	}
 
 	@Transient
+	public String getCountryId() {
+		return userData.getCountryId();
+	}
+	public void setCountryId(String countryId) {
+		userData.setCountryId(countryId);
+	}
+
+	@Transient
+	public String getCityOrRegionName() {
+		return userData.getCityOrRegionName();
+	}
+	public void setCityOrRegionName(String cityOrRegionName) {
+		userData.setCityOrRegionName(cityOrRegionName);
+	}
+
+	@Transient
 	public Boolean getOrg() {
 		return userData.getOrg();
 	}
