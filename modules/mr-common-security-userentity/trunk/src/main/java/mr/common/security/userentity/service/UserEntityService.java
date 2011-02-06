@@ -1,6 +1,7 @@
 package mr.common.security.userentity.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -381,6 +382,48 @@ public class UserEntityService implements UserService {
 	public void updateTimeZoneId(Serializable userId, String newTimeZoneId) {
 		UserEntity user = (UserEntity) getById(userId);
 		user.getUserData().setTimeZoneId(newTimeZoneId);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCountryId(String username, String newCountryId) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setCountryId(newCountryId);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCountryId(Serializable userId, String newCountryId) {
+		UserEntity user = (UserEntity) getById(userId);
+		user.getUserData().setCountryId(newCountryId);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCityOrRegionName(String username, String newCityOrRegionName) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setCityOrRegionName(newCityOrRegionName);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCityOrRegionName(Serializable userId, String newCityOrRegionName) {
+		UserEntity user = (UserEntity) getById(userId);
+		user.getUserData().setCityOrRegionName(newCityOrRegionName);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateBirthdayDate(String username, Date newBirthdayDate) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setBirthdayDate(newBirthdayDate);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateBirthdayDate(Serializable userId, Date newBirthdayDate) {
+		UserEntity user = (UserEntity) getById(userId);
+		user.getUserData().setBirthdayDate(newBirthdayDate);
 		userDataDao.update(user.getUserData());
 	}
 
