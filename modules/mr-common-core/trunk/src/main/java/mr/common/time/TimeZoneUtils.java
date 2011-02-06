@@ -51,7 +51,7 @@ public abstract class TimeZoneUtils {
 		validTimeZones = new HashMap<String, String>(23) {
 			private static final long serialVersionUID = 1L;
 			@Override
-			public String get(Object key) {
+			synchronized public String get(Object key) {
 				String value = super.get(key);
 				if(value==null) {
 					if(key.equals(GMT)) {
@@ -69,85 +69,87 @@ public abstract class TimeZoneUtils {
 			}
 		};
 
-		validTimeZones.put("America/Buenos_Aires",              "America/Argentina/Buenos_Aires");
-		validTimeZones.put("America/Catamarca",                 "America/Argentina/Catamarca");
-		validTimeZones.put("America/Cordoba",                   "America/Argentina/Cordoba");
-		validTimeZones.put("America/Jujuy",                     "America/Argentina/Jujuy");
-		validTimeZones.put("America/La_Rioja",                  "America/Argentina/La_Rioja");
-		validTimeZones.put("America/Rosario",                   "America/Argentina/Rosario");
-		validTimeZones.put("America/Mendoza",                   "America/Argentina/Mendoza");
-		validTimeZones.put("America/Rio_Gallegos",              "America/Argentina/Rio_Gallegos");
-		validTimeZones.put("America/Salta",                     "America/Argentina/Salta");
-		validTimeZones.put("America/San_Juan",                  "America/Argentina/San_Juan");
-		validTimeZones.put("America/San_Luis",                  "America/Argentina/San_Luis");
-		validTimeZones.put("America/Tucuman",                   "America/Argentina/Tucuman");
-		validTimeZones.put("America/Ushuaia",                   "America/Argentina/Ushuaia");
-		validTimeZones.put("America/ComodRivadavia",            "America/Argentina/Buenos_Aires");
-		validTimeZones.put("America/Argentina/ComodRivadavia",  "America/Argentina/Buenos_Aires");
-		validTimeZones.put("AGT",                               "America/Argentina/Buenos_Aires");
-
-		validTimeZones.put("GMT0",           GMT);
-		validTimeZones.put("Etc/Universal",  GMT);
-		validTimeZones.put("Universal",      GMT);
-		validTimeZones.put("UCT",            GMT);
-		validTimeZones.put("UTC",            GMT);
-		validTimeZones.put("Etc/UCT",        GMT);
-		validTimeZones.put("Etc/UTC",        GMT);
-		validTimeZones.put("Etc/GMT",        GMT);
-		validTimeZones.put("Etc/Greenwich",  GMT);
-		validTimeZones.put("Etc/GMT0",       GMT);
-		validTimeZones.put("Etc/GMT-0",      GMT);
-		validTimeZones.put("Etc/GMT-1",      "GMT-01:00");
-		validTimeZones.put("Etc/GMT-2",      "GMT-02:00");
-		validTimeZones.put("Etc/GMT-3",      "GMT-03:00");
-		validTimeZones.put("Etc/GMT-4",      "GMT-04:00");
-		validTimeZones.put("Etc/GMT-5",      "GMT-05:00");
-		validTimeZones.put("Etc/GMT-6",      "GMT-06:00");
-		validTimeZones.put("Etc/GMT-7",      "GMT-07:00");
-		validTimeZones.put("Etc/GMT-8",      "GMT-08:00");
-		validTimeZones.put("Etc/GMT-9",      "GMT-09:00");
-		validTimeZones.put("Etc/GMT-10",     "GMT-10:00");
-		validTimeZones.put("Etc/GMT-11",     "GMT-11:00");
-		validTimeZones.put("Etc/GMT-12",     "GMT-12:00");
-		validTimeZones.put("Etc/GMT-13",     "GMT-13:00");
-		validTimeZones.put("Etc/GMT-14",     "GMT-14:00");
-		validTimeZones.put("Etc/GMT+0",      "GMT+00:00");
-		validTimeZones.put("Etc/GMT+1",      "GMT+01:00");
-		validTimeZones.put("Etc/GMT+2",      "GMT+02:00");
-		validTimeZones.put("Etc/GMT+3",      "GMT+03:00");
-		validTimeZones.put("Etc/GMT+4",      "GMT+04:00");
-		validTimeZones.put("Etc/GMT+5",      "GMT+05:00");
-		validTimeZones.put("Etc/GMT+6",      "GMT+06:00");
-		validTimeZones.put("Etc/GMT+7",      "GMT+07:00");
-		validTimeZones.put("Etc/GMT+8",      "GMT+08:00");
-		validTimeZones.put("Etc/GMT+9",      "GMT+09:00");
-		validTimeZones.put("Etc/GMT+10",     "GMT+10:00");
-		validTimeZones.put("Etc/GMT+11",     "GMT+11:00");
-		validTimeZones.put("Etc/GMT+12",     "GMT+12:00");
-		validTimeZones.put("Etc/GMT+13",     "GMT+13:00");
-		validTimeZones.put("Etc/GMT+14",     "GMT+14:00");
-
-		validTimeZones.put("NZ-CHAT",          "Pacific/Chatham");
-		validTimeZones.put("Etc/Zulu",          "Zulu");
-		validTimeZones.put("GB-Eire",           "Eire");
-		validTimeZones.put("Cuba",              "America/Havana");
-		validTimeZones.put("EST5EDT",           "EST");
-		validTimeZones.put("SystemV/EST5",      "EST");
-		validTimeZones.put("SystemV/EST5EDT",   "EST");
-		validTimeZones.put("SystemV/AST4",      "PRT");
-		validTimeZones.put("SystemV/AST4ADT",   "PRT");
-		validTimeZones.put("Antarctica/Palmer", "Chile/Continental");
-		validTimeZones.put("BET",               "Brazil/East");
-		validTimeZones.put("ECT",               "CET");
-		validTimeZones.put("Asia/Riyadh87",     "Asia/Riyadh");
-		validTimeZones.put("Asia/Riyadh88",     "Asia/Riyadh");
-		validTimeZones.put("Asia/Riyadh89",     "Asia/Riyadh");
-		validTimeZones.put("Mideast/Riyadh87",  "Asia/Riyadh");
-		validTimeZones.put("Mideast/Riyadh88",  "Asia/Riyadh");
-		validTimeZones.put("Mideast/Riyadh89",  "Asia/Riyadh");
-		validTimeZones.put("JST",               "Japan");
-		validTimeZones.put("PRC",               "CTT");
-		validTimeZones.put("NST",               "NZ");
+		synchronized(validTimeZones) {
+			validTimeZones.put("America/Buenos_Aires",              "America/Argentina/Buenos_Aires");
+			validTimeZones.put("America/Catamarca",                 "America/Argentina/Catamarca");
+			validTimeZones.put("America/Cordoba",                   "America/Argentina/Cordoba");
+			validTimeZones.put("America/Jujuy",                     "America/Argentina/Jujuy");
+			validTimeZones.put("America/La_Rioja",                  "America/Argentina/La_Rioja");
+			validTimeZones.put("America/Rosario",                   "America/Argentina/Rosario");
+			validTimeZones.put("America/Mendoza",                   "America/Argentina/Mendoza");
+			validTimeZones.put("America/Rio_Gallegos",              "America/Argentina/Rio_Gallegos");
+			validTimeZones.put("America/Salta",                     "America/Argentina/Salta");
+			validTimeZones.put("America/San_Juan",                  "America/Argentina/San_Juan");
+			validTimeZones.put("America/San_Luis",                  "America/Argentina/San_Luis");
+			validTimeZones.put("America/Tucuman",                   "America/Argentina/Tucuman");
+			validTimeZones.put("America/Ushuaia",                   "America/Argentina/Ushuaia");
+			validTimeZones.put("America/ComodRivadavia",            "America/Argentina/Buenos_Aires");
+			validTimeZones.put("America/Argentina/ComodRivadavia",  "America/Argentina/Buenos_Aires");
+			validTimeZones.put("AGT",                               "America/Argentina/Buenos_Aires");
+	
+			validTimeZones.put("GMT0",           GMT);
+			validTimeZones.put("Etc/Universal",  GMT);
+			validTimeZones.put("Universal",      GMT);
+			validTimeZones.put("UCT",            GMT);
+			validTimeZones.put("UTC",            GMT);
+			validTimeZones.put("Etc/UCT",        GMT);
+			validTimeZones.put("Etc/UTC",        GMT);
+			validTimeZones.put("Etc/GMT",        GMT);
+			validTimeZones.put("Etc/Greenwich",  GMT);
+			validTimeZones.put("Etc/GMT0",       GMT);
+			validTimeZones.put("Etc/GMT-0",      GMT);
+			validTimeZones.put("Etc/GMT-1",      "GMT-01:00");
+			validTimeZones.put("Etc/GMT-2",      "GMT-02:00");
+			validTimeZones.put("Etc/GMT-3",      "GMT-03:00");
+			validTimeZones.put("Etc/GMT-4",      "GMT-04:00");
+			validTimeZones.put("Etc/GMT-5",      "GMT-05:00");
+			validTimeZones.put("Etc/GMT-6",      "GMT-06:00");
+			validTimeZones.put("Etc/GMT-7",      "GMT-07:00");
+			validTimeZones.put("Etc/GMT-8",      "GMT-08:00");
+			validTimeZones.put("Etc/GMT-9",      "GMT-09:00");
+			validTimeZones.put("Etc/GMT-10",     "GMT-10:00");
+			validTimeZones.put("Etc/GMT-11",     "GMT-11:00");
+			validTimeZones.put("Etc/GMT-12",     "GMT-12:00");
+			validTimeZones.put("Etc/GMT-13",     "GMT-13:00");
+			validTimeZones.put("Etc/GMT-14",     "GMT-14:00");
+			validTimeZones.put("Etc/GMT+0",      "GMT+00:00");
+			validTimeZones.put("Etc/GMT+1",      "GMT+01:00");
+			validTimeZones.put("Etc/GMT+2",      "GMT+02:00");
+			validTimeZones.put("Etc/GMT+3",      "GMT+03:00");
+			validTimeZones.put("Etc/GMT+4",      "GMT+04:00");
+			validTimeZones.put("Etc/GMT+5",      "GMT+05:00");
+			validTimeZones.put("Etc/GMT+6",      "GMT+06:00");
+			validTimeZones.put("Etc/GMT+7",      "GMT+07:00");
+			validTimeZones.put("Etc/GMT+8",      "GMT+08:00");
+			validTimeZones.put("Etc/GMT+9",      "GMT+09:00");
+			validTimeZones.put("Etc/GMT+10",     "GMT+10:00");
+			validTimeZones.put("Etc/GMT+11",     "GMT+11:00");
+			validTimeZones.put("Etc/GMT+12",     "GMT+12:00");
+			validTimeZones.put("Etc/GMT+13",     "GMT+13:00");
+			validTimeZones.put("Etc/GMT+14",     "GMT+14:00");
+	
+			validTimeZones.put("NZ-CHAT",          "Pacific/Chatham");
+			validTimeZones.put("Etc/Zulu",          "Zulu");
+			validTimeZones.put("GB-Eire",           "Eire");
+			validTimeZones.put("Cuba",              "America/Havana");
+			validTimeZones.put("EST5EDT",           "EST");
+			validTimeZones.put("SystemV/EST5",      "EST");
+			validTimeZones.put("SystemV/EST5EDT",   "EST");
+			validTimeZones.put("SystemV/AST4",      "PRT");
+			validTimeZones.put("SystemV/AST4ADT",   "PRT");
+			validTimeZones.put("Antarctica/Palmer", "Chile/Continental");
+			validTimeZones.put("BET",               "Brazil/East");
+			validTimeZones.put("ECT",               "CET");
+			validTimeZones.put("Asia/Riyadh87",     "Asia/Riyadh");
+			validTimeZones.put("Asia/Riyadh88",     "Asia/Riyadh");
+			validTimeZones.put("Asia/Riyadh89",     "Asia/Riyadh");
+			validTimeZones.put("Mideast/Riyadh87",  "Asia/Riyadh");
+			validTimeZones.put("Mideast/Riyadh88",  "Asia/Riyadh");
+			validTimeZones.put("Mideast/Riyadh89",  "Asia/Riyadh");
+			validTimeZones.put("JST",               "Japan");
+			validTimeZones.put("PRC",               "CTT");
+			validTimeZones.put("NST",               "NZ");
+		}
 	}
 
 	/**

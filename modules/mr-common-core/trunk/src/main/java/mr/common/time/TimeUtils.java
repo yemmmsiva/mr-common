@@ -74,7 +74,7 @@ public abstract class TimeUtils {
     	dateFormats = new HashMap<DateFormatKey, DateFormat>() {
 			private static final long serialVersionUID = 1L;
 			@Override
-			public DateFormat get(Object key) {
+			synchronized public DateFormat get(Object key) {
 				DateFormatKey dateFormatKey = (DateFormatKey) key;
 				DateFormat f = super.get(dateFormatKey);
 				if(f==null) {
