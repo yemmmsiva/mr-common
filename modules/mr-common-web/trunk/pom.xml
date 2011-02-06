@@ -71,11 +71,6 @@
 			<version>${springwebflow.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>displaytag</groupId>
-			<artifactId>displaytag</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
 			<groupId>atg.taglib.json</groupId>
 			<artifactId>json-taglib</artifactId>
 			<version>0.4.1</version>
