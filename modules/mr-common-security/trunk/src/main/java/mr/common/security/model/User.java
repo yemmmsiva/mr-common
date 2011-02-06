@@ -196,7 +196,8 @@ public interface User extends Serializable {
 	String getCountryId();
 	/**
 	 * @param countryId código ISO 3166 A3 del país del
-	 * usuario 
+	 * usuario
+	 * @see http://www.iso.org/iso/country_codes.htm
 	 */
 	void setCountryId(String countryId);
 
