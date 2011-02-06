@@ -1,6 +1,7 @@
 package mr.common.security.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import mr.common.model.ConfigurableData;
@@ -365,6 +366,74 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	void updateTimeZoneId(Serializable userId, String newTimeZoneId);
+
+	/**
+	 * Cambia la fecha de cumpleaños del usuario.
+	 * @param username String: username del usuario
+	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateBirthdayDate(String username, Date newBirthdayDate);
+
+	/**
+	 * Cambia la fecha de cumpleaños del usuario.
+	 * @param userId Serializable: id del usuario
+	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateBirthdayDate(Serializable userId, Date newBirthdayDate);
+
+	/**
+	 * Cambia el nombre de la ciudad o región del usuario.
+	 * @param username String: username del usuario
+	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateCityOrRegionName(String username, String newCityOrRegionName);
+
+	/**
+	 * Cambia el nombre de la ciudad o región del usuario.
+	 * @param userId Serializable: id del usuario
+	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateCityOrRegionName(Serializable userId, String newCityOrRegionName);
+
+	/**
+	 * Cambia el ID de país del usuario.
+	 * @param username String: username del usuario
+	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see mr.common.security.model.User#setCountryId(String)
+	 */
+	void updateCountryId(String username, String newCountryId);
+
+	/**
+	 * Cambia la país del usuario.
+	 * @param userId Serializable: id del usuario
+	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see mr.common.security.model.User#setCountryId(String)
+	 */
+	void updateCountryId(Serializable userId, String newCountryId);
 
 	/**
 	 * Listado de roles de la aplicación.
