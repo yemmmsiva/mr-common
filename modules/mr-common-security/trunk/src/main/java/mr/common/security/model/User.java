@@ -179,6 +179,28 @@ public interface User extends Serializable {
 	void setTimeZoneId(String timeZone);
 
 	/**
+	 * Nombre de la ciudad o región del usuario.
+	 */
+	String getCityOrRegionName();
+	/**
+	 * @param cityOrRegionName nombre de la ciudad
+	 * o región del usuario
+	 */
+	void setCityOrRegionName(String cityOrRegionName);
+
+	/**
+	 * Obtiene el código ISO 3166 A3 del país del
+	 * usuario.
+	 * @see http://www.iso.org/iso/country_codes.htm
+	 */
+	String getCountryId();
+	/**
+	 * @param countryId código ISO 3166 A3 del país del
+	 * usuario 
+	 */
+	void setCountryId(String countryId);
+
+	/**
 	 * @return fecha de nacimiento del usuario
 	 */
 	public Date getBirthdayDate();
