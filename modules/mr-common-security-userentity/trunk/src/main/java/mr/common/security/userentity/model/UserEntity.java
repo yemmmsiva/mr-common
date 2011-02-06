@@ -1,5 +1,6 @@
 package mr.common.security.userentity.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -252,5 +253,13 @@ public class UserEntity extends AuditableEntity implements User {
 	}
 	public void setBirthdayDate(Date date) {
 		userData.setBirthdayDate(date);
+	}
+
+	@Transient
+	public Serializable getPortraitId() {
+		return userData.getPortraitId();
+	}
+	public void setPortraitId(Serializable portraitId) {
+		userData.setPortraitId((Long)portraitId);
 	}
 }

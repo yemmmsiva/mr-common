@@ -379,6 +379,20 @@ public class UserEntityService implements UserService {
 	}
 
 	@Transactional(readOnly = false)
+	public void updatePortraitId(String username, Serializable newPortraitId) {
+		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setPortraitId((Long)newPortraitId);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updatePortraitId(Serializable userId, Serializable newPortraitId) {
+		UserEntity user = (UserEntity) getById(userId);
+		user.getUserData().setPortraitId((Long)newPortraitId);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
 	public void updateTimeZoneId(Serializable userId, String newTimeZoneId) {
 		UserEntity user = (UserEntity) getById(userId);
 		user.getUserData().setTimeZoneId(newTimeZoneId);

@@ -32,6 +32,7 @@ public abstract class Person extends AuditableEntity {
 	private Boolean org;
 	private String timeZoneId;
 	private Date birthdayDate;
+	private Long portraitId;
 
 
 	/**
@@ -142,5 +143,12 @@ public abstract class Person extends AuditableEntity {
 	}
 	public void setBirthdayDate(Date birthdayDate) {
 		this.birthdayDate = birthdayDate;
+	}
+
+	public Long getPortraitId() {
+		return portraitId;
+	}
+	public void setPortraitId(Long portraitId) {
+		this.portraitId = portraitId;
 	}
 }
