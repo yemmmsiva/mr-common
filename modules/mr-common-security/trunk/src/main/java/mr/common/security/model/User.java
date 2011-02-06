@@ -204,9 +204,20 @@ public interface User extends Serializable {
 	/**
 	 * @return fecha de nacimiento del usuario
 	 */
-	public Date getBirthdayDate();
+	Date getBirthdayDate();
 	/**
 	 * @param date: fecha de nacimiento del usuario
 	 */
-	public void setBirthdayDate(Date date);
+	void setBirthdayDate(Date date);
+
+	/**
+	 * Identificador de la fotografía o pick
+	 * persistido del usuario.
+	 */
+	Serializable getPortraitId();
+	/**
+	 * @param portraitId identificador de la fotografía
+	 * o pick persistido del usuario
+	 */
+	void setPortraitId(Serializable portraitId);
 }

@@ -335,6 +335,28 @@ public interface UserService {
 	void updateCommonName(String username, String newCommonName);
 
 	/**
+	 * Cambia el id de la fotografía del usuario.
+	 * @param userId id del usuario
+	 * @param newPortraitId nuevo id
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updatePortraitId(Serializable userId, Serializable newPortraitId);
+
+	/**
+	 * Cambia el id de la fotografía del usuario.
+	 * @param username nombre del usuario
+	 * @param newPortraitId nuevo id
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updatePortraitId(String username, Serializable newPortraitId);
+
+	/**
 	 * Cambia la commonName del usuario.
 	 * @param userId Serializable: id del usuario
 	 * @param newCommonName String: nueva commonName
@@ -369,8 +391,8 @@ public interface UserService {
 
 	/**
 	 * Cambia la fecha de cumpleaños del usuario.
-	 * @param username String: username del usuario
-	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @param username nombre del usuario
+	 * @param newBirthdayDate nueva fecha
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -381,7 +403,7 @@ public interface UserService {
 	/**
 	 * Cambia la fecha de cumpleaños del usuario.
 	 * @param userId Serializable: id del usuario
-	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @param newBirthdayDate nueva fecha
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -392,7 +414,7 @@ public interface UserService {
 	/**
 	 * Cambia el nombre de la ciudad o región del usuario.
 	 * @param username String: username del usuario
-	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @param newCityOrRegionName String: nueva ciudad o región
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -403,7 +425,7 @@ public interface UserService {
 	/**
 	 * Cambia el nombre de la ciudad o región del usuario.
 	 * @param userId Serializable: id del usuario
-	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @param newCityOrRegionName String: nueva ciudad o región
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -414,7 +436,7 @@ public interface UserService {
 	/**
 	 * Cambia el ID de país del usuario.
 	 * @param username String: username del usuario
-	 * @param newTimeZoneId String: nuevo timeZoneId
+	 * @param newCountryId String: nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
@@ -426,7 +448,7 @@ public interface UserService {
 	/**
 	 * Cambia la país del usuario.
 	 * @param userId Serializable: id del usuario
-	 * @param newTimeZoneId String: nueva timeZoneId
+	 * @param newCountryId String: nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
