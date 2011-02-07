@@ -6,7 +6,7 @@
 	<groupId>mr.common</groupId>
 	<artifactId>mr-common-security</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<name>mr-common-security</name>
     <url>http://mr-common.googlecode.com</url>
 
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-core</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
