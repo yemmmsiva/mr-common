@@ -14,7 +14,7 @@
         Configurer that replaces ${...} placeholders with values from a properties file
         & properties accesor to be injected in the services
     -->
-    <bean id="appProperties" class="mr.common.spring.utils.RecursivePropertiesFactoryBean"
+    <bean id="appProperties" class="mr.common.utils.spring.RecursivePropertiesFactoryBean"
           p:ignoreUnresolvablePlaceholders="true" p:order="10" lazy-init="false"
           p:systemPropertiesModeName="SYSTEM_PROPERTIES_MODE_OVERRIDE">
         <property name="ignoreResourceNotFound" value="true"/>
