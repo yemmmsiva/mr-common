@@ -44,27 +44,27 @@ Example of modules dependency of mr-common jars in *pom.xml*:
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-core</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-dao</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-security</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-security-userentity</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-web</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
