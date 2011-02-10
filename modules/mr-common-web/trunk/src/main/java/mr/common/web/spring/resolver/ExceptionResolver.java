@@ -1,6 +1,7 @@
 package mr.common.web.spring.resolver;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,8 +59,8 @@ public class ExceptionResolver implements HandlerExceptionResolver {
             	logger.debug(ExceptionUtils.getStackTraceAsString(e));
             	model.put(JSPView.ERRORS, e);
             } else {
-            	String errorId = new Integer(RandomUtils.nextInt()).toString();
-            	String stack = "An error occurred (id " + errorId + ")\n" + ExceptionUtils.getStackTraceAsString(e);
+            	String errorId = getErrorId(request, e);
+            	String stack = getStackTrace(request, e, errorId);
                 logger.error(stack);
             	if(showErrorMessageId()) {
             		model.put(JSPView.ERRORS, new FrameworkException(e, getErrorWithIdKey(), errorId));
@@ -74,6 +75,100 @@ public class ExceptionResolver implements HandlerExceptionResolver {
     }
 
     /**
+     * Código de error que se le mostrará al usuario si ocurre un error inesperado
+     * y que se logueará con <i>log4j</i>.<br/>
+     * Esta implementación genera un código numérico entero aleatorio, pero
+     * puede ser sobreescrito para obtener el dato desde un servicio, algún
+     * parámetro de request, etc.
+     *
+     * @param request {@link javax.servlet.http.HttpServletRequest
+     * HttpServletRequest} objeto request de la petición que generó el error
+     * @param e {@link java.lang.Exception} el error
+     */
+    protected String getErrorId(HttpServletRequest request, Exception e) {
+    	return new Integer(RandomUtils.nextInt()).toString();
+    }
+
+    /**
+     * Stack trace de la excepción que se imprimirá en el <i>log4j</i>, y
+     * que puede ser mostrado al usuario dependiendo de la configuración
+     * de entorno.<br/>
+     * Esta implementación retorna el mensaje '<i>An error occurred (id <code>errorId</code>)</i>',
+     * junto con los datos de sesión obtenidos de {@link
+     * #getSessionInfo(HttpServletRequest)}, y el stack trace propio
+     * de la excepción.
+     *
+     * @param request {@link javax.servlet.http.HttpServletRequest
+     * HttpServletRequest} objeto request de la petición que generó el error
+     * @param e {@link java.lang.Exception} el error
+     * @param errorId el id de error obtenido de {@link
+     * #getErrorId(HttpServletRequest, Exception)}
+     * @return
+     */
+    protected String getStackTrace(HttpServletRequest request, Exception e, String errorId) {
+    	return "\nAn error occurred (id " + errorId + ")\n"
+    	      + getSessionInfo(request) + "\nStack trace:\n"
+    	      + ExceptionUtils.getStackTraceAsString(e) + "\n";
+    }
+
+    /**
+     * Información que se le agrega al log de la exception no esperada.<br/>
+     * Esta implementación genera una cadena con la información de la URL,
+     * los parámetros, y el username del usuario si es que hubiera uno
+     * autenticado en el hilo de ejecución.<br/>
+     * Puede ser sobreescrito para agregar o cambiar la información.
+     * @param request {@link javax.servlet.http.HttpServletRequest
+     * HttpServletRequest} objeto request de la petición que generó el error
+     */
+    @SuppressWarnings("rawtypes")
+	protected String getSessionInfo(HttpServletRequest request) {
+    	String sessionInfo = "Request URL: " + request.getRequestURL();
+    	Map params = request.getParameterMap();
+    	if(params!=null & !params.isEmpty()) {
+    		sessionInfo += "\nRequest parameters: " + getParametersAsString(params);
+    	}
+    	if(request.getUserPrincipal()!=null
+    			&& request.getUserPrincipal().getName() != null) {
+    		sessionInfo += "\nUsername: " + request.getUserPrincipal().getName();
+    	}
+		return sessionInfo;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private String getParametersAsString(Map params) {
+		String parametersAsString = "";
+		Iterator keysIterator = params.keySet().iterator();
+		while(keysIterator.hasNext()) {
+			String key = (String) keysIterator.next();
+			Object value = params.get(key);
+			parametersAsString += key + "=";
+			if(value instanceof Object[]) {
+				Object[] valueArray = (Object[]) value;
+				if(valueArray.length == 1) {
+					parametersAsString += valueArray[0].toString();
+				} else {
+					parametersAsString += getParametersAsString(valueArray);
+				}
+			}
+			if(keysIterator.hasNext()) {
+				parametersAsString += ";";
+			}
+		}
+		return parametersAsString;
+	}
+
+	private String getParametersAsString(Object[] params) {
+		String parametersAsString = "[";
+		for(int i=0; i<params.length; i++) {
+			parametersAsString += params[i];
+			if(i!=params.length-1) {
+				parametersAsString += ";";
+			}
+		}
+		return parametersAsString;
+	}
+
+	/**
      * Retorna <code>true</code> si se debe enviar un
      * mensaje de error con id en vez de la traza de error, en
      * caso de que la exception no sea una
