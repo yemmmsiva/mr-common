@@ -2,6 +2,12 @@
 
 This module support the web layer on a web application. Was develop on top of [http://www.springsource.org/webflow/ Spring WebFlow/MVC] framework.
 
-Also provide a [http://displaytag.sourceforge.net/ Display Tag libray] support.
+
+== Features details ==
+
+  * Error handling and localized.
+  * Binding and conversion, localized too.
+  * Advance log configuration.
+
 
 _This module is a part of *[Introduction mr-common]* framework_.
