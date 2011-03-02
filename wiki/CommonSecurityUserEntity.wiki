@@ -4,4 +4,12 @@ This module is a implementation of *[CommonSecurity mr-common-security]*.
 
 The user are persisted into a BBDD/Hibernate backend, with audit support (see [CommonDao mr-common-dao]).
 
+
+== Classes ==
+
+This is the diagram of the most important classes:
+
+http://mr-common.googlecode.com/files/mr-common-security-userentity.png
+
+
 _This module is a part of *[Introduction mr-common]* framework_.
