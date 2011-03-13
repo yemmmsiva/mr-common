@@ -33,8 +33,6 @@ import mr.common.security.userentity.model.UserEntity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.EmailValidator;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -44,8 +42,6 @@ import org.springframework.util.StringUtils;
  * que maneja usuarios {@link mr.common.security.userentity.model.UserEntity UserEntity}.
  * @author Mariano Ruiz
  */
-@Service
-@Repository
 public class UserEntityService implements UserService {
 
 	//private final Log logger = LogFactory.getLog(getClass());
@@ -53,14 +49,17 @@ public class UserEntityService implements UserService {
 
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 
+	// Los DAOs como protected por si son necesarios
+	// en una implementación que sobreescriba esta
+	// y los necesite..
 	@Resource
-	private UserEntityDao userDao;
+	protected UserEntityDao userDao;
 	@Resource
-	private UserDataDao userDataDao;
+	protected UserDataDao userDataDao;
 	@Resource
-	private AuthorityDao authorithyDao;
+	protected AuthorityDao authorithyDao;
 	@Resource
-	private RoleDao roleDao;
+	protected RoleDao roleDao;
 
 	@Resource
 	private UserSecurityService userSecurityService;
@@ -171,8 +170,12 @@ public class UserEntityService implements UserService {
 		userData.setLastName(user.getUserData().getLastName());
 		userData.setTimeZoneId(user.getUserData().getTimeZoneId());
 		userData.setCityOrRegionName(user.getUserData().getCityOrRegionName());
+		userData.setPostalAddress(user.getPostalAddress());
+		userData.setPostalCode(user.getPostalCode());
 		userData.setCountryId(user.getUserData().getCountryId());
 		userData.setBirthdayDate(user.getUserData().getBirthdayDate());
+		userData.setTelephoneNumber(user.getTelephoneNumber());
+		userData.setDescription(user.getDescription());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
 		userEntity.setEnabled(user.isEnabled());

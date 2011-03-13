@@ -2,7 +2,9 @@
  *  Script de creación de la BBDD para MySQL.
  */
 
-
+/*
+ * General user data.
+ */
 CREATE TABLE userdata (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
   version					INTEGER,
@@ -10,8 +12,8 @@ CREATE TABLE userdata (
   lastName					VARCHAR(50)		DEFAULT NULL,
   commonName				VARCHAR(50)		DEFAULT NULL,
   telephoneNumber			VARCHAR(50)		DEFAULT NULL,
-  description				VARCHAR(200)	DEFAULT NULL,
-  postalAddress				VARCHAR(50)		DEFAULT NULL,
+  description				VARCHAR(500)	DEFAULT NULL,
+  postalAddress				VARCHAR(500)	DEFAULT NULL,
   postalCode				VARCHAR(20)		DEFAULT NULL,
   cityOrRegionName			VARCHAR(200)	DEFAULT NULL,
   stateOrProvinceName		VARCHAR(50)		DEFAULT NULL,
@@ -33,6 +35,9 @@ CREATE TABLE userdata (
 ) /*! ENGINE = InnoDB */;
 
 
+/*
+ * System users.
+ */
 CREATE TABLE systemuser (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
   version					INTEGER,
@@ -56,6 +61,9 @@ ALTER TABLE systemuser ADD INDEX usernameIndex(username);
 ALTER TABLE systemuser ADD INDEX emailAddressIndex(emailAddress);
 
 
+/*
+ * System roles of the users. 
+ */
 CREATE TABLE role (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
   version					INTEGER,
@@ -75,6 +83,9 @@ CREATE TABLE role (
 ALTER TABLE role ADD INDEX codeIndex(code);
 
 
+/*
+ * Users *-* roles.
+ */
 CREATE TABLE authority (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
   version					INTEGER,
