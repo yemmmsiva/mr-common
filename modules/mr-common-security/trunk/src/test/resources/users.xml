@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users xmlns="http://mr-common.googlecode.com/schema/users"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://mr-common.googlecode.com/schema/users
+                           http://mr-common.googlecode.com/files/users-1.0.xsd">
+
+	<user id="1" username="admin" password="pass" enabled="true"
+		  emailAddress="marianoruiz@mrdev.com.ar" commonName="Mariano Ruiz">
+		<roles>
+			<role id="ROLE_ADMIN">Administrator</role>
+			<role id="ROLE_USER" />
+		</roles>
+	</user>
+
+</users>
