@@ -6,7 +6,7 @@
 	<groupId>mr.common</groupId>
 	<artifactId>mr-common-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.0</version>
+	<version>1.3.0</version>
 	<name>mr-common-core</name>
 	<url>http://mr-common.googlecode.com</url>
 
@@ -136,13 +136,6 @@
 	</build>
 
 	<repositories>
-
-		<!-- mr-common and cache repository -->
-		<repository>
-			<id>mrdev-releases</id>
-			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
-		</repository>
-
 		<repository>
 			<id>com.springsource.repository.bundles.snapshot</id>
 			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
@@ -163,20 +156,25 @@
 			<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
 		</repository>
+
+		<!-- mr-common and cache repository -->
+		<repository>
+			<id>mrdev-releases</id>
+			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
+		</repository>
 	</repositories>
 
 	<pluginRepositories>
+		<!-- Agrego repo oficial de plugins para que no tome todo del repo de mr-common -->
+		<pluginRepository>
+			<id>Maven 2</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
 
 		<!-- mr-common and cache plugin repository -->
 		<pluginRepository>
 			<id>mrdev-plugins</id>
 			<url>http://repo.mrdev.com.ar/artifactory/libs-release</url>
-		</pluginRepository>
-
-		<!-- Agrego repo oficial de plugins para que no tome todo del repo de mr-common -->
-		<pluginRepository>
-			<id>Maven 2</id>
-			<url>http://repo1.maven.org/maven2</url>
 		</pluginRepository>
 	</pluginRepositories>
 
