@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -146,14 +145,22 @@ public abstract class XmlUtils {
 	}
 
 	/**
-	 * Retorna el mismo nodo si no es una instancia de
-	 * {@link org.w3c.dom.Text}, sino retorna el
+	 * Retorna el mismo nodo si no es de tipo comentario
+	 * o texto llano, sino retorna el
 	 * siguiente nodo.
 	 * @param node {@link org.w3c.dom.Node}
 	 * @return {@link org.w3c.dom.Node}
 	 */
 	public static Node nextNode(Node node) {
-		return node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.COMMENT_NODE ?
-		    node.getNextSibling() : node;
+		return isTagNode(node) ? node : node.getNextSibling();
+	}
+
+	/**
+	 * @return <code>true</code> si el nodo no es un
+	 * comentario ni un texto llano.
+	 */
+	public static boolean isTagNode(Node node) {
+		return node.getNodeType() != Node.TEXT_NODE
+		        && node.getNodeType() == Node.COMMENT_NODE;
 	}
 }
