@@ -8,6 +8,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -141,5 +143,17 @@ public abstract class XmlUtils {
 
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
 		return documentBuilder.parse(xml);
+	}
+
+	/**
+	 * Retorna el mismo nodo si no es una instancia de
+	 * {@link org.w3c.dom.Text}, sino retorna el
+	 * siguiente nodo.
+	 * @param node {@link org.w3c.dom.Node}
+	 * @return {@link org.w3c.dom.Node}
+	 */
+	public static Node nextNode(Node node) {
+		return node instanceof Text ?
+		    node.getNextSibling() : node;
 	}
 }
