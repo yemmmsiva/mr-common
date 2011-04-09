@@ -161,6 +161,6 @@ public abstract class XmlUtils {
 	 */
 	public static boolean isTagNode(Node node) {
 		return node.getNodeType() != Node.TEXT_NODE
-		        && node.getNodeType() == Node.COMMENT_NODE;
+		        && node.getNodeType() != Node.COMMENT_NODE;
 	}
 }
