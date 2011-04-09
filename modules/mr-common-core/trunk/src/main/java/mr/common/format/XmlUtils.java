@@ -153,7 +153,7 @@ public abstract class XmlUtils {
 	 * @return {@link org.w3c.dom.Node}
 	 */
 	public static Node nextNode(Node node) {
-		return node instanceof Text ?
+		return node.getNodeType() == Node.TEXT_NODE || node.getNodeType() == Node.COMMENT_NODE ?
 		    node.getNextSibling() : node;
 	}
 }
