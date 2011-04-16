@@ -56,17 +56,21 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	 * Método equals pero que compara contra otro
 	 * objeto {@link BaseEntity} si tiene el mismo id.
 	 * @param {@link BaseEntity}
-	 * @return <code>boolean</code>
+	 * @return <code>true</code> si ambos
+	 * objetos son la misma entidad.
+	 * @throws org.apache.commons.lang.IllegalClassException
+	 * si <code>this</code> y <code>entity</code> no son
+	 * del mismo tipo de clase
 	 */
-	public boolean equals(BaseEntity o) {
-		if(o==null) {
+	public boolean equals(BaseEntity entity) {
+		if(entity==null) {
 			throw new NullPointerException();
-		} else if(o.getClass().getName() != this.getClass().getName()) {
-			throw new IllegalClassException(this.getClass(), o.getClass());
-		} else if (o.getId()==null || id==null) {
+		} else if(entity.getClass().getName() != this.getClass().getName()) {
+			throw new IllegalClassException(this.getClass(), entity.getClass());
+		} else if (entity.getId()==null || id==null) {
 			return false;
 		}
-		return id.longValue() == o.getId().longValue();
+		return id.longValue() == entity.getId().longValue();
 	}
 
 	/**
