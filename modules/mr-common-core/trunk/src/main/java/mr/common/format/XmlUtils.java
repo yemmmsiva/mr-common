@@ -163,4 +163,92 @@ public abstract class XmlUtils {
 		return node.getNodeType() != Node.TEXT_NODE
 		        && node.getNodeType() != Node.COMMENT_NODE;
 	}
+
+    /**
+     * Parsea un tag con el nombre <code>tagName</code>,
+     * y le agrega las properties pasadas en <code>properties</code>.
+     * @param tagName nombre del tag
+     * @param properties array de properties, cada una puede ser
+     * parseada con {@link #prop(String, String)}
+     * @return el tag XML parseado con los valores
+     */
+    public static String tag(String tagName, String [] properties) {
+    	StringBuffer buffer = new StringBuffer(50);
+    	buffer.append("<");
+    	buffer.append(tagName);
+    	buffer.append(" ");
+    	for(int i=0; i<properties.length; i++) {
+    		buffer.append(properties[i]);
+    	}
+    	buffer.append(">");
+    	return buffer.toString();
+    }
+
+    /**
+     * Parsea un tag con el nombre <code>tagName</code>.
+     * @param tagName nombre del tag
+     * @return el tag XML parseado con los valores
+     */
+    public static String tag(String tagName) {
+    	return "<" + tagName + ">";
+    }
+
+    /**
+     * Parsea un tag con el nombre <code>tagName</code>,
+     * y le agrega las properties pasadas en <code>properties</code>.
+     * @param tagName nombre del tag
+     * @param property valor propiedad del tag, puede ser
+     * parseado con {@link #prop(String, String)}, o
+     * puede ser <code>null</code>
+     * @return el tag XML parseado
+     */
+    public static String tag(String tagName, String property) {
+    	StringBuffer buffer = new StringBuffer(50);
+    	buffer.append("<");
+    	buffer.append(tagName);
+    	buffer.append(" ");
+    	if(property!=null) {
+    		buffer.append(property);
+    	}
+    	buffer.append(">");
+    	return buffer.toString();
+    }
+
+    /**
+     * Parsea un tag con cierre con el nombre <code>tagName</code>,
+     * y le agrega las properties pasadas en <code>properties</code>.
+     * @param tagName nombre del tag
+     * @param properties array de properties, cada una puede ser
+     * parseada con {@link #prop(String, String)}
+     * @return el tag XML parseado con los valores
+     */
+    public static String closedTag(String tagName, String ... properties) {
+    	StringBuffer buffer = new StringBuffer(50);
+    	buffer.append("<");
+    	buffer.append(tagName);
+    	buffer.append(" ");
+    	for(int i=0; i<properties.length; i++) {
+    		buffer.append(properties[i]);
+    	}
+    	buffer.append("/>");
+    	return buffer.toString();
+    }
+
+    /**
+     * Parsea un tag de cierre con el nombre <code>tagName</code>.
+     */
+    public static String endTag(String tagName) {
+    	return "</" + tagName + ">";
+    }
+
+    /**
+     * Crea un property de tag con el nombre <code>name</code>
+     * y el valor <code>value</code>. Si <code>name</code>
+     * o <code>value</code> son <code>null</code>, retorna
+     * también <code>null</code>.
+     */
+    public static String prop(String name, String value) {
+    	return name==null || value==null ?
+    			null : name + "=\"" + value + "\"";
+    }
 }
