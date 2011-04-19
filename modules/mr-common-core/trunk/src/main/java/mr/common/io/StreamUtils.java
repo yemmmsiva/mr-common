@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
+
+import org.xml.sax.InputSource;
 
 
 /**
@@ -24,6 +27,14 @@ public abstract class StreamUtils {
 		copy(input, result);
 		input.close();
 		return result.toByteArray();
+	}
+
+	/**
+	 * Devuelve un {@link org.xml.sax.InputSource} a partir
+	 * del string pasado.
+	 */
+	public static InputSource getInputSource(String text) {
+		return new InputSource(new StringReader(text));
 	}
 
 	/**
