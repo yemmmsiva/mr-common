@@ -2,6 +2,7 @@ package mr.common.format;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -97,7 +99,7 @@ public abstract class XmlUtils {
 				throw ex;
 			}
 		});
-		return documentBuilder.parse(xml);
+		return documentBuilder.parse(new InputSource(new StringReader(xml)));
 	}
 
 	/**
@@ -141,7 +143,7 @@ public abstract class XmlUtils {
 		factory.setNamespaceAware(true);
 
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		return documentBuilder.parse(xml);
+		return documentBuilder.parse(new InputSource(new StringReader(xml)));
 	}
 
 	/**
