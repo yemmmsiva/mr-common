@@ -50,7 +50,7 @@ public class UserXmlTest {
 		NodeList rolesNode = XmlUtils.nextNode(userNode.getChildNodes().item(0)).getChildNodes();
 		for(int i=0; i<rolesNode.getLength(); i++) {
 			if(XmlUtils.isTagNode(rolesNode.item(i))
-					&& rolesNode.item(i).getAttributes().getNamedItem("id").getNodeValue().equals(Role.ROLE_ADMIN)) {
+					&& rolesNode.item(i).getAttributes().getNamedItem("authority").getNodeValue().equals(Role.ROLE_ADMIN)) {
 				hasAdminRole = true;
 			}
 		}
