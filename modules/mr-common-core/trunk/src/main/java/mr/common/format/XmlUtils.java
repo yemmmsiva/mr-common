@@ -23,9 +23,13 @@ import org.xml.sax.SAXParseException;
 public abstract class XmlUtils {
 
 	/**
-	 * Encoding de XML <code>UTF-8</code>
+	 * Encoding de XML <code>UTF-8</code>.
 	 */
 	public static final String XML_ENCODING_UTF8 = "UTF-8";
+	/**
+	 * Esquema del XML.
+	 */
+	public static final String XMLNS = "xmlns";
 	/**
 	 * Id de esquemas XML.
 	 */
