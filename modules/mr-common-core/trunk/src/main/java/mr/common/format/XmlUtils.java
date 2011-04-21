@@ -38,32 +38,34 @@ public abstract class XmlUtils {
 	 * @param xmlSchema - Archivo que contiene el esquema que define
 	 * el formato válido para validar el XML (archivo XSD).
 	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws SAXException Si hay un error en la validación.
-	 * @throws IOException Si se produce un error al obtener los archivos
-	 * o parsear el documento
+	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
+	 * o se produce un error al obtener los archivos o parsear el documento
 	 */
-	public static Document getAndValidateDocument(File xml, File xmlSchema)
-			throws ParserConfigurationException, SAXException, IOException {
+	public static Document getAndValidateDocument(File xml, File xmlSchema) {
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setValidating(true);
-		factory.setAttribute(SCHEMALANGUAGE_ID, XMLSCHEMA_ID);
-		factory.setAttribute(SCHEMASOURCE_ID, xmlSchema);
-
-		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		documentBuilder.setErrorHandler(new ErrorHandler() {
-			public void warning(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-			public void error(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-			public void fatalError(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-		});
-		return documentBuilder.parse(xml);
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			factory.setAttribute(SCHEMALANGUAGE_ID, XMLSCHEMA_ID);
+			factory.setAttribute(SCHEMASOURCE_ID, xmlSchema);
+	
+			DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setErrorHandler(new ErrorHandler() {
+				public void warning(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+				public void error(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+				public void fatalError(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+			});
+			return documentBuilder.parse(xml);
+		} catch(Throwable e) {
+			throw new XmlBindException(e);
+		}
 	}
 
 	/**
@@ -75,31 +77,56 @@ public abstract class XmlUtils {
 	 * @param xmlSchema - Archivo que contiene el esquema que define
 	 * el formato válido para validar el XML (archivo XSD).
 	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws SAXException Si hay un error en la validación.
-	 * @throws IOException Si se produce un error en el parseo
+	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
+	 * o se produce un error al parsear el documento
 	 */
-	public static Document getAndValidateDocument(String xml, String xmlSchema)
-			throws ParserConfigurationException, SAXException, IOException {
+	public static Document getAndValidateDocument(String xml, String xmlSchema) {
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setValidating(true);
-		factory.setAttribute(SCHEMALANGUAGE_ID, XMLSCHEMA_ID);
-		factory.setAttribute(SCHEMASOURCE_ID, xmlSchema);
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			factory.setAttribute(SCHEMALANGUAGE_ID, XMLSCHEMA_ID);
+			factory.setAttribute(SCHEMASOURCE_ID, xmlSchema);
+	
+			DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setErrorHandler(new ErrorHandler() {
+				public void warning(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+				public void error(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+				public void fatalError(SAXParseException ex) throws SAXException {
+					throw ex;
+				}
+			});
+			return documentBuilder.parse(new InputSource(new StringReader(xml)));
+		} catch(Throwable e) {
+			throw new XmlBindException(e);
+		}
+	}
 
-		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		documentBuilder.setErrorHandler(new ErrorHandler() {
-			public void warning(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-			public void error(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-			public void fatalError(SAXParseException ex) throws SAXException {
-				throw ex;
-			}
-		});
-		return documentBuilder.parse(new InputSource(new StringReader(xml)));
+	/**
+	 * Parsea un documento XML a un objeto {@link org.w3c.dom.Document Document}.
+	 *
+	 * @param xml - Archivo que contiene el documento XML a parsear
+	 * @param xmlSchema - Archivo que contiene el esquema que define
+	 * el formato válido para validar el XML (archivo XSD).
+	 * @return {@link org.w3c.dom.Document} DOM del XML
+	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
+	 * o se produce un error al obtener los archivos o parsear el documento
+	 */
+	public static Document getDocument(File xml) {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+	
+			DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+			return documentBuilder.parse(xml);
+		} catch(Throwable e) {
+			throw new XmlBindException(e);
+		}
 	}
 
 	/**
@@ -114,36 +141,16 @@ public abstract class XmlUtils {
 	 * @throws IOException Si se produce un error al obtener el archivo
 	 * o al parsearlo
 	 */
-	public static Document getDocument(File xml)
-	  throws ParserConfigurationException, SAXException, IOException {
+	public static Document getDocument(String xml) {
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-
-		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		return documentBuilder.parse(xml);
-	}
-
-	/**
-	 * Parsea un documento XML a un objeto {@link org.w3c.dom.Document Document}.
-	 *
-	 * @param xml - Archivo que contiene el documento XML a parsear
-	 * @param xmlSchema - Archivo que contiene el esquema que define
-	 * el formato válido para validar el XML (archivo XSD).
-	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws ParserConfigurationException 
-	 * @throws SAXException Si hay un error en la validación.
-	 * @throws IOException Si se produce un error al obtener el archivo
-	 * o al parsearlo
-	 */
-	public static Document getDocument(String xml)
-	  throws ParserConfigurationException, SAXException, IOException {
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-
-		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		return documentBuilder.parse(new InputSource(new StringReader(xml)));
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setNamespaceAware(true);
+			DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+			return documentBuilder.parse(new InputSource(new StringReader(xml)));
+		} catch(Throwable e) {
+			throw new XmlBindException(e);
+		}
 	}
 
 	/**
