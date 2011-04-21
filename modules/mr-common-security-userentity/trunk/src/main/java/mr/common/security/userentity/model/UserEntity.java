@@ -262,4 +262,9 @@ public class UserEntity extends AuditableEntity implements User {
 	public void setPortraitId(Serializable portraitId) {
 		userData.setPortraitId((Long)portraitId);
 	}
+
+	@Transient
+	public void setId(Serializable id) {
+		setId((Long)id);
+	}
 }
