@@ -16,6 +16,11 @@ public interface User extends Serializable {
 	Serializable getId();
 
 	/**
+	 * @return Serializable - identificador del usuario
+	 */
+	void setId(Serializable id);
+
+	/**
 	 * @return lista de roles activos del usuario
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
