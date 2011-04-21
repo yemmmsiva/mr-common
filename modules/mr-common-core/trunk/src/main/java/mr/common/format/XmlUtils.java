@@ -196,12 +196,15 @@ public abstract class XmlUtils {
      * parseada con {@link #prop(String, String)}
      * @return el tag XML parseado con los valores
      */
-    public static String tag(String tagName, String [] properties) {
+    public static String tag(String tagName, String ... properties) {
     	StringBuffer buffer = new StringBuffer(50);
     	buffer.append("<");
     	buffer.append(tagName);
     	buffer.append(" ");
     	for(int i=0; i<properties.length; i++) {
+    		if(i!=0) {
+    			buffer.append(" ");
+    		}
     		buffer.append(properties[i]);
     	}
     	buffer.append(">");
@@ -218,27 +221,6 @@ public abstract class XmlUtils {
     }
 
     /**
-     * Parsea un tag con el nombre <code>tagName</code>,
-     * y le agrega las properties pasadas en <code>properties</code>.
-     * @param tagName nombre del tag
-     * @param property valor propiedad del tag, puede ser
-     * parseado con {@link #prop(String, String)}, o
-     * puede ser <code>null</code>
-     * @return el tag XML parseado
-     */
-    public static String tag(String tagName, String property) {
-    	StringBuffer buffer = new StringBuffer(50);
-    	buffer.append("<");
-    	buffer.append(tagName);
-    	buffer.append(" ");
-    	if(property!=null) {
-    		buffer.append(property);
-    	}
-    	buffer.append(">");
-    	return buffer.toString();
-    }
-
-    /**
      * Parsea un tag con cierre con el nombre <code>tagName</code>,
      * y le agrega las properties pasadas en <code>properties</code>.
      * @param tagName nombre del tag
@@ -252,6 +234,9 @@ public abstract class XmlUtils {
     	buffer.append(tagName);
     	buffer.append(" ");
     	for(int i=0; i<properties.length; i++) {
+    		if(i!=0) {
+    			buffer.append(" ");
+    		}
     		buffer.append(properties[i]);
     	}
     	buffer.append("/>");
