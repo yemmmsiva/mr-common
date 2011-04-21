@@ -7,8 +7,8 @@
 	<user id="1" username="admin" password="pass" enabled="true"
 		  emailAddress="marianoruiz@mrdev.com.ar" commonName="Mariano Ruiz">
 		<roles>
-			<role id="ROLE_ADMIN">Administrator</role>
-			<role id="ROLE_USER" />
+			<role authority="ROLE_ADMIN">Administrator</role>
+			<role authority="ROLE_USER" />
 		</roles>
 	</user>
 
