@@ -42,4 +42,7 @@
 	<!-- Implementación de SecurityService -->
 	<bean name="securityService" class="mr.common.security.service.spring.SecuritySpringService" />
 
+	<!-- User XML binder service -->
+	<bean id="userXmlBinder" class="mr.common.security.service.UserXmlBinder" />
+
 </beans>
