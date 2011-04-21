@@ -22,10 +22,25 @@ import org.xml.sax.SAXParseException;
  */
 public abstract class XmlUtils {
 
+	/**
+	 * Encoding de XML <code>UTF-8</code>
+	 */
+	public static final String XML_ENCODING_UTF8 = "UTF-8";
+	/**
+	 * Id de esquemas XML.
+	 */
 	public static final String XMLSCHEMA_ID =
 		"http://www.w3.org/2001/XMLSchema";
+	/**
+	 * Id de schema language.
+	 */
 	public static final String SCHEMALANGUAGE_ID =
 		"http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+	/**
+	 * Id de schema source, donde se puede especificar un
+	 * path o URL de donde el parser pueda obtener el XSD
+	 * del XML.
+	 */
 	public static final String SCHEMASOURCE_ID =
 		"http://java.sun.com/xml/jaxp/properties/schemaSource";
 
@@ -259,5 +274,19 @@ public abstract class XmlUtils {
     public static String prop(String name, String value) {
     	return name==null || value==null ?
     			null : name + "=\"" + value + "\"";
+    }
+
+    /**
+     * Crea el tag encabezado de un XML 1.0 con el
+     * encoding pasado.<br/>
+     * Si por ejemple usamos el encoding {@link #XML_ENCODING_UTF8}
+     * el string devuelto será el siguiente:
+     * <pre>
+     *     &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+     * </pre>
+     */
+    public static String encodingHeader(String encoding) {
+    	return "<?xml version=\"1.0\" encoding=\""
+    	        + encoding + "\"?>";
     }
 }
