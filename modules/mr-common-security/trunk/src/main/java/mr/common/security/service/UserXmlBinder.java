@@ -30,7 +30,19 @@ import org.w3c.dom.NodeList;
  */
 public class UserXmlBinder {
 
-	public static final String XMLNS_USERS = "http://mr-common.googlecode.com/schema/users";
+	/**
+	 * Esquema público XML de información de usuarios.<br/>
+	 * La definición del mismo se encuentra en {@link #XMLNS_USERS_LOCATION}.
+	 */
+	public static final String XMLNS_USERS =
+		"http://mr-common.googlecode.com/schema/users";
+	/**
+	 * URL del XSD que define los XML de información de usuarios.
+	 * @see #XMLNS_USERS
+	 */
+	public static final String XMLNS_USERS_LOCATION =
+		"http://mr-common.googlecode.com/files/users-1.0.xsd";
+
 	public static final String TAG_USERS = "users";
 	public static final String TAG_USER = "user";
 	public static final String TAG_ROLES = "roles";
@@ -41,25 +53,32 @@ public class UserXmlBinder {
 	public static final String PROP_COMMONNAME = "commonName";
 	public static final String PROP_ENABLED = "enabled";
 	public static final String PROP_ID = "id";
+	public static final String PROP_AUTHORITY = "authority";
 
 	@Resource
 	private UserService userService;
 
+
 	/**
-	 * Parsea a XML el objeto <code>user</code>.
+	 * Parsea a XML el objeto <code>user</code> dentro del esquema
+	 * XML de usuarios.
+	 * @see #XMLNS_USERS
 	 */
 	public String userToXml(User user) {
 		StringBuilder builder = new StringBuilder(500);
-		builder.append(encodingHeader(XML_ENCODING_UTF8));
-		builder.append(tag(TAG_USERS));
+		builder.append(tag(TAG_USERS, prop(XMLNS, XMLNS_USERS)));
 			builder.append(userToUserXmlTag(user));
 		builder.append(endTag(TAG_USERS));
 		return builder.toString();
 	}
 
-	private String userToUserXmlTag(User user) {
+	/**
+	 * Parsea a XML el objeto <code>user</code>.
+	 */
+	public String userToUserXmlTag(User user) {
 		StringBuilder builder = new StringBuilder(500);
 		builder.append(tag(TAG_USER,
+                           prop(PROP_ID, user.getId().toString()),
 		                   prop(PROP_USERNAME, user.getUsername()),
 		                   prop(PROP_PASSWORD, user.getPassword()),
 		                   prop(PROP_EMAILADDRESS, user.getEmailAddress()),
@@ -70,7 +89,7 @@ public class UserXmlBinder {
 				builder.append(tag(TAG_ROLES));
 					for(int i=0; i<user.getRoles().size(); i++) {
 						builder.append(closedTag(TAG_ROLE,
-									prop(PROP_ID, user.getRoles().get(i).getAuthority())
+									prop(PROP_AUTHORITY, user.getRoles().get(i).getAuthority())
 								));
 					}
 				builder.append(endTag(TAG_ROLES));
@@ -84,8 +103,7 @@ public class UserXmlBinder {
 	 */
 	public String usersToXml(List<User> users) {
 		StringBuilder builder = new StringBuilder(500);
-		builder.append(encodingHeader(XML_ENCODING_UTF8));
-		builder.append(tag(TAG_USERS));
+		builder.append(tag(TAG_USERS, prop(XMLNS, XMLNS_USERS)));
 			for(User user: users) {
 				builder.append(userToUserXmlTag(user));
 			}
@@ -117,6 +135,9 @@ public class UserXmlBinder {
 		for(int i=0; i<userNodes.getLength(); i++) {
 			Node userNode = userNodes.item(0);
 			User user = userService.getUserInstance();
+			if(userNode.getAttributes().getNamedItem(PROP_ID)!=null) {
+				user.setId(userNode.getAttributes().getNamedItem(PROP_ID).getNodeValue());
+			}
 			user.setUsername(userNode.getAttributes().getNamedItem(PROP_USERNAME).getNodeValue());
 			user.setEmailAddress(userNode.getAttributes().getNamedItem(PROP_EMAILADDRESS).getNodeValue());
 			List<Role> roles = new ArrayList<Role>();
