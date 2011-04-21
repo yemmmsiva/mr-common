@@ -6,7 +6,7 @@
   <xs:element name="users">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="user" minOccurs="0"/>
+        <xs:element ref="user" maxOccurs="unbounded" />
         <xs:element ref="roles" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -33,7 +33,7 @@
   </xs:element>
   <xs:element name="role">
     <xs:complexType mixed="true">
-      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="authority" use="required" type="xs:string"/>
     </xs:complexType>
   </xs:element>
 </xs:schema>
