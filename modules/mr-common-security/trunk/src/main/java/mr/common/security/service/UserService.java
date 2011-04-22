@@ -121,7 +121,7 @@ public interface UserService {
 	void deleteById(Serializable id);
 
 	/**
-	 * crea el un usuario con la información pasada.
+	 * Crea el un usuario con la información pasada.
 	 * @param user: datos del usuario nuevo
 	 * @return el usuario actualizado
 	 * @throws InvalidPasswordException Si la password es
