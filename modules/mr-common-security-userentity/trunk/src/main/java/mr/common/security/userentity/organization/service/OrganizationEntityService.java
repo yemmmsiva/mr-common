@@ -27,6 +27,13 @@ public class OrganizationEntityService implements OrganizationService {
 	@Resource
 	private OrganizationEntityDao orgDao;
 
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional(readOnly = true)
+	public List getList() {
+		return orgDao.getList();
+	}
+
 	@Transactional(readOnly = true)
 	public List<Organization> find(String nameOrDescription, Boolean activeFilter,
 			ConfigurableData page) {
@@ -113,5 +120,15 @@ public class OrganizationEntityService implements OrganizationService {
 			return false;
 		}
 		return true;
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteByName(String name) {
+		orgDao.delete((OrganizationEntity) getByName(name));
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteById(Serializable id) {
+		orgDao.delete((OrganizationEntity) getById(id));
 	}
 }
