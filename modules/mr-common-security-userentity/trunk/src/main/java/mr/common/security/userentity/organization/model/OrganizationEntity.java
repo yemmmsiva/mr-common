@@ -20,8 +20,6 @@ public class OrganizationEntity extends AuditableEntity
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String ADMINISTRATORS = "Administrators";
-
 	private String name;
 	private String description;
 	private boolean enabled;

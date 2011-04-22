@@ -21,6 +21,7 @@
 		<mapping class="mr.common.security.userentity.model.UserData" />
 		<mapping class="mr.common.security.userentity.model.RoleEntity" />
 		<mapping class="mr.common.security.userentity.organization.model.OrganizationEntity" />
+		<mapping class="mr.common.security.userentity.organization.model.UserOrganization" />
 
 	</session-factory>
 

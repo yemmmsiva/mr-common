@@ -27,7 +27,7 @@ public class OrganizationEntityHibernateDao extends
 		AbstractHibernateAuditableDao<OrganizationEntity> implements OrganizationEntityDao {
 
 	@SuppressWarnings("unchecked")
-	public List<Organization> find(String nameOrDescription,
+	public List<OrganizationEntity> find(String nameOrDescription,
 			Boolean activeFilter, ConfigurableData page) {
 		
 		return prepareQuery(nameOrDescription, activeFilter, page, false).list();

@@ -103,3 +103,47 @@ CREATE TABLE authority (
   CONSTRAINT FK_userId FOREIGN KEY (userId) REFERENCES systemuser(id),
   CONSTRAINT FK_roleId FOREIGN KEY (roleId) REFERENCES role(id)
 ) /*! ENGINE = InnoDB */;
+
+
+/*
+ * Organizaciones de la aplicación.
+ */
+CREATE TABLE organization (
+  id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
+  version					INTEGER,
+  name						VARCHAR(50)		NOT NULL,
+  description				VARCHAR(200)	NOT NULL,
+  enabled					BOOLEAN			NOT NULL DEFAULT true,
+
+  owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
+  created					TIMESTAMP		NOT NULL,
+  lastupdater				VARCHAR(50),
+  lastupdate				TIMESTAMP		NULL DEFAULT NULL,
+  deleteduser				VARCHAR(50),
+  deleteddate				TIMESTAMP		NULL DEFAULT NULL,
+  deleted					INTEGER(1)		DEFAULT 0 NOT NULL,
+  PRIMARY KEY (id),
+  KEY nameIndex(name)
+) /*! ENGINE = InnoDB */;
+
+
+/*
+ * Usuarios - Organizaciones.
+ */
+CREATE TABLE usersorgs (
+  id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
+  version					INTEGER,
+  userId					INTEGER(16)		NOT NULL,
+  organizationId			INTEGER(16)		NOT NULL,
+
+  owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
+  created					TIMESTAMP		NOT NULL,
+  lastupdater				VARCHAR(50),
+  lastupdate				TIMESTAMP		NULL DEFAULT NULL,
+  deleteduser				VARCHAR(50),
+  deleteddate				TIMESTAMP		NULL DEFAULT NULL,
+  deleted					INTEGER(1)		DEFAULT 0 NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_usersorgs_userId FOREIGN KEY (userId) REFERENCES systemuser(id),
+  CONSTRAINT FK_usersorgs_orgId  FOREIGN KEY (organizationId) REFERENCES organization(id)
+) /*! ENGINE = InnoDB */;

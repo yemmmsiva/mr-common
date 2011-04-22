@@ -5,14 +5,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import mr.common.model.ConfigurableData;
+import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.organization.service.OrganizationService;
 import mr.common.security.userentity.organization.dao.OrganizationEntityDao;
 import mr.common.security.userentity.organization.model.OrganizationEntity;
+
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -34,8 +35,9 @@ public class OrganizationEntityService implements OrganizationService {
 		return orgDao.getList();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
-	public List<Organization> find(String nameOrDescription, Boolean activeFilter,
+	public List find(String nameOrDescription, Boolean activeFilter,
 			ConfigurableData page) {
 		return orgDao.find(nameOrDescription, activeFilter, page);
 	}
@@ -77,8 +79,19 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	private Organization saveOrUpdate(OrganizationEntity org) {
-		// TODO Auto-generated method stub
-		return null;
+		OrganizationEntity organization;
+		if(org.getId()!=null) {
+			organization = (OrganizationEntity) getById(org.getId());
+		} else {
+			organization = new OrganizationEntity();
+		}
+		if(isValidOrganizationName(org.getName())) {
+			organization.setName(org.getName());
+		} else {
+			throw new InvalidOrganizationNameException(org.getName());
+		}
+		organization.setDescription(org.getDescription());
+		return orgDao.merge(organization);
 	}
 
 	@Transactional(readOnly = false)

@@ -25,10 +25,17 @@ insert into role(code, description, largeDescription)
   
 insert into authority(userId, roleId)
   values((select id from systemuser where username = 'admin'),
-          (select id from role where code = 'ROLE_ADMIN'));
+          (select id from role where code = 'ROLE_ADMIN' and deleted = 0));
 insert into authority(userId, roleId)
   values((select id from systemuser where username = 'user11'),
-          (select id from role where code = 'ROLE_USER'));
+          (select id from role where code = 'ROLE_USER' and deleted = 0));
+
+insert into organization(name, description)
+  values('root', 'Users Administrator of the Application');
+
+insert into usersorgs(organizationId, userId)
+  values((select id from organization where name = 'root' and deleted = 0),
+          (select id from systemuser where username = 'admin' and deleted = 0));
 
 
 # Finalizamos transacción

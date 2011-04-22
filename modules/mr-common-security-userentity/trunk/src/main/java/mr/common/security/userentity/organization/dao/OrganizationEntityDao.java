@@ -29,7 +29,7 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<Organization> find(String nameOrDescription, Boolean activeFilter, ConfigurableData page);
+	List<OrganizationEntity> find(String nameOrDescription, Boolean activeFilter, ConfigurableData page);
 
 	/**
 	 * Obtiene la cantidad de organizaciones por determinados parámetros.
