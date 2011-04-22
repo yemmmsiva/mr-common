@@ -105,7 +105,7 @@ public interface UserService {
 	int findCount(User user, Boolean activeFilter);
 
 	/**
-	 * Borrar el usario por su useraname.
+	 * Borra el usuario por su username.
 	 * @throws UserNotExistException si el usuario no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
@@ -113,7 +113,7 @@ public interface UserService {
 	void deleteByUsername(String username);
 
 	/**
-	 * Borrar el usario por su id.
+	 * Borra el usuario por su id.
 	 * @throws UserNotExistException si el usuario no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
