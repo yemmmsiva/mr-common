@@ -20,6 +20,14 @@ import mr.common.security.organization.model.Organization;
  */
 public interface OrganizationService {
 
+
+	/**
+	 * @return listado de todas las organizaciones
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Organization> getList();
+
 	/**
 	 * Busca organizaciones según los parámetros pasados
 	 * y en forma pagina.
@@ -120,4 +128,23 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	boolean isValidOrganizationName(String name);
+
+
+	/**
+	 * Borra la organización por su nombre.
+	 * @throws OrganizationNotExistException si la organización
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void deleteByName(String name);
+
+	/**
+	 * Borra la organización por su id.
+	 * @throws OrganizationNotExistException si la organización
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void deleteById(Serializable id);
 }
