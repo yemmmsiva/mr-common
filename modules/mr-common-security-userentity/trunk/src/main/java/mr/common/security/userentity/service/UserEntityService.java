@@ -221,6 +221,10 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public User updateUser(Serializable id, User user) {
+		if(id==null) {
+			throw new NullPointerException(
+					"id = null.");
+		}
 		if(user.getId()!=null) {
 			throw new IllegalArgumentException(
 					"Argument `user` should not have set the id.");
@@ -232,12 +236,16 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public User updateUser(String username, User user) {
+		if(username==null) {
+			throw new NullPointerException(
+					"username = null.");
+		}
 		if(user.getId()!=null) {
 			throw new IllegalArgumentException(
 					"Argument `user` should not have set the id.");
 		}
 		UserEntity userEntity = (UserEntity) user;
-		userEntity.setId((Long)getByUsername(username).getId());
+		userEntity.setId(getByUsername(username).getId());
 		return saveOrUpdate((UserEntity)user);
 	}
 

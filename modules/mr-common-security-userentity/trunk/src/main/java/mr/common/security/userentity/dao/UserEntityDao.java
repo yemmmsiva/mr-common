@@ -46,6 +46,10 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 
 	/**
 	 * Búsqueda de usuario según criterios pasados, y paginación.
+	 * @param user - datos a machear
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
 	 * @return lista de usuarios
 	 * @throws IllegalArgumentUserFindException Si los argumentos
 	 * de búsqueda son inválidos, o si se lanza una {@link org.hibernate.QueryException}

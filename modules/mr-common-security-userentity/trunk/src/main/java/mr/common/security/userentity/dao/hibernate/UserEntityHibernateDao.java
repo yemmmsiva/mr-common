@@ -39,7 +39,7 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     	if(list.size()==0) {
     		return null;
     	} else if(list.size()!=1) {
-    		throw new DuplicatedUserException("Duplicate username");
+    		throw new DuplicatedUserException("Duplicate username on BBDD.");
     	}
     	return list.get(0);
 	}
