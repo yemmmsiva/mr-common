@@ -14,7 +14,7 @@ import mr.common.security.organization.model.Organization;
  * model.Organization Organization}.
  * @author Mariano Ruiz
  */
-@Entity
+@Entity(name="organization")
 public class OrganizationEntity extends AuditableEntity
       implements Organization {
 
