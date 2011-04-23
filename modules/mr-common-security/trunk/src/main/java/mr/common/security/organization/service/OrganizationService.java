@@ -45,6 +45,19 @@ public interface OrganizationService {
 	List<Organization> find(String nameOrDescription, Boolean activeFilter, ConfigurableData page);
 
 	/**
+	 * Obtiene la cantidad de organizaciones por determinados parámetros.
+	 * @param nameOrDescription - nombre o descripción
+	 * de la organización
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
+	 * @return listado de organizaciones
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int findCount(String nameOrDescription, Boolean activeFilter);
+
+	/**
 	 * @param id Serializable - identificador único de la organización
 	 * @return la organización
 	 * @throws OrganizationNotExistException si la organización no existe
