@@ -10,13 +10,6 @@ public interface Organization extends Serializable {
 
 
 	/**
-	 * Organización <code>root</code> administradora
-	 * de la aplicación.<br/>
-	 * Los usuarios de esta organización son superusuarios.
-	 */
-	public static final String ROOT = "root";
-
-	/**
 	 * @return Serializable - identificador del usuario
 	 */
 	Serializable getId();
