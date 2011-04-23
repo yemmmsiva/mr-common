@@ -43,6 +43,11 @@ public class OrganizationEntityService implements OrganizationService {
 	}
 
 	@Transactional(readOnly = true)
+	public int findCount(String nameOrDescription, Boolean activeFilter) {
+		return orgDao.findCount(nameOrDescription, activeFilter);
+	}
+
+	@Transactional(readOnly = true)
 	public Organization getById(Serializable id) {
     	if(id==null) {
     		throw new NullPointerException("id = null");
