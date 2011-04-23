@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import mr.common.dao.HibernateUtils;
+import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
 import mr.common.model.ConfigurableData;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
@@ -44,12 +45,12 @@ public class OrganizationEntityHibernateDao extends
 		if(nameOrDescription==null && activeFilter==null) {
 			throw new NullPointerException("nameOrDescription = null & activeFilter = null");
 		}
-		String hql = "select o from " + Organization.class.getName() + " o where"
+		String hql = "select o from " + OrganizationEntity.class.getName() + " o where"
 		           + " o.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
 		if(nameOrDescription!=null) {
 			hql += " and (o.name like :nameOrDescription or o.description like :nameOrDescription)";
-			params.put("nameOrDescription", nameOrDescription);
+			params.put("nameOrDescription", QueryUtils.likeParam(nameOrDescription));
 		}
 		if(activeFilter!=null) {
 			hql += " and o.enabled = :enabled";
