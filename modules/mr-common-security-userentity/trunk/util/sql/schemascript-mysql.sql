@@ -114,6 +114,14 @@ CREATE TABLE organization (
   name						VARCHAR(50)		NOT NULL,
   description				VARCHAR(200)	NOT NULL,
   enabled					BOOLEAN			NOT NULL DEFAULT true,
+  telephoneNumber			VARCHAR(50)		DEFAULT NULL,
+  postalAddress				VARCHAR(500)	DEFAULT NULL,
+  postalCode				VARCHAR(20)		DEFAULT NULL,
+  cityOrRegionName			VARCHAR(200)	DEFAULT NULL,
+  stateOrProvinceName		VARCHAR(50)		DEFAULT NULL,
+  countryId					CHAR(3)			DEFAULT NULL,
+  timeZoneId				VARCHAR(50)		DEFAULT NULL,
+  portraitId				INTEGER(16)		DEFAULT NULL,
 
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
@@ -123,7 +131,7 @@ CREATE TABLE organization (
   deleteddate				TIMESTAMP		NULL DEFAULT NULL,
   deleted					INTEGER(1)		DEFAULT 0 NOT NULL,
   PRIMARY KEY (id),
-  KEY nameIndex(name)
+  KEY orgNameIndex(name)
 ) /*! ENGINE = InnoDB */;
 
 

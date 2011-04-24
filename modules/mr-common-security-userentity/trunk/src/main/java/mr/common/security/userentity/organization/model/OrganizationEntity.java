@@ -22,6 +22,14 @@ public class OrganizationEntity extends AuditableEntity
 
 	private String name;
 	private String description;
+	private String telephoneNumber;
+	private String postalAddress;
+	private String postalCode;
+	private String cityOrRegionName;
+	private String stateOrProvinceName;
+	private String countryId;
+	private String timeZoneId;
+	private Long portraitId;
 	private boolean enabled;
 
 
@@ -47,5 +55,53 @@ public class OrganizationEntity extends AuditableEntity
 	@Transient
 	public void setId(Serializable id) {
 		setId((Long)id);
+	}
+	public String getTelephoneNumber() {
+		return telephoneNumber;
+	}
+	public void setTelephoneNumber(String telephoneNumber) {
+		this.telephoneNumber = telephoneNumber;
+	}
+	public String getPostalAddress() {
+		return postalAddress;
+	}
+	public void setPostalAddress(String postalAddress) {
+		this.postalAddress = postalAddress;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getCityOrRegionName() {
+		return cityOrRegionName;
+	}
+	public void setCityOrRegionName(String cityOrRegionName) {
+		this.cityOrRegionName = cityOrRegionName;
+	}
+	public String getStateOrProvinceName() {
+		return stateOrProvinceName;
+	}
+	public void setStateOrProvinceName(String stateOrProvinceName) {
+		this.stateOrProvinceName = stateOrProvinceName;
+	}
+	public String getCountryId() {
+		return countryId;
+	}
+	public void setCountryId(String countryId) {
+		this.countryId = countryId;
+	}
+	public String getTimeZoneId() {
+		return timeZoneId;
+	}
+	public void setTimeZoneId(String timeZoneId) {
+		this.timeZoneId = timeZoneId;
+	}
+	public Long getPortraitId() {
+		return portraitId;
+	}
+	public void setPortraitId(Serializable portraitId) {
+		this.portraitId = (Long) portraitId;
 	}
 }

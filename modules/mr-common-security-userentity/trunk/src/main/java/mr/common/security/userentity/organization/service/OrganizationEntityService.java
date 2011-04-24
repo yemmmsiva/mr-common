@@ -96,6 +96,12 @@ public class OrganizationEntityService implements OrganizationService {
 			throw new InvalidOrganizationNameException(org.getName());
 		}
 		organization.setDescription(org.getDescription());
+		organization.setCountryId(org.getCountryId());
+		organization.setCityOrRegionName(org.getCityOrRegionName());
+		organization.setStateOrProvinceName(org.getStateOrProvinceName());
+		organization.setPostalAddress(org.getPostalAddress());
+		organization.setPostalCode(org.getPostalCode());
+		organization.setTelephoneNumber(org.getTelephoneNumber());
 		return orgDao.merge(organization);
 	}
 
