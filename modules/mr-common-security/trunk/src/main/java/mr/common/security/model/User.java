@@ -125,9 +125,14 @@ public interface User extends Serializable {
 	 * @param lastName - apellido de la persona
 	 */
 	void setLastName(String lastName);
-	
-	String getTelephoneNumber();
 
+	/**
+	 * Número de teléfono.
+	 */
+	String getTelephoneNumber();
+	/**
+	 * Número de teléfono.
+	 */
 	void setTelephoneNumber(String telephoneNumber);
 	/**
 	 * @return descripción o comentario útil acerca
