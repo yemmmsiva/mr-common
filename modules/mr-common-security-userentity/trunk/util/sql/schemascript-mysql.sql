@@ -121,7 +121,7 @@ CREATE TABLE organization (
   stateOrProvinceName		VARCHAR(50)		DEFAULT NULL,
   countryId					CHAR(3)			DEFAULT NULL,
   timeZoneId				VARCHAR(50)		DEFAULT NULL,
-  portraitId				INTEGER(16)		DEFAULT NULL,
+  logoId					INTEGER(16)		DEFAULT NULL,
 
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,

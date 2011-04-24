@@ -29,7 +29,7 @@ public class OrganizationEntity extends AuditableEntity
 	private String stateOrProvinceName;
 	private String countryId;
 	private String timeZoneId;
-	private Long portraitId;
+	private Long logoId;
 	private boolean enabled;
 
 
@@ -98,10 +98,10 @@ public class OrganizationEntity extends AuditableEntity
 	public void setTimeZoneId(String timeZoneId) {
 		this.timeZoneId = timeZoneId;
 	}
-	public Long getPortraitId() {
-		return portraitId;
+	public Long getLogoId() {
+		return logoId;
 	}
-	public void setPortraitId(Serializable portraitId) {
-		this.portraitId = (Long) portraitId;
+	public void setLogoId(Serializable logoId) {
+		this.logoId = (Long) logoId;
 	}
 }

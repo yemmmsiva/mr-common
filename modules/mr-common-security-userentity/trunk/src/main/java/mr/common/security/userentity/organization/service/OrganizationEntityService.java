@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mr.common.model.ConfigurableData;
+import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
 import mr.common.security.organization.model.Organization;
@@ -95,13 +96,21 @@ public class OrganizationEntityService implements OrganizationService {
 		} else {
 			throw new InvalidOrganizationNameException(org.getName());
 		}
+		OrganizationEntity duplicate = (OrganizationEntity) orgDao.getByName(org.getName());
+		if(duplicate!=null && (org.getId()==null
+				|| (org.getId()!=null && !org.getId().equals(duplicate.getId())))) {
+			throw new DuplicatedOrganizationException();
+		}
+		organization.setEnabled(org.isEnabled());
 		organization.setDescription(org.getDescription());
+		organization.setTimeZoneId(org.getTimeZoneId());
 		organization.setCountryId(org.getCountryId());
 		organization.setCityOrRegionName(org.getCityOrRegionName());
 		organization.setStateOrProvinceName(org.getStateOrProvinceName());
 		organization.setPostalAddress(org.getPostalAddress());
 		organization.setPostalCode(org.getPostalCode());
 		organization.setTelephoneNumber(org.getTelephoneNumber());
+		organization.setLogoId(org.getLogoId());
 		return orgDao.merge(organization);
 	}
 
