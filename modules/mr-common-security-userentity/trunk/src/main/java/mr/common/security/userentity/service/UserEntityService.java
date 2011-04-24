@@ -170,6 +170,7 @@ public class UserEntityService implements UserService {
 		userData.setLastName(user.getUserData().getLastName());
 		userData.setTimeZoneId(user.getUserData().getTimeZoneId());
 		userData.setCityOrRegionName(user.getUserData().getCityOrRegionName());
+		userData.setStateOrProvinceName(user.getStateOrProvinceName());
 		userData.setPostalAddress(user.getPostalAddress());
 		userData.setPostalCode(user.getPostalCode());
 		userData.setCountryId(user.getUserData().getCountryId());
@@ -178,6 +179,7 @@ public class UserEntityService implements UserService {
 		userData.setDescription(user.getDescription());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
+		userEntity.setPortraitId(user.getPortraitId());
 		userEntity.setEnabled(user.isEnabled());
 		if(user.getPassword()!=null) {
 			try {
