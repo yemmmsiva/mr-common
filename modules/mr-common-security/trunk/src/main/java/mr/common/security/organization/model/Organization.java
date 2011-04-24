@@ -14,12 +14,12 @@ public interface Organization extends Serializable {
 
 
 	/**
-	 * @return Serializable - identificador del usuario
+	 * @return Serializable - identificador de la organización
 	 */
 	Serializable getId();
 
 	/**
-	 * @return Serializable - identificador del usuario
+	 * @return Serializable - identificador de la organización
 	 */
 	void setId(Serializable id);
 
@@ -81,46 +81,46 @@ public interface Organization extends Serializable {
 	void setStateOrProvinceName(String stateOrProvinceName);
 
 	/**
-	 * @return time zone id del usuario
+	 * @return time zone id de la organización
 	 * @see java.util.TimeZone
 	 */
 	String getTimeZoneId();
 	/**
-	 * @param timeZone id del time zone del usuario
+	 * @param timeZone id del time zone de la organización
 	 */
 	void setTimeZoneId(String timeZone);
 
 	/**
-	 * Nombre de la ciudad o región del usuario.
+	 * Nombre de la ciudad o región de la organización.
 	 */
 	String getCityOrRegionName();
 	/**
 	 * @param cityOrRegionName nombre de la ciudad
-	 * o región del usuario
+	 * o región de la organización
 	 */
 	void setCityOrRegionName(String cityOrRegionName);
 
 	/**
-	 * Obtiene el código ISO 3166 A3 del país del
-	 * usuario.
+	 * Obtiene el código ISO 3166 A3 del país de la
+	 * organización.
 	 * @see http://www.iso.org/iso/country_codes.htm
 	 */
 	String getCountryId();
 	/**
-	 * @param countryId código ISO 3166 A3 del país del
-	 * usuario
+	 * @param countryId código ISO 3166 A3 del país de la
+	 * organización
 	 * @see http://www.iso.org/iso/country_codes.htm
 	 */
 	void setCountryId(String countryId);
 
 	/**
-	 * Identificador de la fotografía o pick
-	 * persistido del usuario.
+	 * Identificador del logo
+	 * persistido de la organización.
 	 */
-	Serializable getPortraitId();
+	Serializable getLogoId();
 	/**
-	 * @param portraitId identificador de la fotografía
-	 * o pick persistido del usuario
+	 * @param logoId identificador del logo
+	 * persistido de la organización
 	 */
-	void setPortraitId(Serializable portraitId);
+	void setLogoId(Serializable logoId);
 }
