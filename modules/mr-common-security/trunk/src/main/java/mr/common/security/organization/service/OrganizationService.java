@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import mr.common.model.ConfigurableData;
+import mr.common.security.exception.UserNotExistException;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
@@ -60,7 +61,7 @@ public interface OrganizationService {
 	/**
 	 * @param id Serializable - identificador único de la organización
 	 * @return la organización
-	 * @throws OrganizationNotExistException si la organización no existe
+	 * @throws OrganizationNotExistException Si la organización no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -70,11 +71,22 @@ public interface OrganizationService {
 	 * Retorna la organización por su nombre.
 	 * @param name String
 	 * @return la organización
-	 * @throws OrganizationNotExistException si la organización no existe
+	 * @throws OrganizationNotExistException Si la organización no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
 	Organization getByName(String name);
+
+	/**
+	 * Obtiene el nombre de la organización por
+	 * su id.
+	 * @param orgId el id de la organización
+	 * @return el nombre de la organización
+	 * @throws OrganizationNotExistException Si la organización no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	String getNameById(Serializable orgId);
 
 	/**
 	 * Crea la nueva organización con la información pasada.
@@ -94,7 +106,7 @@ public interface OrganizationService {
 	 * @param id: identificador de la organización
 	 * @param organization: datos nuevos
 	 * @return la organización actualizada
-	 * @throws OrganizationNotExistException si la organización
+	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
 	 * @throws InvalidOrganizationNameException Si el nombre
 	 * de organización no es válido
@@ -110,7 +122,7 @@ public interface OrganizationService {
 	 * @param name: nombre de la organización
 	 * @param organization: datos nuevos
 	 * @return la organización actualizada
-	 * @throws OrganizationNotExistException si la organización
+	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
 	 * @throws InvalidOrganizationNameException Si el nombre
 	 * de organización no es válido
@@ -145,7 +157,7 @@ public interface OrganizationService {
 
 	/**
 	 * Borra la organización por su nombre.
-	 * @throws OrganizationNotExistException si la organización
+	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
@@ -154,10 +166,70 @@ public interface OrganizationService {
 
 	/**
 	 * Borra la organización por su id.
-	 * @throws OrganizationNotExistException si la organización
+	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
 	void deleteById(Serializable id);
+
+	/**
+	 * Cambia el id del logo de la organización.
+	 * @param orgId id de la organización
+	 * @param newLogoId nuevo id
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateLogoId(Serializable orgId, Serializable newLogoId);
+
+	/**
+	 * Agrega al usuario a la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void addUser(Serializable orgId, Serializable userId);
+
+	/**
+	 * Quita el usuario al usuario de la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void removeUser(Serializable orgId, Serializable userId);
+
+	/**
+	 * Verifica si el usuario pertenece a la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @return <code>true</code> si el usuario pertene
+	 * a la organización
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	boolean isUserInOrganization(Serializable orgId, Serializable userId);
+
+	/**
+	 * Obtiene todas las organizaciones a las que
+	 * pertenece el usuario.
+	 * @param userId id del usuario
+	 * @return lista con las organizaciones
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Organization> getUserOrganizations(Serializable userId);
 }

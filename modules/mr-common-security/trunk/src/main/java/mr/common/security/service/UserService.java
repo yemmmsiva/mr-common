@@ -50,6 +50,22 @@ public interface UserService {
 	User getByUsername(String username);
 
 	/**
+	 * Obtiene el username del usuario por su id.
+	 * @param userId id del usuario
+	 * @return el username del usuario
+	 * @throws UserNotExistException si el usuario no existe
+	 */
+	String getUsernameById(Serializable userId);
+
+	/**
+	 * Obtiene el id del usuario por su username.
+	 * @param username nombre del usuario
+	 * @return el id del usuario
+	 * @throws UserNotExistException si el usuario no existe
+	 */
+	Serializable getIdByUsername(String username);
+
+	/**
 	 * Retorna el usuario por su correo electrónico.
 	 * @param emailAddress String
 	 * @return user
@@ -103,6 +119,41 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	int findCount(User user, Boolean activeFilter);
+
+	/**
+	 * Busca usuarios por determinados parámetros.
+	 * @param user - datos a machear
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
+	 * @param orgId - id de organización al que deben
+	 * pertener los usuarios, <code>null</code> para
+	 * cualquier organización
+	 * @param page - página de datos, <code>null</code>
+	 * si se deben traer todos los datos y sin ordenar
+	 * @return listado de usuarios
+	 * @throws IllegalArgumentUserFindException Si los argumentos
+	 * de búsqueda o paginación son inválidos
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<User> find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page);
+
+	/**
+	 * Obtiene la cantidad de usuarios por determinados parámetros.
+	 * @param user - datos a machear
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * @param orgId - id de organización al que deben
+	 * pertener los usuarios, <code>null</code> para
+	 * cualquier organización
+	 * @return int
+	 * @throws IllegalArgumentUserFindException Si los argumentos
+	 * de búsqueda son inválidos
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int findCount(User user, Serializable orgId, Boolean activeFilter);
 
 	/**
 	 * Borra el usuario por su username.
