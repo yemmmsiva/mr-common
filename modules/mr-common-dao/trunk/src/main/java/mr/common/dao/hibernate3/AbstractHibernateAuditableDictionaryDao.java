@@ -3,6 +3,7 @@ package mr.common.dao.hibernate3;
 import java.util.List;
 
 import mr.common.dao.AbstractAuditableDictionaryDao;
+import mr.common.dao.exception.DaoException;
 import mr.common.dao.exception.DuplicateCodeDictionaryException;
 import mr.common.model.AuditableDictionary;
 
@@ -27,7 +28,9 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
     	if(list.size()==0) {
     		return null;
     	} if(list.size()>1) {
-    		throw new DuplicateCodeDictionaryException();
+    		throw new DuplicateCodeDictionaryException(
+    			"More than one " + domainClass.getSimpleName() + " class persisted elements have "
+    		  + "the save dictionarity code: " + code + ".");
     	}
     	return list.get(0);
 	}
@@ -64,15 +67,23 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
 	}
 
 	public Long save(Dict t) {
-		if(t.getCode()!=null && getByCode(t.getCode())!=null) {
-			throw new DuplicateCodeDictionaryException();
+		if(t.getCode()==null) {
+			throw new DaoException("The dictionary element do not have code.");
+		}
+		if(getByCode(t.getCode())!=null) {
+			throw new DuplicateCodeDictionaryException(
+					"A element with code = " + t.getCode() + " exist.");
 		}
 		return super.save(t);
 	}
 
 	public void persist(Dict t) {
-		if(t.getCode()!=null && getByCode(t.getCode())!=null) {
-			throw new DuplicateCodeDictionaryException();
+		if(t.getCode()==null) {
+			throw new DaoException("The dictionary element do not have code.");
+		}
+		if(getByCode(t.getCode())!=null) {
+			throw new DuplicateCodeDictionaryException(
+					"A element with code = " + t.getCode() + " exist.");
 		}
 		super.persist(t);
 	}

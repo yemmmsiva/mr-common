@@ -90,7 +90,9 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     	if(list.size()==0) {
     		return null;
     	} if(list.size()>1) {
-    		throw new DuplicateCodeDictionaryException();
+    		throw new DuplicateCodeDictionaryException(
+        			"More than one " + classNameDicEntity + " class persisted elements have "
+          		  + "the save dictionarity code: " + code + ".");
     	}
     	return list.get(0);
 	}
@@ -109,7 +111,7 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
 	 */
 	@SuppressWarnings("unchecked")
 	public long count(String classNameDicEntity) {
-        List<Long> list = getHibernateTemplate().find(
+        List<Number> list = getHibernateTemplate().find(
         		"select count(*) from " + classNameDicEntity + " x where x.audit.deleted = false");
         return list.get(0).longValue();
 	}

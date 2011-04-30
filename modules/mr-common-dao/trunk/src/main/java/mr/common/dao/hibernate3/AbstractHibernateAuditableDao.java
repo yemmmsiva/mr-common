@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mr.common.dao.AbstractAuditableDao;
+import mr.common.dao.exception.DaoException;
 import mr.common.model.Audit;
 import mr.common.model.AuditableEntity;
 import mr.common.security.service.UserSecurityService;
@@ -205,6 +206,10 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 	 */
     public void deleteById(Long id) {
     	DomainObject obj = get(id);
+    	if(obj==null) {
+    		throw  new DaoException(
+    				"Entity with id=" + id + "not exist.");
+    	}
     	deleteAudit(obj);
         getHibernateTemplate().update(obj);
     }
@@ -224,6 +229,10 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 	 */
     public void removeById(Long id) {
     	DomainObject obj = getIgnoreIsDeleted(id);
+    	if(obj==null) {
+    		throw  new DaoException(
+    				"Entity with id=" + id + "not exist.");
+    	}
         getHibernateTemplate().delete(obj);
     }
 
@@ -335,10 +344,13 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
      * @param auditable objecto auditable
      */
     protected void deleteAudit(AuditableEntity auditable) {
-        Audit auditoria = auditable.getAudit();
-        auditoria.setDeletedDate(new Date());
-        auditoria.setDeletedUser(getCurrentUsername());
-        auditoria.setDeleted(true);
+        Audit audit = auditable.getAudit();
+        if(audit == null) {
+        	throw new DaoException("Auditable element have audit = null.");
+        }
+        audit.setDeletedDate(new Date());
+        audit.setDeletedUser(getCurrentUsername());
+        audit.setDeleted(true);
     }
 
     /**
