@@ -9,11 +9,17 @@ import mr.common.model.ConfigurableData;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
+import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.organization.service.OrganizationService;
+import mr.common.security.service.UserService;
+import mr.common.security.userentity.model.UserEntity;
 import mr.common.security.userentity.organization.dao.OrganizationEntityDao;
+import mr.common.security.userentity.organization.dao.UserOrganizationDao;
 import mr.common.security.userentity.organization.model.OrganizationEntity;
+import mr.common.security.userentity.organization.model.UserOrganization;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -28,6 +34,12 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Resource
 	private OrganizationEntityDao orgDao;
+
+	@Resource
+	private UserOrganizationDao userOrganizationDao;
+
+	@Autowired
+	private UserService userService;
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -51,12 +63,12 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public Organization getById(Serializable id) {
     	if(id==null) {
-    		throw new NullPointerException("id = null");
+    		throw new NullPointerException("id = null.");
     	}
     	Organization org = orgDao.get((Long)id);
 		if(org==null) {
 			throw new OrganizationNotExistException(
-					"Organization with id=" + id + " not exist");
+					"Organization with id=" + id.toString() + " not exist.");
 		}
 		return org;
 	}
@@ -64,12 +76,12 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public Organization getByName(String name) {
     	if(name==null) {
-    		throw new NullPointerException("name = null");
+    		throw new NullPointerException("name = null.");
     	}
     	Organization org = orgDao.getByName(name);
 		if(org==null) {
 			throw new OrganizationNotExistException(
-					"Organization with name=" + name + " not exist");
+					"Organization with name=" + name + " not exist.");
 		}
 		return org;
 	}
@@ -163,5 +175,57 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
 		orgDao.delete((OrganizationEntity) getById(id));
+	}
+
+	@Transactional(readOnly = false)
+	public void updateLogoId(Serializable orgId, Serializable newLogoId) {
+		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		org.setLogoId((Long)newLogoId);
+		orgDao.update(org);
+	}
+
+	@Transactional(readOnly = false)
+	public void addUser(Serializable orgId, Serializable userId) {
+		UserEntity user = (UserEntity) userService.getById(userId);
+		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		UserOrganization userOrganization = new UserOrganization();
+		userOrganization.setUser(user);
+		userOrganization.setOrganization(org);
+		userOrganizationDao.save(userOrganization);
+	}
+
+	@Transactional(readOnly = false)
+	public void removeUser(Serializable orgId, Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		getNameById(orgId); // Si la organización no existe lanza excepción
+		Long id = userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId);
+		if(id==null) {
+			throw new UserNotInOrganizationException(
+				"User with id=" + userId + " is not in organization with id=" + orgId + ".");
+		}
+		userOrganizationDao.deleteById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean isUserInOrganization(Serializable orgId, Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		getNameById(orgId); // Si la organización no existe lanza excepción
+		return userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId) != null;
+	}
+
+	@Transactional(readOnly = true)
+	public List<Organization> getUserOrganizations(Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationDao.getUserOrganizations((Long)userId);
+	}
+
+	@Transactional(readOnly = true)
+	public String getNameById(Serializable orgId) {
+		String name = orgDao.getNameById(orgId);
+		if(name==null) {
+			throw new OrganizationNotExistException(
+					"Organization with id=" + orgId.toString() + " not exist.");
+		}
+		return name;
 	}
 }

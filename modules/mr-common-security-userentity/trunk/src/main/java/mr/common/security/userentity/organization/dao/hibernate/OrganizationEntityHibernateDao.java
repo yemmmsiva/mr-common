@@ -1,5 +1,6 @@
 package mr.common.security.userentity.organization.dao.hibernate;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class OrganizationEntityHibernateDao extends
 			ConfigurableData page, boolean countQuery) {
 
 		if(nameOrDescription==null && activeFilter==null) {
-			throw new NullPointerException("nameOrDescription = null & activeFilter = null");
+			throw new NullPointerException("nameOrDescription = null and activeFilter = null.");
 		}
 		String hql = "select o from " + OrganizationEntity.class.getName() + " o where"
 		           + " o.audit.deleted = false";
@@ -97,12 +98,21 @@ public class OrganizationEntityHibernateDao extends
 	@SuppressWarnings("unchecked")
 	public Organization getByName(String name) {
     	List<Organization> list = getHibernateTemplate().find(
-    			"from " + OrganizationEntity.class.getName() + " where name = ? and audit.deleted = false", name);
+    			"from " + OrganizationEntity.class.getName()
+    			+ " where name = ? and audit.deleted = false", name);
     	if(list.size()==0) {
     		return null;
     	} else if(list.size()!=1) {
-    		throw new DuplicatedOrganizationException("Duplicate organization on BBDD.");
+    		throw new DuplicatedOrganizationException(
+    			"Duplicate organization with name=" + name + " on BBDD.");
     	}
     	return list.get(0);
+	}
+
+	public String getNameById(Serializable orgId) {
+		Query query = getSession().createQuery(
+				"select name from " + OrganizationEntity.class.getName()
+			  + " where id = :orgId and audit.deleted = false").setParameter("orgId", orgId);
+		return (String) query.uniqueResult();
 	}
 }

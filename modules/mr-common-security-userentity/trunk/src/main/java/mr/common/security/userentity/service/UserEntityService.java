@@ -74,12 +74,12 @@ public class UserEntityService implements UserService {
     @Transactional(readOnly = true)
 	public User getByUsername(String username) {
     	if(username==null) {
-    		throw new NullPointerException("username = null");
+    		throw new NullPointerException("username = null.");
     	}
 		User user = userDao.getByUsername(username);
 		if(user==null) {
 			throw new UserNotExistException(
-					"User with username='" + username + "' not exist");
+					"User with username=" + username + " not exist.");
 		}
 		return user;
 	}
@@ -87,12 +87,12 @@ public class UserEntityService implements UserService {
     @Transactional(readOnly = true)
 	public User getByEmailAddress(String emailAddress) {
     	if(emailAddress==null) {
-    		throw new NullPointerException("emailAddress = null");
+    		throw new NullPointerException("emailAddress = null.");
     	}
 		User user = userDao.getByEmailAddress(emailAddress);
 		if(user==null) {
 			throw new UserNotExistException(
-					"User with emailAddress='" + emailAddress + "' not exist");
+					"User with emailAddress=" + emailAddress + " not exist.");
 		}
 		return user;
 	}
@@ -114,12 +114,23 @@ public class UserEntityService implements UserService {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List find(User user, Boolean activeFilter, ConfigurableData page) {
-		return userDao.find(user, activeFilter, page);
+		return userDao.find(user, null, activeFilter, page);
 	}
 
     @Transactional(readOnly = true)
 	public int findCount(User user, Boolean activeFilter) {
-		return userDao.findCount(user, activeFilter);
+		return userDao.findCount(user, null, activeFilter);
+	}
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional(readOnly = true)
+	public List find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page) {
+		return userDao.find(user, orgId, activeFilter, page);
+	}
+
+    @Transactional(readOnly = true)
+	public int findCount(User user, Serializable orgId, Boolean activeFilter) {
+		return userDao.findCount(user, orgId, activeFilter);
 	}
 
     @Transactional(readOnly = false)
@@ -185,7 +196,8 @@ public class UserEntityService implements UserService {
 			try {
 				userEntity.setPassword(encodePassword(user.getPassword()));
 			} catch (EncodePasswordException e) {
-				logger.error("An error occurred when encoding the password of the user=" + userEntity.getUsername(), e);
+				logger.error(
+					"An error occurred when encoding the password of the user=" + userEntity.getUsername() + ".", e);
 				throw e;
 			}
 		}
@@ -261,7 +273,7 @@ public class UserEntityService implements UserService {
     public Role getRole(String roleName) {
     	Role role = roleDao.getByCode(roleName);
     	if(role==null) {
-    		throw new InvalidRoleException("role='" + roleName + "' not exist");
+    		throw new InvalidRoleException("role=" + roleName + " not exist");
     	}
     	return role;
     }
@@ -270,7 +282,7 @@ public class UserEntityService implements UserService {
 		try {
 			user.setPassword(encodePassword(newPassword));
 		} catch (EncodePasswordException e) {
-			logger.error("An error occurred when encoding the password of the user= '" + user.getUsername() + "'.", e);
+			logger.error("An error occurred when encoding the password of the user= " + user.getUsername() + ".", e);
 			throw e;
 		}
 		userDao.update(user);
@@ -297,12 +309,12 @@ public class UserEntityService implements UserService {
     @Transactional(readOnly = true)
 	public User getById(Serializable id) {
     	if(id==null) {
-    		throw new NullPointerException("id = null");
+    		throw new NullPointerException("id = null.");
     	}
 		User user = userDao.get((Long)id);
 		if(user==null) {
 			throw new UserNotExistException(
-					"User with id=" + id + " not exist");
+					"User with id=" + id + " not exist.");
 		}
 		return user;
 	}
@@ -319,7 +331,7 @@ public class UserEntityService implements UserService {
 		try {
 			return EncodeUtils.md5(plainPassword);
 		} catch(Exception e) {
-			logger.error("An error occurred when encoding the password", e);
+			logger.error("An error occurred when encoding the password.", e);
 			throw new EncodePasswordException(e);
 		}
 	}
@@ -338,7 +350,7 @@ public class UserEntityService implements UserService {
 
 	public boolean isValidEmailAddress(String emailAddress) {
 		if(emailAddress==null) {
-			throw new NullPointerException("Email address can't be null.");
+			throw new NullPointerException("emailAddress = null.");
 		}
 		return emailValidator.isValid(emailAddress);
 	}
@@ -460,7 +472,7 @@ public class UserEntityService implements UserService {
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
-					"A user with email address='" + newEmailAddress + "' exist.");
+					"A user with email address=" + newEmailAddress + " exist.");
 		}
 		user.setEmailAddress(newEmailAddress);
 		userDao.update(user);
@@ -472,7 +484,7 @@ public class UserEntityService implements UserService {
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
-					"A user with email address='" + newEmailAddress + "' exist.");
+					"A user with email address=" + newEmailAddress + " exist.");
 		}
 		user.setEmailAddress(newEmailAddress);
 		userDao.update(user);
@@ -487,7 +499,7 @@ public class UserEntityService implements UserService {
 		UserEntity user2 = userDao.getByUsername(newUsername);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
-					"A user with username='" + newUsername + "' exist.");
+					"A user with username=" + newUsername + " exist.");
 		}
 		user.setUsername(newUsername);
 		userDao.update(user);
@@ -502,7 +514,7 @@ public class UserEntityService implements UserService {
 		UserEntity user2 = userDao.getByUsername(newUsername);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
-					"A user with username='" + newUsername + "' exist.");
+					"A user with username=" + newUsername + " exist.");
 		}
 		user.setUsername(newUsername);
 		userDao.update(user);
@@ -536,5 +548,31 @@ public class UserEntityService implements UserService {
 		UserData userData = new UserData();
 		user.setUserData(userData);
 		return user;
+	}
+
+	@Transactional(readOnly = true)
+	public String getUsernameById(Serializable userId) {
+    	if(userId==null) {
+    		throw new NullPointerException("userId = null.");
+    	}
+		String username = userDao.getUsernameById((Long)userId);
+		if(username==null) {
+			throw new UserNotExistException(
+				"User with id=" + userId.toString() + " not exist.");
+		}
+		return username;
+	}
+
+	@Transactional(readOnly = true)
+	public Serializable getIdByUsername(String username) {
+    	if(username==null) {
+    		throw new NullPointerException("username = null.");
+    	}
+    	Serializable userId = userDao.getIdByUsername(username);
+		if(userId==null) {
+			throw new UserNotExistException(
+					"User with username='" + username + "' not exist.");
+		}
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package mr.common.security.userentity.organization.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import mr.common.dao.AbstractAuditableDao;
@@ -51,4 +52,13 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * si no existe una con el nombre pasada
 	 */
 	Organization getByName(String name);
+
+	/**
+	 * Obtiene el nombre de la organización por
+	 * su id.
+	 * @param orgId el id de la organización
+	 * @return el nombre de la organización, <code>null</code>
+	 * si no existe la organización
+	 */
+	String getNameById(Serializable orgId);
 }

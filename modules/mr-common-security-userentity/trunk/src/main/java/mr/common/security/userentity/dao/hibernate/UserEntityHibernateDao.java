@@ -1,5 +1,6 @@
 package mr.common.security.userentity.dao.hibernate;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import mr.common.security.model.User;
 import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
+import mr.common.security.userentity.organization.model.UserOrganization;
 
 import org.hibernate.Query;
 import org.hibernate.QueryException;
@@ -83,22 +85,31 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public List<UserEntity> find(User user, Boolean activeFilter, ConfigurableData page) {
-        return prepareQuery(user, activeFilter, page, false).list();
+	public List<UserEntity> find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page) {
+        return prepareQuery(user, (Long)orgId, activeFilter, page, false).list();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int findCount(User user, Boolean activeFilter) {
-        return ((Number) prepareQuery(user, activeFilter, null, true).uniqueResult()).intValue();
+	public int findCount(User user, Serializable orgId, Boolean activeFilter) {
+        return ((Number) prepareQuery(user, (Long)orgId, activeFilter, null, true).uniqueResult()).intValue();
 	}
 
-	private Query prepareQuery(User user, Boolean activeFilter, ConfigurableData page, boolean countQuery) {
+	private Query prepareQuery(User user, Long orgId, Boolean activeFilter, ConfigurableData page, boolean countQuery) {
 		UserEntity userEntity = (UserEntity) user;
-		String hql = "select u from " + UserEntity.class.getName() + " u where u.audit.deleted = false";
+		String hql = "select u from " + UserEntity.class.getName() + " u ";
+		if(orgId!=null) {
+			hql += ", " + UserOrganization.class.getName() + " usersOrgs ";
+		}
+		hql += "where u.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
 
+		if(orgId!=null) {
+			hql += " and usersOrgs.organization.id = :orgId and usersOrgs.user = u"
+				 + " and usersOrgs.audit.deleted = false";
+			params.put("orgId", orgId);
+		}
 		if (StringUtils.hasText(userEntity.getUsername())) {
 			hql += " and lower(u.username) like :username";
 			 params.put("username", QueryUtils.likeParam(userEntity.getUsername()));
@@ -168,5 +179,21 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 		}
 		throw new IllegalArgumentUserFindException(
 				"Invalid sort arguments in user find.");
+	}
+
+	public String getUsernameById(Long userId) {
+		String hql = "select username from " + UserEntity.class.getName()
+				+ " where id = :userId and audit.deleted = false";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("userId", userId);
+		return (String) query.uniqueResult();
+	}
+
+	public Long getIdByUsername(String username) {
+		String hql = "select id from " + UserEntity.class.getName()
+				+ " where username = :username and audit.deleted = false";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("username", username);
+		return (Long) query.uniqueResult();
 	}
 }

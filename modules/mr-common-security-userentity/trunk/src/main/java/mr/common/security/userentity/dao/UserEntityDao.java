@@ -1,5 +1,6 @@
 package mr.common.security.userentity.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import mr.common.dao.AbstractAuditableDao;
@@ -47,6 +48,9 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 	/**
 	 * Búsqueda de usuario según criterios pasados, y paginación.
 	 * @param user - datos a machear
+	 * @param orgId - id de organización al que deben
+	 * pertener los usuarios, <code>null</code> para
+	 * cualquier organización
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * activados/desactivados
@@ -54,11 +58,34 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 	 * @throws IllegalArgumentUserFindException Si los argumentos
 	 * de búsqueda son inválidos, o si se lanza una {@link org.hibernate.QueryException}
 	 */
-	List<UserEntity> find(User user, Boolean activeFilter, ConfigurableData page);
+	List<UserEntity> find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page);
 
 	/**
 	 * Obtiene la cantidad de usuarios según criterios pasados.
+	 * @param user - datos a machear
+	 * @param orgId - id de organización al que deben
+	 * pertener los usuarios, <code>null</code> para
+	 * cualquier organización
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
 	 * @return int
 	 */
-	int findCount(User user, Boolean activeFilter);
+	int findCount(User user, Serializable orgId, Boolean activeFilter);
+
+	/**
+	 * Obtiene el username del usuario por su id.
+	 * @param userId id del usuario
+	 * @return el username del usuario, <code>null</code>
+	 * si el usuario no existe
+	 */
+	String getUsernameById(Long userId);
+
+	/**
+	 * Obtiene el id del usuario por su username.
+	 * @param username nombre del usuario
+	 * @return el id del usuario, <code>null</code>
+	 * si el usuario no existe
+	 */
+	Long getIdByUsername(String username);
 }
