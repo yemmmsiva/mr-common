@@ -6,9 +6,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import mr.common.format.validator.ValidatorUtils;
+import mr.common.format.validator.Validator;
 import mr.common.model.ConfigurableData;
-import mr.common.security.EncodeUtils;
+import mr.common.security.Encoder;
+import mr.common.security.Md5Encoder;
 import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
 import mr.common.security.exception.EncodePasswordException;
@@ -29,12 +30,13 @@ import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.RoleEntity;
 import mr.common.security.userentity.model.UserData;
 import mr.common.security.userentity.model.UserEntity;
+import mr.common.security.userentity.validator.EmailAddressValidator;
+import mr.common.security.userentity.validator.PasswordValidator;
+import mr.common.security.userentity.validator.UsernameValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.EmailValidator;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 
 /**
@@ -46,8 +48,6 @@ public class UserEntityService implements UserService {
 
 	//private final Log logger = LogFactory.getLog(getClass());
 	private static final Log logger = LogFactory.getLog(UserEntityService.class);
-
-	private EmailValidator emailValidator = EmailValidator.getInstance();
 
 	// Los DAOs como protected por si son necesarios
 	// en una implementación que sobreescriba esta
@@ -64,6 +64,49 @@ public class UserEntityService implements UserService {
 	@Resource
 	private UserSecurityService userSecurityService;
 
+	// Validadores de passwords, username e emails,
+	// estos objetos deben ser inmutables, por lo que
+	// es correcto setearlos por el inyector
+	// de objetos o con su constructor.
+	// En caso de no configurarse por default se usarán
+	// las implementaciones del framework.
+	private Validator passwordValidator = new PasswordValidator();
+	private Validator usernameValidator = new UsernameValidator();
+	private Validator emailAddressValidator = new EmailAddressValidator();
+
+	// Encoder de passwords, este objeto deber ser inmutable,
+	// por lo que solo debe ser seteado por el inyector
+	// de objetos o con su constructor.
+	// En caso de no configurarse por default se usará
+	// un encoder MD5.
+	private Encoder passwordEncoder = new Md5Encoder();
+
+
+	public UserEntityService() { }
+
+	public UserEntityService(Validator usernameValidator,
+	                          Validator passwordValidator,
+	                          Validator emailAddressValidator) {
+
+		this.usernameValidator = usernameValidator;
+		this.passwordValidator = passwordValidator;
+		this.emailAddressValidator = emailAddressValidator;
+	}
+
+	public UserEntityService(Encoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	public UserEntityService(Validator usernameValidator,
+	                          Validator passwordValidator,
+	                          Validator emailAddressValidator,
+	                          Encoder passwordEncoder) {
+
+		this.usernameValidator = usernameValidator;
+		this.passwordValidator = passwordValidator;
+		this.emailAddressValidator = emailAddressValidator;
+		this.passwordEncoder = passwordEncoder;
+	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
@@ -329,7 +372,7 @@ public class UserEntityService implements UserService {
 
 	public String encodePassword(String plainPassword) {
 		try {
-			return EncodeUtils.md5(plainPassword);
+			return passwordEncoder.encode(plainPassword);
 		} catch(Exception e) {
 			logger.error("An error occurred when encoding the password.", e);
 			throw new EncodePasswordException(e);
@@ -337,22 +380,21 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean isValidUsername(String username) {
-		return ValidatorUtils.isValidUsername(username);
+		if(username==null) {
+			throw new NullPointerException("username = null.");
+		}
+		return usernameValidator.isValid(username);
 	}
 
 	public boolean isValidPassword(String password) {
-		if(!StringUtils.hasText(password)) {
-			return false;
-		}
-		// Se valida la password de la misma forma que el nombre de usuario
-		return ValidatorUtils.isValidUsername(password);
+		return passwordValidator.isValid(password);
 	}
 
 	public boolean isValidEmailAddress(String emailAddress) {
 		if(emailAddress==null) {
 			throw new NullPointerException("emailAddress = null.");
 		}
-		return emailValidator.isValid(emailAddress);
+		return emailAddressValidator.isValid(emailAddress);
 	}
 
 	public boolean hasRole(User user, Role role) {
@@ -574,5 +616,63 @@ public class UserEntityService implements UserService {
 					"User with username='" + username + "' not exist.");
 		}
 		return null;
+	}
+
+
+	/*!** Getters & setters  **!*/
+
+	public Validator getUsernameValidator() {
+		return usernameValidator;
+	}
+	public void setUsernameValidator(Validator usernameValidator) {
+		this.usernameValidator = usernameValidator;
+	}
+	public Validator getPasswordValidator() {
+		return passwordValidator;
+	}
+	public void setPasswordValidator(Validator passwordValidator) {
+		this.passwordValidator = passwordValidator;
+	}
+	public Validator getEmailAddressValidator() {
+		return emailAddressValidator;
+	}
+	public void setEmailAddressValidator(Validator emailAddressValidator) {
+		this.emailAddressValidator = emailAddressValidator;
+	}
+	public Encoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+	public void setPasswordEncoder(Encoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+	public UserEntityDao getUserDao() {
+		return userDao;
+	}
+	public void setUserDao(UserEntityDao userDao) {
+		this.userDao = userDao;
+	}
+	public UserDataDao getUserDataDao() {
+		return userDataDao;
+	}
+	public void setUserDataDao(UserDataDao userDataDao) {
+		this.userDataDao = userDataDao;
+	}
+	public AuthorityDao getAuthorithyDao() {
+		return authorithyDao;
+	}
+	public void setAuthorithyDao(AuthorityDao authorithyDao) {
+		this.authorithyDao = authorithyDao;
+	}
+	public RoleDao getRoleDao() {
+		return roleDao;
+	}
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
+	public UserSecurityService getUserSecurityService() {
+		return userSecurityService;
+	}
+	public void setUserSecurityService(UserSecurityService userSecurityService) {
+		this.userSecurityService = userSecurityService;
 	}
 }
