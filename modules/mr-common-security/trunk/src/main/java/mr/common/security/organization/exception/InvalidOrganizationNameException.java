@@ -16,6 +16,6 @@ public class InvalidOrganizationNameException extends SecurityException {
 	}
 
 	public InvalidOrganizationNameException(String name) {
-		super("The organization name '" + name + "' is invalid.");
+		super("The organization name =" + name + " is invalid.");
 	}
 }

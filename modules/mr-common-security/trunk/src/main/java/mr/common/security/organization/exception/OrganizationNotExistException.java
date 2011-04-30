@@ -13,7 +13,7 @@ public class OrganizationNotExistException extends SecurityException {
 	private static final long serialVersionUID = 1L;
 
 	public OrganizationNotExistException() {
-		super("Organization not exist");
+		super("Organization not exist.");
 	}
 
 	public OrganizationNotExistException(String message) {
