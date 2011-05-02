@@ -1,5 +1,6 @@
 package mr.common.security.userentity.organization.dao.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
@@ -38,5 +39,16 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
 		return query.list();
+	}
+
+	public int removeUserFromAll(Long userId) {
+    	String hql = "update " + UserOrganization.class.getName()
+        + " set audit.deleted = true, audit.deletedDate = :currentDate, audit.deletedUser = :currentUser"
+        + " where user.id = :userId";
+        Query query = getSession().createQuery(hql);
+        query.setTimestamp("currentDate", new Date());
+        query.setString("currentUser", getCurrentUsername());
+        query.setParameter("userId", userId);
+        return query.executeUpdate();
 	}
 }

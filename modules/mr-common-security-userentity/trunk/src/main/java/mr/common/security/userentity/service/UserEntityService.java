@@ -20,6 +20,7 @@ import mr.common.security.exception.InvalidUsernameException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
+import mr.common.security.organization.service.OrganizationService;
 import mr.common.security.service.UserSecurityService;
 import mr.common.security.service.UserService;
 import mr.common.security.userentity.dao.AuthorityDao;
@@ -36,6 +37,7 @@ import mr.common.security.userentity.validator.UsernameValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -63,6 +65,9 @@ public class UserEntityService implements UserService {
 
 	@Resource
 	private UserSecurityService userSecurityService;
+
+	@Autowired(required = false)
+	private OrganizationService organizationService;
 
 	// Validadores de passwords, username e emails,
 	// estos objetos deben ser inmutables, por lo que
@@ -168,23 +173,28 @@ public class UserEntityService implements UserService {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page) {
+    	organizationService.getNameById(orgId); // Lanza una excepción si no existe la organización
 		return userDao.find(user, orgId, activeFilter, page);
 	}
 
     @Transactional(readOnly = true)
 	public int findCount(User user, Serializable orgId, Boolean activeFilter) {
+    	organizationService.getNameById(orgId); // Lanza una excepción si no existe la organización
 		return userDao.findCount(user, orgId, activeFilter);
 	}
 
     @Transactional(readOnly = false)
 	public void deleteByUsername(String username) {
     	UserEntity u = (UserEntity) getByUsername(username);
+    	if(organizationService!=null) {
+    		organizationService.removeUserFromAll(u.getId());
+    	}
 		userDataDao.delete(u.getUserData());
 		authorithyDao.deleteList(u.getAuthorities());
 		userDao.delete(u);
 	}
 
-	private UserEntity saveOrUpdate(UserEntity user) {
+	private UserEntity saveOrUpdate(UserEntity user, Serializable orgId) {
 		UserEntity userEntity;
 		UserData userData;
 
@@ -224,16 +234,16 @@ public class UserEntityService implements UserService {
 		userData.setLastName(user.getUserData().getLastName());
 		userData.setTimeZoneId(user.getUserData().getTimeZoneId());
 		userData.setCityOrRegionName(user.getUserData().getCityOrRegionName());
-		userData.setStateOrProvinceName(user.getStateOrProvinceName());
-		userData.setPostalAddress(user.getPostalAddress());
-		userData.setPostalCode(user.getPostalCode());
+		userData.setStateOrProvinceName(user.getUserData().getStateOrProvinceName());
+		userData.setPostalAddress(user.getUserData().getPostalAddress());
+		userData.setPostalCode(user.getUserData().getPostalCode());
 		userData.setCountryId(user.getUserData().getCountryId());
 		userData.setBirthdayDate(user.getUserData().getBirthdayDate());
-		userData.setTelephoneNumber(user.getTelephoneNumber());
-		userData.setDescription(user.getDescription());
+		userData.setTelephoneNumber(user.getUserData().getTelephoneNumber());
+		userData.setDescription(user.getUserData().getDescription());
+		userData.setPortraitId(user.getUserData().getPortraitId());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
-		userEntity.setPortraitId(user.getPortraitId());
 		userEntity.setEnabled(user.isEnabled());
 		if(user.getPassword()!=null) {
 			try {
@@ -249,7 +259,7 @@ public class UserEntityService implements UserService {
 		userEntity.setUserData(userData);
 		userData.setUser(userEntity);
 		userDataDao.saveOrUpdate(userData);
-		userDao.saveOrUpdate(userEntity);
+		userEntity = userDao.merge(userEntity);
 
 		// Guardamos los roles
 		if(userEntity.getAuthorities()!=null) {
@@ -264,16 +274,38 @@ public class UserEntityService implements UserService {
 			authorithyDao.save(au);
 		}
 
+		if(!userExist && orgId!=null) {
+			organizationService.addUser(orgId, userEntity.getId());
+		}
+
 		return userEntity;
 	}
 
 	@Transactional(readOnly = false)
 	public User newUser(User user) {
+		if(user==null) {
+			throw new NullPointerException("user = null.");
+		}
 		if(user.getId()!=null) {
 			throw new IllegalArgumentException(
 					"New user should not have set the id.");
 		}
-		return saveOrUpdate((UserEntity)user);
+		return saveOrUpdate((UserEntity)user, null);
+	}
+
+	@Transactional(readOnly = false)
+	public User newUser(User user, Serializable orgId) {
+		if(user==null) {
+			throw new NullPointerException("user = null.");
+		}
+		if(orgId==null) {
+			throw new NullPointerException("orgId = null.");
+		}
+		if(user.getId()!=null) {
+			throw new IllegalArgumentException(
+					"New user should not have set the id.");
+		}
+		return saveOrUpdate((UserEntity)user, orgId);
 	}
 
 	@Transactional(readOnly = false)
@@ -288,7 +320,7 @@ public class UserEntityService implements UserService {
 		}
 		UserEntity userEntity = (UserEntity) user;
 		userEntity.setId((Long)id);
-		return saveOrUpdate((UserEntity)user);
+		return saveOrUpdate((UserEntity)user, null);
 	}
 
 	@Transactional(readOnly = false)
@@ -303,7 +335,7 @@ public class UserEntityService implements UserService {
 		}
 		UserEntity userEntity = (UserEntity) user;
 		userEntity.setId(getByUsername(username).getId());
-		return saveOrUpdate((UserEntity)user);
+		return saveOrUpdate((UserEntity)user, null);
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -365,6 +397,9 @@ public class UserEntityService implements UserService {
     @Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
     	UserEntity u = (UserEntity) getById(id);
+    	if(organizationService!=null) {
+    		organizationService.removeUserFromAll(u.getId());
+    	}
 		userDataDao.delete(u.getUserData());
 		authorithyDao.deleteList(u.getAuthorities());
 		userDao.delete(u);

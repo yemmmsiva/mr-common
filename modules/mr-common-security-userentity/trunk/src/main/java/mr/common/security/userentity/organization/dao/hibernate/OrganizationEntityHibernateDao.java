@@ -115,4 +115,11 @@ public class OrganizationEntityHibernateDao extends
 			  + " where id = :orgId and audit.deleted = false").setParameter("orgId", orgId);
 		return (String) query.uniqueResult();
 	}
+
+	public Long getIdByName(String name) {
+		Query query = getSession().createQuery(
+				"select id from " + OrganizationEntity.class.getName()
+			  + " where name = :name and audit.deleted = false").setParameter("name", name);
+		return (Long) query.uniqueResult();
+	}
 }

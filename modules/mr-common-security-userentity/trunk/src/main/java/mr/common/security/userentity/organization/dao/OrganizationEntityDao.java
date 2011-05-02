@@ -61,4 +61,12 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * si no existe la organización
 	 */
 	String getNameById(Serializable orgId);
+
+	/**
+	 * Obtiene el id de la organización por
+	 * su nombre.
+	 * @param name nombre de la organización
+	 * @return el id de la organización
+	 */
+	Long getIdByName(String name);
 }

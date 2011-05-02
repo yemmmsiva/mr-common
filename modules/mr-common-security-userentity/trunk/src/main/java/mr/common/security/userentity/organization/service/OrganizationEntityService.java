@@ -206,6 +206,12 @@ public class OrganizationEntityService implements OrganizationService {
 		userOrganizationDao.deleteById(id);
 	}
 
+	@Transactional(readOnly = false)
+	public int removeUserFromAll(Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationDao.removeUserFromAll((Long)userId);
+	}
+
 	@Transactional(readOnly = true)
 	public boolean isUserInOrganization(Serializable orgId, Serializable userId) {
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
@@ -221,10 +227,28 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public String getNameById(Serializable orgId) {
+		if(orgId==null) {
+			throw new NullPointerException(
+					"orgId = null.");
+		}
 		String name = orgDao.getNameById(orgId);
 		if(name==null) {
 			throw new OrganizationNotExistException(
 					"Organization with id=" + orgId.toString() + " not exist.");
+		}
+		return name;
+	}
+
+	@Transactional(readOnly = true)
+	public Serializable getIdByName(String name) {
+		if(name==null) {
+			throw new NullPointerException(
+					"name = null.");
+		}
+		Long id = orgDao.getIdByName(name);
+		if(id==null) {
+			throw new OrganizationNotExistException(
+					"Organization with name=" + name + " not exist.");
 		}
 		return name;
 	}

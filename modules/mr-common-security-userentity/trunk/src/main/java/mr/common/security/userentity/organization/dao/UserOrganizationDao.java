@@ -38,4 +38,12 @@ public interface UserOrganizationDao extends AbstractAuditableDao<UserOrganizati
 	 * el usuario con el id pasado
 	 */
 	List<Organization> getUserOrganizations(Long userId);
+
+	/**
+	 * Quita al usuario de todas las organizaciones.
+	 * @param userId id del usuario
+	 * @return cantidad de organizaciones en las que
+	 * fue removido el usuario
+	 */
+	int removeUserFromAll(Long userId);
 }
