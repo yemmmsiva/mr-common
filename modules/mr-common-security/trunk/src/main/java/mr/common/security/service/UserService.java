@@ -15,6 +15,7 @@ import mr.common.security.exception.InvalidUsernameException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
+import mr.common.security.organization.exception.OrganizationNotExistException;
 
 
 /**
@@ -134,6 +135,7 @@ public interface UserService {
 	 * @return listado de usuarios
 	 * @throws IllegalArgumentUserFindException Si los argumentos
 	 * de búsqueda o paginación son inválidos
+	 * @throws OrganizationNotExistException Si la organización no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -150,6 +152,7 @@ public interface UserService {
 	 * @return int
 	 * @throws IllegalArgumentUserFindException Si los argumentos
 	 * de búsqueda son inválidos
+	 * @throws OrganizationNotExistException Si la organización no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -187,6 +190,26 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	User newUser(User user);
+
+	/**
+	 * Crea un nuevo usuario, y en la organización
+	 * con el id pasado.
+	 * @param user: datos del usuario nuevo
+	 * @param orgId: id de la organización a la que
+	 * se debe agregar el usuario
+	 * @return el usuario actualizado
+	 * @throws InvalidPasswordException Si la password es
+	 * inválida
+	 * @throws InvalidUsernameException Si el nombre
+	 * del usuario no es válido
+	 * @throws DuplicatedUserException Si un usuario
+	 * ya existe con el mismo nombre
+	 * @throws DuplicatedEmailAddressException Si un usuario
+	 * ya existe con el mismo email
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	User newUser(User user, Serializable orgId);
 
 	/**
 	 * Actualiza la información del usuario.

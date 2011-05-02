@@ -8,6 +8,7 @@ import mr.common.security.exception.UserNotExistException;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
+import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
 
 
@@ -87,6 +88,17 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	String getNameById(Serializable orgId);
+
+	/**
+	 * Obtiene el id de la organización por
+	 * su nombre.
+	 * @param name nombre de la organización
+	 * @return el id de la organización
+	 * @throws OrganizationNotExistException Si la organización no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	Serializable getIdByName(String name);
 
 	/**
 	 * Crea la nueva organización con la información pasada.
@@ -197,16 +209,29 @@ public interface OrganizationService {
 	void addUser(Serializable orgId, Serializable userId);
 
 	/**
-	 * Quita el usuario al usuario de la organización.
+	 * Quita el usuario de la organización.
 	 * @param orgId id de la organización
 	 * @param userId id del usuario
 	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
 	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserNotInOrganizationException si el usuario
+	 * no pertenece a la organización
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
 	void removeUser(Serializable orgId, Serializable userId);
+
+	/**
+	 * Quita al usuario de todas las organizaciones.
+	 * @param userId id del usuario
+	 * @return cantidad de organizaciones en las que el
+	 * usuario fue removido
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int removeUserFromAll(Serializable userId);
 
 	/**
 	 * Verifica si el usuario pertenece a la organización.
