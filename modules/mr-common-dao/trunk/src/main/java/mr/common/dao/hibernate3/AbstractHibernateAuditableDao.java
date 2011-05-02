@@ -253,10 +253,10 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 
             public Object doInHibernate(Session session) throws HibernateException {
             	String hql = "update " + domainClass.getName()
-                + " set audit.deleted = true, audit.deletedDate = :date, audit.deletedUser = :user";
+                + " set audit.deleted = true, audit.deletedDate = :currentDate, audit.deletedUser = :currentUser";
                 Query query = session.createQuery(hql);
-                query.setTimestamp("date", new Date());
-                query.setString("user", getCurrentUsername());
+                query.setTimestamp("currentDate", new Date());
+                query.setString("currentUser", getCurrentUsername());
                 query.executeUpdate();
                 return null;
             }
