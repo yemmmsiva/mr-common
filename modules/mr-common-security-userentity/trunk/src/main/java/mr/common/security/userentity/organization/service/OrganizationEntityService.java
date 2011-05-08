@@ -9,6 +9,7 @@ import mr.common.model.ConfigurableData;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
+import mr.common.security.organization.exception.UserIsInOrganizationException;
 import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.organization.service.OrganizationService;
@@ -188,6 +189,11 @@ public class OrganizationEntityService implements OrganizationService {
 	public void addUser(Serializable orgId, Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
 		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		if(isUserInOrganization(orgId, userId)) {
+			throw new  UserIsInOrganizationException(
+				"User with id " + orgId.toString() + " is in organization with id "
+				+ orgId.toString() + ".");
+		}
 		UserOrganization userOrganization = new UserOrganization();
 		userOrganization.setUser(user);
 		userOrganization.setOrganization(org);
@@ -250,6 +256,6 @@ public class OrganizationEntityService implements OrganizationService {
 			throw new OrganizationNotExistException(
 					"Organization with name=" + name + " not exist.");
 		}
-		return name;
+		return id;
 	}
 }

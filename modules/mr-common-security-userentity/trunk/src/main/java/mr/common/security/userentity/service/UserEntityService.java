@@ -147,9 +147,18 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public User getCurrentUser() {
-		String user = userSecurityService.getCurrentUsername();
-		if(user != null) {
-			return getByUsername(user);
+		String username = userSecurityService.getCurrentUsername();
+		if(username != null) {
+			return getByUsername(username);
+		}
+		return null;
+	}
+
+    @Transactional(readOnly = true)
+	public Serializable getCurrentUserId() {
+		String username = userSecurityService.getCurrentUsername();
+		if(username != null) {
+			return getIdByUsername(username);
 		}
 		return null;
 	}
@@ -650,7 +659,7 @@ public class UserEntityService implements UserService {
 			throw new UserNotExistException(
 					"User with username='" + username + "' not exist.");
 		}
-		return null;
+		return userId;
 	}
 
 
