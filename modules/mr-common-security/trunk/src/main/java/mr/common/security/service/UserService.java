@@ -92,6 +92,14 @@ public interface UserService {
      */
     String getCurrentUsername();
 
+    /**
+     * Id del usuario logueado en la sesión.
+     * @return id del usuario
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+     */
+    Serializable getCurrentUserId();
+
 	/**
 	 * Busca usuarios por determinados parámetros.
 	 * @param user - datos a machear

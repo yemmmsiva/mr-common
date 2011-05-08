@@ -8,6 +8,7 @@ import mr.common.security.exception.UserNotExistException;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
+import mr.common.security.organization.exception.UserIsInOrganizationException;
 import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
 
@@ -205,6 +206,8 @@ public interface OrganizationService {
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
+	 * @throws UserIsInOrganizationException Si el usuario
+	 * ya pertenece a la organización
 	 */
 	void addUser(Serializable orgId, Serializable userId);
 
