@@ -10,6 +10,7 @@ import mr.common.format.FormatUtils;
 
 
 /**
+ * Métodos de codificación útiles.
  * @author Mariano Ruiz
  */
 public class EncodeUtils {

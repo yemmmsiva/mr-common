@@ -2,7 +2,7 @@ package mr.common.security;
 
 
 /**
- * Calse base útil para crear objetos que codifican - decodifican
+ * Clase base útil para crear objetos que codifican - decodifican
  * texto, y son reutilizados por otros objetos o servicios.
  *
  * @author Mariano Ruiz
