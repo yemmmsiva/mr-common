@@ -5,12 +5,14 @@ import java.util.List;
 
 import mr.common.model.ConfigurableData;
 import mr.common.security.exception.UserNotExistException;
+import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
 import mr.common.security.organization.exception.UserIsInOrganizationException;
 import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
+import mr.common.security.service.UserService;
 
 
 /**
@@ -28,8 +30,20 @@ public interface OrganizationService {
 	 * @return listado de todas las organizaciones
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
+	 * @see #find(String, Boolean, ConfigurableData)
+	 * @see #find(String, Serializable, Boolean, ConfigurableData)
 	 */
 	List<Organization> getList();
+
+	/**
+	 * Cantidad de organizaciones de la aplicación.
+	 * @return la cantidad
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see #findCount(String, Boolean)
+	 * @see #findCount(String, Serializable, Boolean)
+	 */
+	int count();
 
 	/**
 	 * Busca organizaciones según los parámetros pasados
@@ -45,7 +59,27 @@ public interface OrganizationService {
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<Organization> find(String nameOrDescription, Boolean activeFilter, ConfigurableData page);
+	List<Organization> find(String nameOrDescription,
+	                        Boolean activeFilter, ConfigurableData page);
+
+	/**
+	 * Busca organizaciones según los parámetros pasados
+	 * y en forma pagina.
+	 * @param nameOrDescription - nombre o descripción
+	 * de la organización
+	 * @param userId - id del usuario que debe estar en las organizaciones
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar organizaciones
+	 * activados/desactivados
+	 * @param page - página de datos, <code>null</code>
+	 * si se deben traer todos los datos y sin ordenar
+	 * @return listado de organizaciones
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Organization> find(String nameOrDescription, Serializable userId,
+	                        Boolean activeFilter, ConfigurableData page);
 
 	/**
 	 * Obtiene la cantidad de organizaciones por determinados parámetros.
@@ -59,6 +93,22 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	int findCount(String nameOrDescription, Boolean activeFilter);
+
+	/**
+	 * Obtiene la cantidad de organizaciones por determinados parámetros.
+	 * @param nameOrDescription - nombre o descripción
+	 * de la organización
+	 * @param userId - id del usuario que debe estar en las organizaciones
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
+	 * @return listado de organizaciones
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int findCount(String nameOrDescription, Serializable userId,
+	              Boolean activeFilter);
 
 	/**
 	 * @param id Serializable - identificador único de la organización
@@ -237,6 +287,17 @@ public interface OrganizationService {
 	int removeUserFromAll(Serializable userId);
 
 	/**
+	 * Quita todos los usuarios de la organización.
+	 * @param id identificador de la organización
+	 * @return cantidad de usuarios quitados
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int removeAllUsersFromOrganization(Long id);
+
+	/**
 	 * Verifica si el usuario pertenece a la organización.
 	 * @param orgId id de la organización
 	 * @param userId id del usuario
@@ -260,4 +321,59 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	List<Organization> getUserOrganizations(Serializable userId);
+
+	/**
+	 * Obtiene todos los ids de las organizaciones a las que
+	 * pertenece el usuario.
+	 * @param userId id del usuario
+	 * @return lista con los ids de organización
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Serializable> getUserOrganizationsId(Serializable userId);
+
+	/**
+	 * Obtiene la cantidad de organizaciones a las que
+	 * pertenece el usuario.
+	 * @param userId id del usuario
+	 * @return cantidad de organizaciones
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int getUserOrganizationsCount(Serializable userId);
+
+	/**
+	 * Obtiene todos los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return lista de usuarios
+	 * @throws OrganizationNotExistException Si la organización no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see UserService#find(User, Serializable, Boolean, ConfigurableData)
+	 */
+	List<User> getUsers(Serializable id);
+
+	/**
+	 * Obtiene todos los ids de los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return lista de usuarios
+	 * @throws OrganizationNotExistException Si la organización no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see UserService#find(User, Serializable, Boolean, ConfigurableData)
+	 */
+	List<Serializable> getUsersId(Serializable id);
+
+	/**
+	 * Obtiene la cantidad de todos los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return cantidad de usuarios
+	 * @throws OrganizationNotExistException Si la organización no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see UserService#findCount(User, Serializable, Boolean)
+	 */
+	int getUsersCount(Serializable id);
 }

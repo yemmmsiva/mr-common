@@ -30,8 +30,20 @@ public interface UserService {
 	 * @return listado de todos los usuarios
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
+	 * @see #find(User, Boolean, ConfigurableData)
+	 * @see #find(User, Serializable, Boolean, ConfigurableData)
 	 */
 	List<User> getList();
+
+	/**
+	 * Cantidad de usuarios de la aplicación.
+	 * @return la cantidad de usuarios
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see #findCount(User, Boolean)
+	 * @see #findCount(User, Serializable, Boolean)
+	 */
+	int count();
 
 	/**
 	 * @param id Serializable - algun identificador único del usuario
@@ -132,12 +144,12 @@ public interface UserService {
 	/**
 	 * Busca usuarios por determinados parámetros.
 	 * @param user - datos a machear
-	 * @param activeFilter - si es distinto de <code>null</code>,
-	 * su valor indica si se debe filtrar usuarios
-	 * activados/desactivados
 	 * @param orgId - id de organización al que deben
 	 * pertener los usuarios, <code>null</code> para
 	 * cualquier organización
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
+	 * activados/desactivados
 	 * @param page - página de datos, <code>null</code>
 	 * si se deben traer todos los datos y sin ordenar
 	 * @return listado de usuarios
@@ -152,11 +164,11 @@ public interface UserService {
 	/**
 	 * Obtiene la cantidad de usuarios por determinados parámetros.
 	 * @param user - datos a machear
-	 * @param activeFilter - si es distinto de <code>null</code>,
-	 * su valor indica si se debe filtrar usuarios
 	 * @param orgId - id de organización al que deben
 	 * pertener los usuarios, <code>null</code> para
 	 * cualquier organización
+	 * @param activeFilter - si es distinto de <code>null</code>,
+	 * su valor indica si se debe filtrar usuarios
 	 * @return int
 	 * @throws IllegalArgumentUserFindException Si los argumentos
 	 * de búsqueda son inválidos
@@ -308,6 +320,13 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	boolean checkPassword(String username, String password);
+
+	/**
+	 * Genera una password aleatoria válida para asignar
+	 * a usuarios.
+	 * @return cadena de texto aleatoria
+	 */
+	String generateRandomPassword();
 
 	/**
 	 * Chequea si el usuario tiene la password pasada
