@@ -1,8 +1,10 @@
 package mr.common.security.userentity.organization.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import mr.common.dao.AbstractAuditableDao;
+import mr.common.security.model.User;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.userentity.organization.model.UserOrganization;
 
@@ -40,10 +42,58 @@ public interface UserOrganizationDao extends AbstractAuditableDao<UserOrganizati
 	List<Organization> getUserOrganizations(Long userId);
 
 	/**
+	 * Obtiene todas los ids de organizaciones a las que pertenezca el usuario.<br/>
+	 * Tener en cuenta que si no existe el usuario con el id pasado el resultado
+	 * será <code>null</code>.
+	 * @param userId id del usuario
+	 * @return lista con los ids de las organizaciones, <code>null</code> si no existe
+	 * el usuario con el id pasado
+	 */
+	@SuppressWarnings("rawtypes")
+	List getUserOrganizationsId(Long userId);
+
+	/**
+	 * Obtiene la cantidad de organizaciones a las que
+	 * pertenece el usuario.
+	 * @param userId id del usuario
+	 * @return cantidad de organizaciones
+	 */
+	int getUserOrganizationsCount(Long userId);
+
+	/**
 	 * Quita al usuario de todas las organizaciones.
 	 * @param userId id del usuario
 	 * @return cantidad de organizaciones en las que
 	 * fue removido el usuario
 	 */
 	int removeUserFromAll(Long userId);
+
+	/**
+	 * Quita todos los usuarios de la organización.
+	 * @param id identificador de la organización
+	 * @return cantidad de usuarios quitados
+	 */
+	int removeAllUsersFromOrganization(Long id);
+
+	/**
+	 * Obtiene todos los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return lista de usuarios
+	 */
+	List<User> getUsers(Serializable id);
+
+	/**
+	 * Obtiene todos los ids de los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return lista de usuarios
+	 */
+	@SuppressWarnings("rawtypes")
+	List getUsersId(Serializable id);
+
+	/**
+	 * Obtiene la cantidad de todos los usuarios de la organización.
+	 * @param id id de la organización
+	 * @return cantidad de usuarios
+	 */
+	int getUsersCount(Serializable id);
 }

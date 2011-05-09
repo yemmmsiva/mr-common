@@ -21,6 +21,7 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * y en forma pagina.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
+	 * @param userId - id del usuario que debe estar en las organizaciones
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar organizaciones
 	 * activados/desactivados
@@ -30,12 +31,14 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<OrganizationEntity> find(String nameOrDescription, Boolean activeFilter, ConfigurableData page);
+	List<OrganizationEntity> find(String nameOrDescription, Serializable userId,
+	                              Boolean activeFilter, ConfigurableData page);
 
 	/**
 	 * Obtiene la cantidad de organizaciones por determinados parámetros.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
+	 * @param userId - id del usuario que debe estar en las organizaciones
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * activados/desactivados
@@ -43,7 +46,8 @@ public interface OrganizationEntityDao extends AbstractAuditableDao<Organization
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	int findCount(String nameOrDescription, Boolean activeFilter);
+	int findCount(String nameOrDescription, Serializable userId,
+	              Boolean activeFilter);
 
 	/**
 	 * Obtiene una organización por su nombre.

@@ -10,6 +10,8 @@ import mr.common.format.validator.Validator;
 import mr.common.model.ConfigurableData;
 import mr.common.security.Encoder;
 import mr.common.security.Md5Encoder;
+import mr.common.security.RandomString;
+import mr.common.security.UUIDRandomString;
 import mr.common.security.exception.DuplicatedEmailAddressException;
 import mr.common.security.exception.DuplicatedUserException;
 import mr.common.security.exception.EncodePasswordException;
@@ -75,7 +77,7 @@ public class UserEntityService implements UserService {
 	// de objetos o con su constructor.
 	// En caso de no configurarse por default se usarán
 	// las implementaciones del framework.
-	private Validator passwordValidator = new PasswordValidator();
+	private Validator passwordValidator = new PasswordValidator(4, 20);
 	private Validator usernameValidator = new UsernameValidator();
 	private Validator emailAddressValidator = new EmailAddressValidator();
 
@@ -85,6 +87,11 @@ public class UserEntityService implements UserService {
 	// En caso de no configurarse por default se usará
 	// un encoder MD5.
 	private Encoder passwordEncoder = new Md5Encoder();
+
+	// Generador de passwords aleatorias.
+	// En caso de no configurarse por default se usará
+	// un generador de claves hexadecimal con 6 dígitos.
+	private RandomString passwordGenerator = new UUIDRandomString();
 
 
 	public UserEntityService() { }
@@ -102,15 +109,21 @@ public class UserEntityService implements UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	public UserEntityService(RandomString passwordGenerator) {
+		this.passwordGenerator = passwordGenerator;
+	}
+
 	public UserEntityService(Validator usernameValidator,
 	                          Validator passwordValidator,
 	                          Validator emailAddressValidator,
-	                          Encoder passwordEncoder) {
+	                          Encoder passwordEncoder,
+	                          RandomString passwordGenerator) {
 
 		this.usernameValidator = usernameValidator;
 		this.passwordValidator = passwordValidator;
 		this.emailAddressValidator = emailAddressValidator;
 		this.passwordEncoder = passwordEncoder;
+		this.passwordGenerator = passwordGenerator;
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -118,6 +131,11 @@ public class UserEntityService implements UserService {
 	public List getList() {
     	return userDao.getList();
 	}
+
+    @Transactional(readOnly = true)
+	public int count() {
+    	return (int) userDao.count();
+    }
 
     @Transactional(readOnly = true)
 	public User getByUsername(String username) {
@@ -434,6 +452,10 @@ public class UserEntityService implements UserService {
 		return passwordValidator.isValid(password);
 	}
 
+	public String generateRandomPassword() {
+		return passwordGenerator.nextString();
+	}
+
 	public boolean isValidEmailAddress(String emailAddress) {
 		if(emailAddress==null) {
 			throw new NullPointerException("emailAddress = null.");
@@ -718,5 +740,11 @@ public class UserEntityService implements UserService {
 	}
 	public void setUserSecurityService(UserSecurityService userSecurityService) {
 		this.userSecurityService = userSecurityService;
+	}
+	public RandomString getPasswordGenerator() {
+		return passwordGenerator;
+	}
+	public void setPasswordGenerator(RandomString passwordGenerator) {
+		this.passwordGenerator = passwordGenerator;
 	}
 }

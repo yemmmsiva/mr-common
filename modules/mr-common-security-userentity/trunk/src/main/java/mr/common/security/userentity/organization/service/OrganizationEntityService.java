@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mr.common.model.ConfigurableData;
+import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
@@ -49,16 +50,34 @@ public class OrganizationEntityService implements OrganizationService {
 		return orgDao.getList();
 	}
 
+	@Transactional(readOnly = true)
+	public int count() {
+		return (int) orgDao.count();
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List find(String nameOrDescription, Boolean activeFilter,
 			ConfigurableData page) {
-		return orgDao.find(nameOrDescription, activeFilter, page);
+		return orgDao.find(nameOrDescription, null, activeFilter, page);
 	}
 
 	@Transactional(readOnly = true)
 	public int findCount(String nameOrDescription, Boolean activeFilter) {
-		return orgDao.findCount(nameOrDescription, activeFilter);
+		return orgDao.findCount(nameOrDescription, null, activeFilter);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Transactional(readOnly = true)
+	public List find(String nameOrDescription, Serializable userId, Boolean activeFilter,
+			ConfigurableData page) {
+		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
+		return orgDao.find(nameOrDescription, userId, activeFilter, page);
+	}
+
+	@Transactional(readOnly = true)
+	public int findCount(String nameOrDescription, Serializable userId, Boolean activeFilter) {
+		return orgDao.findCount(nameOrDescription, userId, activeFilter);
 	}
 
 	@Transactional(readOnly = true)
@@ -170,11 +189,14 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void deleteByName(String name) {
-		orgDao.delete((OrganizationEntity) getByName(name));
+		Long orgId = (Long) getIdByName(name);
+		userOrganizationDao.removeAllUsersFromOrganization(orgId);
+		orgDao.deleteById(orgId);
 	}
 
 	@Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
+		userOrganizationDao.removeAllUsersFromOrganization((Long) id);
 		orgDao.delete((OrganizationEntity) getById(id));
 	}
 
@@ -218,6 +240,12 @@ public class OrganizationEntityService implements OrganizationService {
 		return userOrganizationDao.removeUserFromAll((Long)userId);
 	}
 
+	@Transactional(readOnly = false)
+	public int removeAllUsersFromOrganization(Long id) {
+		getNameById(id); // Si la organización no existe lanza excepción
+		return userOrganizationDao.removeAllUsersFromOrganization(id);
+	}
+
 	@Transactional(readOnly = true)
 	public boolean isUserInOrganization(Serializable orgId, Serializable userId) {
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
@@ -229,6 +257,12 @@ public class OrganizationEntityService implements OrganizationService {
 	public List<Organization> getUserOrganizations(Serializable userId) {
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationDao.getUserOrganizations((Long)userId);
+	}
+
+	@Transactional(readOnly = true)
+	public int getUserOrganizationsCount(Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationDao.getUserOrganizationsCount((Long)userId);
 	}
 
 	@Transactional(readOnly = true)
@@ -257,5 +291,30 @@ public class OrganizationEntityService implements OrganizationService {
 					"Organization with name=" + name + " not exist.");
 		}
 		return id;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Serializable> getUserOrganizationsId(Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationDao.getUserOrganizationsId((Long)userId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<User> getUsers(Serializable id) {
+		getNameById(id); // Si la organización no existe lanza excepción
+		return userOrganizationDao.getUsers(id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Serializable> getUsersId(Serializable id) {
+		getNameById(id); // Si la organización no existe lanza excepción
+		return userOrganizationDao.getUsersId(id);
+	}
+
+	@Transactional(readOnly = true)
+	public int getUsersCount(Serializable id) {
+		getNameById(id); // Si la organización no existe lanza excepción
+		return userOrganizationDao.getUsersCount(id);
 	}
 }
