@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -172,16 +173,85 @@ public abstract class XmlUtils {
 		}
 	}
 
-	/**
-	 * Retorna el mismo nodo si no es de tipo comentario
-	 * o texto llano, sino retorna el
-	 * siguiente nodo.
-	 * @param node {@link org.w3c.dom.Node}
-	 * @return {@link org.w3c.dom.Node}
-	 */
-	public static Node nextNode(Node node) {
-		return isTagNode(node) ? node : node.getNextSibling();
-	}
+    /**
+     * Retorna el mismo nodo si no es de tipo comentario
+     * o texto llano, sino itera los siguientes
+     * nodos hasta encontrar uno o <code>null</code>
+     * si no lo hubiera.
+     * @param node {@link org.w3c.dom.Node}
+     * @return {@link org.w3c.dom.Node}
+     */
+    public static Node nextNode(Node node) {
+    	if(node==null) {
+    		throw new NullPointerException("node = null.");
+    	}
+    	Node n = node.getNextSibling();
+    	while(n!=null && !isTagNode(n)) {
+    		n = n.getNextSibling();
+    	}
+    	return n;
+    }
+
+    /**
+     * @return <code>true</code> si hay un elemento tag
+     * siguiente al pasado
+     */
+    public static boolean hasNextNode(Node node) {
+    	if(node==null) {
+    		throw new NullPointerException("node = null.");
+    	}
+    	Node n = node.getNextSibling();
+    	while(n!=null && !isTagNode(n)) {
+    		n = n.getNextSibling();
+    	}
+    	return n!=null;
+    }
+
+    /**
+     * @return <code>true</code> si tiene un elemento tag
+     */
+    public static boolean hasNode(NodeList nodeList) {
+    	return firstNode(nodeList)!=null;
+    }
+
+    /**
+     * Retorna el primer elemento tag de
+     * la lista, o <code>null</code>
+     * si no lo hubiera.
+     * @param node {@link org.w3c.dom.Node}
+     * @return {@link org.w3c.dom.Node}
+     */
+    public static Node firstNode(NodeList nodeList) {
+    	if(nodeList==null) {
+    		throw new NullPointerException("nodeList = null.");
+    	}
+    	Node n = nodeList.item(0);
+    	while(n!=null && !isTagNode(n)) {
+    		n = n.getNextSibling();
+    	}
+    	return n;
+    }
+
+    /**
+     * Retorna el último elemento tag de
+     * la lista, o <code>null</code>
+     * si no lo hubiera.
+     * @param node {@link org.w3c.dom.Node}
+     * @return {@link org.w3c.dom.Node}
+     */
+    public static Node lastNode(NodeList nodeList) {
+    	if(nodeList==null) {
+    		throw new NullPointerException("nodeList = null.");
+    	}
+    	if(nodeList.getLength()==0) {
+    		return null;
+    	}
+    	Node n = nodeList.item(nodeList.getLength()-1);
+    	while(n!=null && !isTagNode(n)) {
+    		n = n.getPreviousSibling();
+    	}
+    	return n;
+    }
 
 	/**
 	 * @return <code>true</code> si el nodo no es un
