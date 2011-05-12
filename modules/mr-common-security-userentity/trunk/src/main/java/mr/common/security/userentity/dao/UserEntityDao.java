@@ -88,4 +88,12 @@ public interface UserEntityDao extends AbstractAuditableDao<UserEntity> {
 	 * si el usuario no existe
 	 */
 	Long getIdByUsername(String username);
+
+	/**
+	 * Obtiene el id del usuario por su email.
+	 * @param email del usuario
+	 * @return el id del usuario, <code>null</code>
+	 * si el usuario no existe
+	 */
+	Long getIdByEmailAddress(String emailAddress);
 }

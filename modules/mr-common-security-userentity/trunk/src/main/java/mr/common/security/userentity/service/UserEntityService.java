@@ -684,6 +684,19 @@ public class UserEntityService implements UserService {
 		return userId;
 	}
 
+	@Transactional(readOnly = true)
+	public Serializable getIdByEmailAddress(String emailAddress) {
+    	if(emailAddress==null) {
+    		throw new NullPointerException("emailAddress = null.");
+    	}
+    	Serializable userId = userDao.getIdByEmailAddress(emailAddress);
+		if(userId==null) {
+			throw new UserNotExistException(
+					"User with emailAddress='" + emailAddress + "' not exist.");
+		}
+		return userId;
+	}
+
 
 	/*!** Getters & setters  **!*/
 

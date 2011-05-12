@@ -196,4 +196,12 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 		query.setParameter("username", username);
 		return (Long) query.uniqueResult();
 	}
+
+	public Long getIdByEmailAddress(String emailAddress) {
+		String hql = "select id from " + UserEntity.class.getName()
+				+ " where emailAddress = :emailAddress and audit.deleted = false";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("emailAddress", emailAddress);
+		return (Long) query.uniqueResult();
+	}
 }

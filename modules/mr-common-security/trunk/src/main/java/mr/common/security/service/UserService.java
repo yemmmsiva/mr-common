@@ -89,6 +89,16 @@ public interface UserService {
 	User getByEmailAddress(String emailAddress);
 
 	/**
+	 * Retorna el id del usuario por su correo electrónico.
+	 * @param emailAddress String
+	 * @return el identificador
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	Serializable getIdByEmailAddress(String emailAddress);
+
+	/**
 	 * Usuario logueado en la sesión.
 	 * @return {@link mr.common.security.model.User}
 	 * @throws UnsupportedOperationException Si la operación
