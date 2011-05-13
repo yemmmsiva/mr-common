@@ -14,6 +14,10 @@ public class FrameworkException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
+	private String messageKey;
+	private Object[] messageArgs;
+
+
 	/**
 	 * @see java.lang.RuntimeException#RuntimeException()
 	 */
@@ -29,6 +33,8 @@ public class FrameworkException extends RuntimeException {
 	 */
     public FrameworkException(String messageKey, Object... messageArgs) {
         super(resolveMessage(messageKey, messageArgs));
+        this.messageKey = messageKey;
+        this.messageArgs = messageArgs;
     }
 
     /**
@@ -47,7 +53,23 @@ public class FrameworkException extends RuntimeException {
      */
     public FrameworkException(Throwable cause, String messageKey, Object... messageArgs) {
         super(resolveMessage(messageKey, messageArgs), cause);
+        this.messageKey = messageKey;
+        this.messageArgs = messageArgs;
     }
+
+
+	public String getMessageKey() {
+		return messageKey;
+	}
+	public void setMessageKey(String messageKey) {
+		this.messageKey = messageKey;
+	}
+	public Object[] getMessageArgs() {
+		return messageArgs;
+	}
+	public void setMessageArgs(Object[] messageArgs) {
+		this.messageArgs = messageArgs;
+	}
 
 
 	    private static String resolveMessage(String messageKey, Object[] messageArgs) {
