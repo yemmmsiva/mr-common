@@ -278,10 +278,10 @@ public class UserEntityService implements UserService {
 		userData.setTelephoneNumber(user.getUserData().getTelephoneNumber());
 		userData.setDescription(user.getUserData().getDescription());
 		userData.setPortraitId(user.getUserData().getPortraitId());
+		userData.setLocked(user.getUserData().isLocked());
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
 		userEntity.setEnabled(user.isEnabled());
-		userEntity.setLocked(user.isLocked());
 		if(user.getPassword()!=null) {
 			try {
 				userEntity.setPassword(encodePassword(user.getPassword()));

@@ -10,6 +10,7 @@ import mr.common.security.exception.UserLockedException;
 import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
+import mr.common.security.organization.exception.OrganizationLockedException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
 import mr.common.security.organization.exception.UserIsInOrganizationException;
 import mr.common.security.organization.exception.UserNotInOrganizationException;
@@ -83,6 +84,11 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public Organization getById(Serializable id) {
+    	return getById(id, true);
+	}
+
+	@Transactional(readOnly = true)
+	protected Organization getById(Serializable id, boolean readOnly) {
     	if(id==null) {
     		throw new NullPointerException("id = null.");
     	}
@@ -90,6 +96,9 @@ public class OrganizationEntityService implements OrganizationService {
 		if(org==null) {
 			throw new OrganizationNotExistException(
 					"Organization with id=" + id.toString() + " not exist.");
+		}
+		if(!readOnly && org.isLocked()) {
+			throw new OrganizationLockedException();
 		}
 		return org;
 	}
@@ -120,7 +129,7 @@ public class OrganizationEntityService implements OrganizationService {
 	private Organization saveOrUpdate(OrganizationEntity org) {
 		OrganizationEntity organization;
 		if(org.getId()!=null) {
-			organization = (OrganizationEntity) getById(org.getId());
+			organization = (OrganizationEntity) getById(org.getId(), false);
 		} else {
 			organization = new OrganizationEntity();
 		}
@@ -192,19 +201,26 @@ public class OrganizationEntityService implements OrganizationService {
 	public void deleteByName(String name) {
 		Long orgId = (Long) getIdByName(name);
 		userOrganizationDao.removeAllUsersFromOrganization(orgId);
-		orgDao.deleteById(orgId);
+		orgDao.delete((OrganizationEntity) getById(orgId, false));
 	}
 
 	@Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
 		userOrganizationDao.removeAllUsersFromOrganization((Long) id);
-		orgDao.delete((OrganizationEntity) getById(id));
+		orgDao.delete((OrganizationEntity) getById(id, false));
 	}
 
 	@Transactional(readOnly = false)
 	public void updateLogoId(Serializable orgId, Serializable newLogoId) {
-		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		OrganizationEntity org = (OrganizationEntity) getById(orgId, false);
 		org.setLogoId((Long)newLogoId);
+		orgDao.update(org);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateLock(Serializable orgId, boolean lock) {
+		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		org.setLocked(lock);
 		orgDao.update(org);
 	}
 

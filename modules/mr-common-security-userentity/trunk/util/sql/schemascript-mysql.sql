@@ -123,6 +123,7 @@ CREATE TABLE organization (
   countryId					CHAR(3)			DEFAULT NULL,
   timeZoneId				VARCHAR(50)		DEFAULT NULL,
   logoId					INTEGER(16)		DEFAULT NULL,
+  locked					INTEGER(1)		DEFAULT 0 NOT NULL,
 
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,

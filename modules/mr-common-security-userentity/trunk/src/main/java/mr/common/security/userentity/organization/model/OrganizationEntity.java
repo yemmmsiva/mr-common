@@ -30,7 +30,8 @@ public class OrganizationEntity extends AuditableEntity
 	private String countryId;
 	private String timeZoneId;
 	private Long logoId;
-	private boolean enabled;
+	private boolean enabled = true;
+	private boolean locked = false;
 
 
 	public String getName() {
@@ -103,5 +104,11 @@ public class OrganizationEntity extends AuditableEntity
 	}
 	public void setLogoId(Serializable logoId) {
 		this.logoId = (Long) logoId;
+	}
+	public boolean isLocked() {
+		return locked;
+	}
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 	}
 }

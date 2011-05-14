@@ -34,7 +34,7 @@ public class UserEntity extends AuditableEntity implements User {
 	private String username;
 	private String password;
 	private String emailAddress;
-	private boolean enabled;
+	private boolean enabled = true;
 
 	private UserData userData;
 	private List<Authority> authorities;
