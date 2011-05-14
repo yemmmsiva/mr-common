@@ -176,6 +176,8 @@ public interface OrganizationService {
 	 * de organización no es válido
 	 * @throws DuplicatedOrganizationException Si una organización
 	 * ya existe con el mismo nombre
+	 * @throws OrganizationLockedException Si la organización
+	 * está bloqueada para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -192,6 +194,8 @@ public interface OrganizationService {
 	 * de organización no es válido
 	 * @throws DuplicatedOrganizationException Si una organización
 	 * ya existe con el mismo nombre
+	 * @throws OrganizationLockedException Si la organización
+	 * está bloqueada para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -223,6 +227,8 @@ public interface OrganizationService {
 	 * Borra la organización por su nombre.
 	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
+	 * @throws OrganizationLockedException Si la organización
+	 * está bloqueada para escritura y borrado
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -232,6 +238,8 @@ public interface OrganizationService {
 	 * Borra la organización por su id.
 	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
+	 * @throws OrganizationLockedException Si la organización
+	 * está bloqueada para escritura y borrado
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -243,10 +251,26 @@ public interface OrganizationService {
 	 * @param newLogoId nuevo id
 	 * @throws OrganizationNotExistException Si la organización
 	 * no existe
+	 * @throws OrganizationLockedException Si la organización
+	 * está bloqueada para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
+	 * @see mr.common.security.organization.model.Organization#setLogoId(Serializable)
 	 */
 	void updateLogoId(Serializable orgId, Serializable newLogoId);
+
+	/**
+	 * Cambia el estado de bloqueo de la organización.
+	 * @param orgId id de la organización
+	 * @param lock <code>true</code> para bloquear la
+	 * organización contra escritura y borrados
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see mr.common.security.organization.model.Organization#setLocked(boolean)
+	 */
+	void updateLock(Serializable orgId, boolean lock);
 
 	/**
 	 * Agrega al usuario a la organización.

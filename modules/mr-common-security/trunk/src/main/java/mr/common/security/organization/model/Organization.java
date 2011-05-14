@@ -123,4 +123,17 @@ public interface Organization extends Serializable {
 	 * persistido de la organización
 	 */
 	void setLogoId(Serializable logoId);
+
+	/**
+	 * @return <code>true</code> si la organización está
+	 * bloqueado para escritura o borrado
+	 */
+	boolean isLocked();
+
+	/**
+	 * <code>true</code> si se quiere bloquear
+	 * la organización para escritura o borrado
+	 * @param locked
+	 */
+	void setLocked(boolean locked);
 }
