@@ -25,8 +25,9 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
     implements UserOrganizationDao {
 
 	public Long getUserOrganizationId(Long orgId, Long userId) {
-		String hql = "select id from " + UserOrganization.class.getName()
-		          + " where organization.id = :orgId and user.id = :userId and audit.deleted = false";
+		String hql = "select userOrgs.id from " + UserOrganization.class.getName()
+		          + " userOrgs where userOrgs.organization.id = :orgId and userOrgs.user.id = :userId "
+		          + " and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("orgId", orgId);
 		query.setParameter("userId", userId);
@@ -35,9 +36,9 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 
 	@SuppressWarnings("unchecked")
 	public List<Organization> getUserOrganizations(Long userId) {
-		String hql = "select organization from "
+		String hql = "select userOrgs.organization from "
 				+ UserOrganization.class.getName()
-				+ " where user.id = :userId and audit.deleted = false";
+				+ " userOrgs where userOrgs.user.id = :userId and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
 		return query.list();
@@ -45,9 +46,9 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 
 	@SuppressWarnings("unchecked")
 	public List<Long> getUserOrganizationsId(Long userId) {
-		String hql = "select organization.id from "
+		String hql = "select userOrgs.organization.id from "
 				+ UserOrganization.class.getName()
-				+ " where user.id = :userId and audit.deleted = false";
+				+ " userOrgs where userOrgs.user.id = :userId and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
 		return query.list();
@@ -75,9 +76,9 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 
 	@SuppressWarnings("unchecked")
 	public List<User> getUsers(Serializable id) {
-		String hql = "select user from "
+		String hql = "select userOrgs.user from "
 			+ UserOrganization.class.getName()
-			+ " where organization.id = :orgId and audit.deleted = false";
+			+ " userOrgs where userOrgs.organization.id = :orgId and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("orgId", id);
 		return query.list();
@@ -85,9 +86,9 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 
 	@SuppressWarnings("rawtypes")
 	public List getUsersId(Serializable id) {
-		String hql = "select user.id from "
+		String hql = "select userOrgs.user.id from "
 			+ UserOrganization.class.getName()
-			+ " where organization.id = :orgId and audit.deleted = false";
+			+ " userOrgs where userOrgs.organization.id = :orgId and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("orgId", id);
 		return query.list();
