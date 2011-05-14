@@ -15,6 +15,7 @@ public class UserData extends Person {
 	private static final long serialVersionUID = 1L;
 
 	private UserEntity user;
+	private boolean locked = false;
 
 	@OneToOne(mappedBy = "userData")
 	public UserEntity getUser() {
@@ -22,5 +23,12 @@ public class UserData extends Person {
 	}
 	public void setUser(UserEntity user) {
 		this.user = user;
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 	}
 }

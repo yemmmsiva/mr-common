@@ -23,6 +23,7 @@ CREATE TABLE userdata (
   timeZoneId				VARCHAR(50)		DEFAULT NULL,
   birthdayDate				DATE			DEFAULT NULL,
   portraitId				INTEGER(16)		DEFAULT NULL,
+  locked					INTEGER(1)		DEFAULT 0 NOT NULL,
 
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,

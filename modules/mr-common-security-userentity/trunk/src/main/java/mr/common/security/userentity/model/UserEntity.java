@@ -267,4 +267,14 @@ public class UserEntity extends AuditableEntity implements User {
 	public void setId(Serializable id) {
 		setId((Long)id);
 	}
+
+	@Transient
+	public boolean isLocked() {
+		return userData.isLocked();
+	}
+
+	@Transient
+	public void setLocked(boolean locked) {
+		userData.setLocked(locked);
+	}
 }

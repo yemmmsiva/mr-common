@@ -19,6 +19,7 @@ import mr.common.security.exception.InvalidEmailAddressException;
 import mr.common.security.exception.InvalidPasswordException;
 import mr.common.security.exception.InvalidRoleException;
 import mr.common.security.exception.InvalidUsernameException;
+import mr.common.security.exception.UserLockedException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
@@ -139,6 +140,11 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public User getByUsername(String username) {
+    	return getByUsername(username, false);
+	}
+
+    @Transactional(readOnly = true)
+	protected User getByUsername(String username, boolean toEdit) {
     	if(username==null) {
     		throw new NullPointerException("username = null.");
     	}
@@ -146,6 +152,9 @@ public class UserEntityService implements UserService {
 		if(user==null) {
 			throw new UserNotExistException(
 					"User with username=" + username + " not exist.");
+		}
+		if(toEdit && user.isLocked()) {
+			throw new UserLockedException();
 		}
 		return user;
 	}
@@ -212,7 +221,7 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = false)
 	public void deleteByUsername(String username) {
-    	UserEntity u = (UserEntity) getByUsername(username);
+    	UserEntity u = (UserEntity) getByUsername(username, true);
     	if(organizationService!=null) {
     		organizationService.removeUserFromAll(u.getId());
     	}
@@ -228,7 +237,7 @@ public class UserEntityService implements UserService {
 		// Recuperamos el usuario o creamos el nuevo
 		boolean userExist = user.getId()!=null;
 		if(userExist) {
-			userEntity = (UserEntity) getById(user.getId());
+			userEntity = (UserEntity) getById(user.getId(), true);
 			userData = userEntity.getUserData();
 		} else {
 			userEntity = new UserEntity();
@@ -272,6 +281,7 @@ public class UserEntityService implements UserService {
 		userEntity.setUsername(user.getUsername());
 		userEntity.setEmailAddress(user.getEmailAddress());
 		userEntity.setEnabled(user.isEnabled());
+		userEntity.setLocked(user.isLocked());
 		if(user.getPassword()!=null) {
 			try {
 				userEntity.setPassword(encodePassword(user.getPassword()));
@@ -395,7 +405,7 @@ public class UserEntityService implements UserService {
     	if(!isValidPassword(newPassword)) {
     		throw new InvalidPasswordException();
     	}
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		updatePassword(user, newPassword);
 	}
 
@@ -404,12 +414,17 @@ public class UserEntityService implements UserService {
     	if(!isValidPassword(newPassword)) {
     		throw new InvalidPasswordException();
     	}
-		UserEntity user = (UserEntity) getById(id);
+		UserEntity user = (UserEntity) getById(id, true);
 		updatePassword(user, newPassword);
 	}
 
     @Transactional(readOnly = true)
 	public User getById(Serializable id) {
+		return getById(id, false);
+	}
+
+    @Transactional(readOnly = true)
+	protected User getById(Serializable id, boolean toEdit) {
     	if(id==null) {
     		throw new NullPointerException("id = null.");
     	}
@@ -418,12 +433,15 @@ public class UserEntityService implements UserService {
 			throw new UserNotExistException(
 					"User with id=" + id + " not exist.");
 		}
+		if(toEdit && user.isLocked()) {
+			throw new UserLockedException();
+		}
 		return user;
 	}
 
     @Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
-    	UserEntity u = (UserEntity) getById(id);
+    	UserEntity u = (UserEntity) getById(id, true);
     	if(organizationService!=null) {
     		organizationService.removeUserFromAll(u.getId());
     	}
@@ -492,35 +510,49 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCommonName(String username, String newCommonName) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setCommonName(newCommonName);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateCommonName(Serializable userId, String newCommonName) {
-		UserEntity user = (UserEntity) getById(userId);
+		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCommonName(newCommonName);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
-	public void updateTimeZoneId(String username, String newTimeZoneId) {
+	public void updateLock(Serializable userId, boolean lock) {
+		UserEntity user = (UserEntity) getById(userId);
+		user.getUserData().setLocked(lock);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateLock(String username, boolean lock) {
 		UserEntity user = (UserEntity) getByUsername(username);
+		user.getUserData().setLocked(lock);
+		userDataDao.update(user.getUserData());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateTimeZoneId(String username, String newTimeZoneId) {
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setTimeZoneId(newTimeZoneId);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updatePortraitId(String username, Serializable newPortraitId) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setPortraitId((Long)newPortraitId);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updatePortraitId(Serializable userId, Serializable newPortraitId) {
-		UserEntity user = (UserEntity) getById(userId);
+		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setPortraitId((Long)newPortraitId);
 		userDataDao.update(user.getUserData());
 	}
@@ -534,49 +566,49 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCountryId(String username, String newCountryId) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setCountryId(newCountryId);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateCountryId(Serializable userId, String newCountryId) {
-		UserEntity user = (UserEntity) getById(userId);
+		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCountryId(newCountryId);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateCityOrRegionName(String username, String newCityOrRegionName) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setCityOrRegionName(newCityOrRegionName);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateCityOrRegionName(Serializable userId, String newCityOrRegionName) {
-		UserEntity user = (UserEntity) getById(userId);
+		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCityOrRegionName(newCityOrRegionName);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateBirthdayDate(String username, Date newBirthdayDate) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setBirthdayDate(newBirthdayDate);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateBirthdayDate(Serializable userId, Date newBirthdayDate) {
-		UserEntity user = (UserEntity) getById(userId);
+		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setBirthdayDate(newBirthdayDate);
 		userDataDao.update(user.getUserData());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateEmailAddress(String username, String newEmailAddress) {
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
@@ -588,7 +620,7 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateEmailAddress(Serializable id, String newEmailAddress) {
-		UserEntity user = (UserEntity) getById(id);
+		UserEntity user = (UserEntity) getById(id, true);
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
@@ -603,7 +635,7 @@ public class UserEntityService implements UserService {
 		if(!isValidUsername(newUsername)) {
 			throw new InvalidUsernameException();
 		}
-		UserEntity user = (UserEntity) getByUsername(username);
+		UserEntity user = (UserEntity) getByUsername(username, true);
 		UserEntity user2 = userDao.getByUsername(newUsername);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(
@@ -618,7 +650,7 @@ public class UserEntityService implements UserService {
 		if(!isValidUsername(newUsername)) {
 			throw new InvalidUsernameException();
 		}
-		UserEntity user = (UserEntity) getById(id);
+		UserEntity user = (UserEntity) getById(id, true);
 		UserEntity user2 = userDao.getByUsername(newUsername);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
 			throw new DuplicatedUserException(

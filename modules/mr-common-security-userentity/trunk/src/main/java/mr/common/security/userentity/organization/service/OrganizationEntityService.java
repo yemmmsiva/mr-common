@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mr.common.model.ConfigurableData;
+import mr.common.security.exception.UserLockedException;
 import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
@@ -211,6 +212,9 @@ public class OrganizationEntityService implements OrganizationService {
 	public void addUser(Serializable orgId, Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
 		OrganizationEntity org = (OrganizationEntity) getById(orgId);
+		if(user.isLocked()) {
+			throw new UserLockedException();
+		}
 		if(isUserInOrganization(orgId, userId)) {
 			throw new  UserIsInOrganizationException(
 				"User with id " + orgId.toString() + " is in organization with id "
@@ -224,7 +228,10 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void removeUser(Serializable orgId, Serializable userId) {
-		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		UserEntity user = (UserEntity) userService.getById(userId);
+		if(user.isLocked()) {
+			throw new UserLockedException();
+		}
 		getNameById(orgId); // Si la organización no existe lanza excepción
 		Long id = userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId);
 		if(id==null) {
@@ -236,7 +243,10 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public int removeUserFromAll(Serializable userId) {
-		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		UserEntity user = (UserEntity) userService.getById(userId);
+		if(user.isLocked()) {
+			throw new UserLockedException();
+		}
 		return userOrganizationDao.removeUserFromAll((Long)userId);
 	}
 
