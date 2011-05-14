@@ -230,4 +230,17 @@ public interface User extends Serializable {
 	 * o pick persistido del usuario
 	 */
 	void setPortraitId(Serializable portraitId);
+
+	/**
+	 * @return <code>true</code> si el usuario está
+	 * bloqueado para escritura o borrado
+	 */
+	boolean isLocked();
+
+	/**
+	 * <code>true</code> si se quiere bloquear
+	 * el usuario para escritura o borrado
+	 * @param locked
+	 */
+	void setLocked(boolean locked);
 }

@@ -11,7 +11,7 @@ public class UserNotExistException extends SecurityException {
 	private static final long serialVersionUID = 1L;
 
 	public UserNotExistException() {
-		super("User not exist");
+		super("User not exist.");
 	}
 
 	public UserNotExistException(String s) {

@@ -12,6 +12,7 @@ import mr.common.security.exception.IllegalArgumentUserFindException;
 import mr.common.security.exception.InvalidPasswordException;
 import mr.common.security.exception.InvalidRoleException;
 import mr.common.security.exception.InvalidUsernameException;
+import mr.common.security.exception.UserLockedException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.Role;
 import mr.common.security.model.User;
@@ -191,6 +192,8 @@ public interface UserService {
 	/**
 	 * Borra el usuario por su username.
 	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura y borrado
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -199,6 +202,8 @@ public interface UserService {
 	/**
 	 * Borra el usuario por su id.
 	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura y borrado
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -246,15 +251,17 @@ public interface UserService {
 	 * @param id: identificador del usuario
 	 * @param user: datos nuevos a actualizar
 	 * @return el usuario actualizado
-	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
-	 * @throws InvalidUsernameException si el nombre
+	 * @throws InvalidUsernameException Si el nombre
 	 * del usuario no es válido
 	 * @throws DuplicatedUserException Si un usuario
 	 * ya existe con el mismo nombre
 	 * @throws DuplicatedEmailAddressException Si un usuario
 	 * ya existe con el mismo email
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -265,15 +272,19 @@ public interface UserService {
 	 * @param username: nombre del usuario
 	 * @param user: datos nuevos a actualizar
 	 * @return el usuario actualizado
-	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
-	 * @throws InvalidUsernameException si el nombre
+	 * @throws InvalidUsernameException Si el nombre
 	 * del usuario no es válido
 	 * @throws DuplicatedUserException Si un usuario
 	 * ya existe con el mismo nombre
 	 * @throws DuplicatedEmailAddressException Si un usuario
 	 * ya existe con el mismo email
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -360,6 +371,8 @@ public interface UserService {
 	 * no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -373,6 +386,8 @@ public interface UserService {
 	 * no existe
 	 * @throws InvalidPasswordException Si la password es
 	 * inválida
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -386,6 +401,8 @@ public interface UserService {
 	 * con el mismo emailAddress
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -399,6 +416,8 @@ public interface UserService {
 	 * con el mismo emailAddress
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -414,6 +433,8 @@ public interface UserService {
 	 * no existe
 	 * @throws InvalidUsernameException si el nombre
 	 * del usuario no es válido
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -429,6 +450,8 @@ public interface UserService {
 	 * no existe
 	 * @throws InvalidUsernameException si el nombre
 	 * del usuario no es válido
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -440,6 +463,8 @@ public interface UserService {
 	 * @param newCommonName String: nuevo commonName
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -451,6 +476,8 @@ public interface UserService {
 	 * @param newPortraitId nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -462,6 +489,8 @@ public interface UserService {
 	 * @param newPortraitId nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -473,6 +502,8 @@ public interface UserService {
 	 * @param newCommonName String: nueva commonName
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -484,6 +515,8 @@ public interface UserService {
 	 * @param newTimeZoneId String: nuevo timeZoneId
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -495,6 +528,8 @@ public interface UserService {
 	 * @param newTimeZoneId String: nueva timeZoneId
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -506,6 +541,8 @@ public interface UserService {
 	 * @param newBirthdayDate nueva fecha
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -517,6 +554,8 @@ public interface UserService {
 	 * @param newBirthdayDate nueva fecha
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -528,6 +567,8 @@ public interface UserService {
 	 * @param newCityOrRegionName String: nueva ciudad o región
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -539,6 +580,8 @@ public interface UserService {
 	 * @param newCityOrRegionName String: nueva ciudad o región
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -550,6 +593,8 @@ public interface UserService {
 	 * @param newCountryId String: nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 * @see mr.common.security.model.User#setCountryId(String)
@@ -562,11 +607,39 @@ public interface UserService {
 	 * @param newCountryId String: nuevo id
 	 * @throws UserNotExistException si el usuario
 	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 * @see mr.common.security.model.User#setCountryId(String)
 	 */
 	void updateCountryId(Serializable userId, String newCountryId);
+
+	/**
+	 * Cambia el estado de bloqueo del usuario.
+	 * @param userId id del usuario
+	 * @param lock <code>true</code> para bloquear el
+	 * usuario contra escritura y borrados
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see mr.common.security.model.User#setLocked(boolean)
+	 */
+	void updateLock(Serializable userId, boolean lock);
+
+	/**
+	 * Cambia el estado de bloqueo del usuario.
+	 * @param username nombre del usuario
+	 * @param lock <code>true</code> para bloquear el
+	 * usuario contra escritura y borrados
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @see mr.common.security.model.User#setLocked(boolean)
+	 */
+	void updateLock(String username, boolean lock);
 
 	/**
 	 * Listado de roles de la aplicación.

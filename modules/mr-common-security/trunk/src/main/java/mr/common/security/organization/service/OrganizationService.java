@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import mr.common.model.ConfigurableData;
+import mr.common.security.exception.UserLockedException;
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
@@ -258,6 +259,10 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 * @throws UserIsInOrganizationException Si el usuario
 	 * ya pertenece a la organización
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
 	 */
 	void addUser(Serializable orgId, Serializable userId);
 
@@ -270,6 +275,8 @@ public interface OrganizationService {
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws UserNotInOrganizationException si el usuario
 	 * no pertenece a la organización
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -281,6 +288,8 @@ public interface OrganizationService {
 	 * @return cantidad de organizaciones en las que el
 	 * usuario fue removido
 	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
