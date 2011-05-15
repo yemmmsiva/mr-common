@@ -91,8 +91,8 @@ public class UserEntityService implements UserService {
 
 	// Generador de passwords aleatorias.
 	// En caso de no configurarse por default se usará
-	// un generador de claves hexadecimal con 6 dígitos.
-	private RandomString passwordGenerator = new UUIDRandomString();
+	// un generador de claves hexadecimal con 8 dígitos.
+	private RandomString passwordGenerator = new UUIDRandomString(8);
 
 
 	public UserEntityService() { }
