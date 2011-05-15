@@ -101,7 +101,8 @@ public interface UserService {
 
 	/**
 	 * Usuario logueado en la sesión.
-	 * @return {@link mr.common.security.model.User}
+	 * @return {@link mr.common.security.model.User}, <code>null</code>
+	 * si no hay usuario logueado en el hilo de ejecución
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
@@ -109,7 +110,8 @@ public interface UserService {
 
     /**
      * Nombre del usuario logueado en la sesión.
-     * @return String
+     * @return username del usuario, <code>null</code>
+	 * si no hay usuario logueado en el hilo de ejecución
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
      */
@@ -117,7 +119,8 @@ public interface UserService {
 
     /**
      * Id del usuario logueado en la sesión.
-     * @return id del usuario
+     * @return id del usuario, <code>null</code>
+	 * si no hay usuario logueado en el hilo de ejecución
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
      */
