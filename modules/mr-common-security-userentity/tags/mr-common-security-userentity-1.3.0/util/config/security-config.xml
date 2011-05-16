@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+
+	<!-- Installs a listener to apply Spring Security authorities -->
+	<bean id="securityFlowExecutionListener" class="org.springframework.webflow.security.SecurityFlowExecutionListener" />
+
+	<!-- Configure Spring Security -->
+	<security:http auto-config="true">
+		<security:form-login login-page="/do/login/login"
+		                     login-processing-url="/do/loginProcess"
+		                     default-target-url="/do/main/principal"
+		                     authentication-failure-url="/do/login/login?login_error=1" />
+
+		<security:logout logout-url="/do/logout" logout-success-url="/do/login/login" />
+
+		<!-- Acceso anónimo al login -->
+        <security:intercept-url pattern="/do/login/login" filters="none" />
+        <!-- Acceso anónimo a todas las URLs con este patrón (Public*Controller.*) -->
+        <security:intercept-url pattern="/do/public**" filters="none" />
+		<!-- Comentar la linea debajo si queremos acesso anónimo a las demás URLs -->
+		<security:intercept-url pattern="/do/**" access="ROLE_USER, ROLE_ADMIN" />
+	</security:http>
+
+	<!-- Implementación del servicio de acceso mediante User Details -->
+	<bean id="customUserDetailsService" class="mr.common.security.service.spring.DefaultUserDetailsService" />
+	<security:authentication-provider user-service-ref="customUserDetailsService">
+		<security:password-encoder hash="md5" />
+	</security:authentication-provider>
+
+	<!-- User service -->
+	<bean id="userService" class="mr.common.security.userentity.service.UserEntityService" />
+
+	<!-- User XML binder service -->
+	<bean id="userXmlBinder" class="mr.common.security.service.UserXmlBinder" />
+
+	<!-- Organization service -->
+	<bean id="organizationService" class="mr.common.security.userentity.organization.service.OrganizationEntityService" />
+
+	<!-- Implementación del servicio de acceso mediante el jdbc-user-service -->
+	<!--security:authentication-provider>
+		<security:password-encoder hash="md5" />
+        <security:jdbc-user-service
+            data-source-ref="dataSource"
+            users-by-username-query="select u.username, u.password, u.enabled from systemuser u where u.username=? and u.deleted = 0"
+            authorities-by-username-query="select u.username, r.code from systemuser u, authority a, role r where u.username=? and u.id = a.userId and a.roleId = r.id and a.deleted = 0 and u.deleted = 0" />
+	</security:authentication-provider-->
+
+    <!-- Enable @Secured annotations -->    
+    <security:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
+
+	<!-- Implementación de SecurityService -->
+	<bean name="securityService" class="mr.common.security.service.spring.SecuritySpringService" />
+
+</beans>
