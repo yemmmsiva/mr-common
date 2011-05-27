@@ -139,12 +139,13 @@ public class FormatUtils {
 	 * <br>
 	 * <code>ü</code> => <code>u</code>
 	 * </p>
-	 * Caracteres que no tengan representación en ASCII serán eliminados, ej. el EURO: €
+	 * <p>Caracteres que no tengan representación en ASCII serán eliminados, ej. el EURO: €</p>
+	 * <p><b>IMPORTANTE</b>: Requiere Java 1.6+.</p>
 	 * @param s String: cadena a limpiar
 	 * @return String: cadena "limpia"
 	 */
-	public static String normalize(String string){
+	public static String normalize(String string) {
 		string = Normalizer.normalize(string, Normalizer.Form.NFKD);
-		return string.replaceAll("[^\\p{ASCII}]","");
+		return string.replaceAll("[^\\p{ASCII}]", "");
 	}
 }

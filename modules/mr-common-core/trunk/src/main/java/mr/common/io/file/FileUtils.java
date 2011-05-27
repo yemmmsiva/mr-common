@@ -108,6 +108,7 @@ public class FileUtils {
      * También por cuestiones de compatibilidad, recorta el nombre a no más de 30 caracteres,
      * y quita todo lo que hay después de el primer punto inclusibe, por lo que se debe
      * usar para normalizar el nombre sin la extensión.
+     * <p><b>IMPORTANTE</b>: Requiere Java 1.6+.</p>
      * @param clientFileName String
      * @return String
      */
