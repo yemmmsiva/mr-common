@@ -2,6 +2,8 @@ package mr.common.web.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
 
 /**
  * Conversiones útiles provenientes de información
@@ -102,5 +104,32 @@ public abstract class RequestUtils {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Retorna el valor del atributo, o <code>defaultValue</code>
+	 * en caso de no existir en el <code>request</code>.<br/>
+	 * @param request la petición con los parámetros
+	 * @param attributeName el atributo
+	 * @param defaultValue el valor por default en caso de no
+	 * existir el atributo en el <code>request</code>
+	 * @return el valor del atributo, o el valor por default
+	 */
+	public static Object attribute(HttpServletRequest request, String attributeName, Object defaultValue) {
+		Object attr = null;
+		if(attributeName.indexOf(".")!=-1) {
+			String attributeObjectName = attributeName.substring(0, attributeName.indexOf("."));
+			try {
+				attr = PropertyUtils.getProperty(request.getAttribute(attributeObjectName), attributeName.substring(attributeName.indexOf(".")+1));
+			} catch (Throwable e) {
+				attr = null;
+			}
+		} else { 
+			attr = request.getAttribute(attributeName);
+		}
+		if(attr==null) {
+			attr = defaultValue;
+		}
+		return attr;
 	}
 }
