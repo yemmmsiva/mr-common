@@ -109,8 +109,11 @@ public abstract class RequestUtils {
 	/**
 	 * Retorna el valor del atributo, o <code>defaultValue</code>
 	 * en caso de no existir en el <code>request</code>.<br/>
+	 * Puede usarse bean expresion para obtener
+	 * valores del atributo.
 	 * @param request la petición con los parámetros
-	 * @param attributeName el atributo
+	 * @param attributeName el nombre del atributo, o bean expresion
+	 * sobre un atributo
 	 * @param defaultValue el valor por default en caso de no
 	 * existir el atributo en el <code>request</code>
 	 * @return el valor del atributo, o el valor por default
@@ -131,5 +134,30 @@ public abstract class RequestUtils {
 			attr = defaultValue;
 		}
 		return attr;
+	}
+
+	/**
+	 * Retorna <code>true</code> si el atributo
+	 * existe en el <code>request</code>.<br/>
+	 * Puede usarse bean expresion para obtener
+	 * valores del atributo.
+	 * @param request la petición con los parámetros
+	 * @param attributeName el nombre del atributo, o bean expresion
+	 * sobre un atributo
+	 * @return el valor del atributo, o el valor por default
+	 */
+	public static boolean hasAttribute(HttpServletRequest request, String attributeName) {
+		Object attr = null;
+		if(attributeName.indexOf(".")!=-1) {
+			String attributeObjectName = attributeName.substring(0, attributeName.indexOf("."));
+			try {
+				attr = PropertyUtils.getProperty(request.getAttribute(attributeObjectName), attributeName.substring(attributeName.indexOf(".")+1));
+			} catch (Throwable e) {
+				attr = null;
+			}
+		} else { 
+			attr = request.getAttribute(attributeName);
+		}
+		return attr!=null;
 	}
 }
