@@ -2,9 +2,9 @@ package mr.common.format;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.Normalizer;
 
 import org.springframework.util.StringUtils;
+
 
 /**
  * Clase con métodos encargados de realizar formateo de texto y números.
@@ -145,7 +145,7 @@ public class FormatUtils {
 	 * @return String: cadena "limpia"
 	 */
 	public static String normalize(String string) {
-		string = Normalizer.normalize(string, Normalizer.Form.NFKD);
+		string = java.text.Normalizer.normalize(string, java.text.Normalizer.Form.NFKD);
 		return string.replaceAll("[^\\p{ASCII}]", "");
 	}
 }
