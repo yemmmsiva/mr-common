@@ -25,7 +25,7 @@
 		<!-- Acceso anónimo al login -->
         <security:intercept-url pattern="/do/login/login" filters="none" />
         <!-- Acceso anónimo a todas las URLs con este patrón (Public*Controller.*) -->
-        <security:intercept-url pattern="/do/public**" filters="none" />
+        <security:intercept-url pattern="/do/public*/**" filters="none" />
 		<!-- Comentar la linea debajo si queremos acesso anónimo a las demás URLs -->
 		<security:intercept-url pattern="/do/**" access="ROLE_USER, ROLE_ADMIN" />
 	</security:http>
@@ -41,8 +41,5 @@
 
 	<!-- Implementación de SecurityService -->
 	<bean name="securityService" class="mr.common.security.service.spring.SecuritySpringService" />
-
-	<!-- User XML binder service -->
-	<bean id="userXmlBinder" class="mr.common.security.service.UserXmlBinder" />
 
 </beans>
