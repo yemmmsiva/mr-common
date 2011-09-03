@@ -689,6 +689,26 @@ public interface UserService {
 	Role getRole(String roleName);
 
 	/**
+	 * Retorna los roles del usuario.
+	 * @param id identificador del usuario
+	 * @return roles del usuario, o lista vacía si no tubiera
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Role> getUserRoles(Serializable userId);
+
+	/**
+	 * Retorna los roles del usuario.
+	 * @param username nombre del usuario
+	 * @return roles del usuario, o lista vacía si no tubiera
+	 * @throws UserNotExistException si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Role> getUserRoles(String username);
+
+	/**
 	 * @param user {@link mr.common.security.model.User User}
 	 * @param role {@link mr.common.security.model.Role Role}
 	 * @return <code>true</code> si el usuario tiene el rol.
