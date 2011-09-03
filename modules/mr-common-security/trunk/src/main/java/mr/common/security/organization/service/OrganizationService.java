@@ -48,7 +48,7 @@ public interface OrganizationService {
 
 	/**
 	 * Busca organizaciones según los parámetros pasados
-	 * y en forma pagina.
+	 * y en forma paginada.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
 	 * @param activeFilter - si es distinto de <code>null</code>,
@@ -65,7 +65,7 @@ public interface OrganizationService {
 
 	/**
 	 * Busca organizaciones según los parámetros pasados
-	 * y en forma pagina.
+	 * y en forma paginada.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
 	 * @param userId - id del usuario que debe estar en las organizaciones
