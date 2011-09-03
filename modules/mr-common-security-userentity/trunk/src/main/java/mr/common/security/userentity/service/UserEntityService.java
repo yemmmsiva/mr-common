@@ -1,6 +1,7 @@
 package mr.common.security.userentity.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -298,17 +299,9 @@ public class UserEntityService implements UserService {
 		userDataDao.saveOrUpdate(userData);
 		userEntity = userDao.merge(userEntity);
 
-		// Guardamos los roles
-		if(userEntity.getAuthorities()!=null) {
-			for(Authority au : userEntity.getAuthorities()) {
-				authorithyDao.delete(au);
-			}
-		}
-		for(Role role : user.getRoles()) {
-			Authority au = new Authority();
-			au.setRole((RoleEntity)role);
-			au.setUser(userEntity);
-			authorithyDao.save(au);
+
+		if(user.getRoles()!=null) {
+			updateRoles(userEntity, user.getRoles());
 		}
 
 		if(!userExist && orgId!=null) {
@@ -398,6 +391,43 @@ public class UserEntityService implements UserService {
 			throw e;
 		}
 		userDao.update(user);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateRoles(String username, List<Role> newRoles) {
+		UserEntity user = (UserEntity) getByUsername(username, true);
+		updateRoles(user, newRoles);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateRoles(Serializable id, List<Role> newRoles) {
+		UserEntity user = (UserEntity) getById(id, true);
+		updateRoles(user, newRoles);
+	}
+
+	private void updateRoles(UserEntity user, List<Role> newRoles) {
+		// Borramos los roles anteriores no contenidos en
+		// la nueva lista
+		List<Role> currentSavedRoles = new ArrayList<Role>(newRoles.size());
+		if(user.getAuthorities()!=null) {
+			for(Authority au : user.getAuthorities()) {
+				if(!newRoles.contains(au.getRole())) {
+					authorithyDao.delete(au);
+				} else {
+					currentSavedRoles.add(au.getRole());
+				}
+			}
+		}
+
+		// Cargamos los nuevos
+		for(Role role : newRoles) {
+			if(!currentSavedRoles.contains(role)) {
+				Authority au = new Authority();
+				au.setRole((RoleEntity)role);
+				au.setUser(user);
+				authorithyDao.save(au);
+			}
+		}
 	}
 
     @Transactional(readOnly = false)
