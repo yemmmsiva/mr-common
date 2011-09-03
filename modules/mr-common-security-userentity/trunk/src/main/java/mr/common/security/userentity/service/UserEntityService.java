@@ -759,6 +759,16 @@ public class UserEntityService implements UserService {
 		return userId;
 	}
 
+	@Transactional(readOnly = true)
+	public List<Role> getUserRoles(Serializable userId) {
+		return getById(userId, false).getRoles();
+	}
+
+	@Transactional(readOnly = true)
+	public List<Role> getUserRoles(String username) {
+		return getByUsername(username, false).getRoles();
+	}
+
 
 	/*!** Getters & setters  **!*/
 
