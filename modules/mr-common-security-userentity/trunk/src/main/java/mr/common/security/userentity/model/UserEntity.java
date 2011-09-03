@@ -42,11 +42,14 @@ public class UserEntity extends AuditableEntity implements User {
 
 	@Transient
 	public List<Role> getRoles() {
-		List<Role> roles = new ArrayList<Role>();
-		for(Authority a : authorities) {
-			roles.add(a.getRole());
+		if(authorities!=null) {
+			List<Role> roles = new ArrayList<Role>();
+			for(Authority a : authorities) {
+				roles.add(a.getRole());
+			}
+			return roles;
 		}
-		return roles;
+		return null;
 	}
 
 	/**
