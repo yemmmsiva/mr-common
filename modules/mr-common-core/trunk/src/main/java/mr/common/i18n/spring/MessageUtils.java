@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Extrae los mensajes internacionalizados, y el locale
- * del de la aplicación o hilo de ejecución.
+ * de la aplicación o hilo de ejecución.
  *
  * @author Mariano Ruiz
  */
