@@ -252,7 +252,8 @@ public interface UserService {
 	/**
 	 * Actualiza la información del usuario.
 	 * @param id: identificador del usuario
-	 * @param user: datos nuevos a actualizar
+	 * @param user: datos nuevos a actualizar. Si no se quiere
+	 * actualizar los roles, <code>user.getRoles()=null</code>
 	 * @return el usuario actualizado
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
@@ -273,7 +274,8 @@ public interface UserService {
 	/**
 	 * Actualiza la información del usuario.
 	 * @param username: nombre del usuario
-	 * @param user: datos nuevos a actualizar
+	 * @param user: datos nuevos a actualizar. Si no se quiere
+	 * actualizar los roles, <code>user.getRoles()=null</code>
 	 * @return el usuario actualizado
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
@@ -365,6 +367,32 @@ public interface UserService {
 	 * no es soportada por la implementación
 	 */
 	boolean checkPassword(Serializable id, String password);
+
+	/**
+	 * Cambia los roles usuario.
+	 *@param id identificador del usuario
+	 * @param newRoles roles nuevos
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateRoles(Serializable id, List<Role> newRoles);
+
+	/**
+	 * Cambia los roles usuario.
+	 * @param username nombre del usuario
+	 * @param newRoles roles nuevos
+	 * @throws UserNotExistException si el usuario
+	 * no existe
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateRoles(String username, List<Role> newRoles);
 
 	/**
 	 * Cambia la password del usuario.
