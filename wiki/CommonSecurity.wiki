@@ -23,3 +23,10 @@ http://mr-common.googlecode.com/files/mr-common-security-springsupport.png
 
 
 _This module is a part of *[Introduction mr-common]* framework_.
+
+
+== Organizations ==
+
+Optional, the module also support user organizations. An organization can contains many users, and users can be a part of one or more organizations.
+
+The model class for an organization is *{{{mr.common.security.organization.model.Organization}}}*, and the service class is *{{{mr.common.security.organization.service.OrganizationService}}}* (implemented in [CommonSecurityUserEntity mr-common-security-userentity])
