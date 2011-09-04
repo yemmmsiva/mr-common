@@ -208,13 +208,13 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = false)
 	public void deleteByName(String name) {
 		Long orgId = (Long) getIdByName(name);
-		userOrganizationDao.removeAllUsersFromOrganization(orgId);
+		removeAllUsersFromOrganization(orgId);
 		orgDao.delete((OrganizationEntity) getById(orgId, false));
 	}
 
 	@Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
-		userOrganizationDao.removeAllUsersFromOrganization((Long) id);
+		removeAllUsersFromOrganization((Long) id);
 		orgDao.delete((OrganizationEntity) getById(id, false));
 	}
 
@@ -255,26 +255,41 @@ public class OrganizationEntityService implements OrganizationService {
 			throw new UserLockedException(user);
 		}
 		getNameById(orgId); // Si la organización no existe lanza excepción
-		Long id = userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId);
-		if(id==null) {
+		UserOrganization uo = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
+		if(uo==null) {
 			throw new UserNotInOrganizationException(orgId, userId);
 		}
-		userOrganizationDao.deleteById(id);
+		if(uo.getAuthorities()!=null) {
+			for(UserOrganizationRole r : uo.getAuthorities()) {
+				userOrganizationRoleDao.delete(r);
+			}
+		}
+		userOrganizationDao.delete(uo);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = false)
 	public int removeUserFromAll(Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
 			throw new UserLockedException(user);
 		}
-		return userOrganizationDao.removeUserFromAll((Long)userId);
+		List<Long> orgIds = userOrganizationDao.getUserOrganizationsId((Long)userId);
+		for(Long orgId : orgIds) {
+			removeUser(orgId, userId);
+		}
+		return orgIds.size();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = false)
 	public int removeAllUsersFromOrganization(Long id) {
 		getNameById(id); // Si la organización no existe lanza excepción
-		return userOrganizationDao.removeAllUsersFromOrganization(id);
+		List<Long> userIds = userOrganizationDao.getUsersId(id);
+		for(Long userId : userIds) {
+			removeUser(id, userId);
+		}
+		return userIds.size();
 	}
 
 	@Transactional(readOnly = true)
