@@ -1,6 +1,7 @@
 package mr.common.security.userentity.organization.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,11 +19,14 @@ import mr.common.security.organization.exception.UserNotInOrganizationException;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.organization.service.OrganizationService;
 import mr.common.security.service.UserService;
+import mr.common.security.userentity.model.RoleEntity;
 import mr.common.security.userentity.model.UserEntity;
 import mr.common.security.userentity.organization.dao.OrganizationEntityDao;
 import mr.common.security.userentity.organization.dao.UserOrganizationDao;
+import mr.common.security.userentity.organization.dao.UserOrganizationRoleDao;
 import mr.common.security.userentity.organization.model.OrganizationEntity;
 import mr.common.security.userentity.organization.model.UserOrganization;
+import mr.common.security.userentity.organization.model.UserOrganizationRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +46,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Resource
 	private UserOrganizationDao userOrganizationDao;
+
+	@Resource
+	private UserOrganizationRoleDao userOrganizationRoleDao;
 
 	@Autowired
 	private UserService userService;
@@ -228,14 +235,12 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = false)
 	public void addUser(Serializable orgId, Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
-		OrganizationEntity org = (OrganizationEntity) getById(orgId);
 		if(user.isLocked()) {
-			throw new UserLockedException();
+			throw new UserLockedException(user);
 		}
+		OrganizationEntity org = (OrganizationEntity) getById(orgId);
 		if(isUserInOrganization(orgId, userId)) {
-			throw new  UserIsInOrganizationException(
-				"User with id " + orgId.toString() + " is in organization with id "
-				+ orgId.toString() + ".");
+			throw new UserIsInOrganizationException(orgId, userId);
 		}
 		UserOrganization userOrganization = new UserOrganization();
 		userOrganization.setUser(user);
@@ -247,13 +252,12 @@ public class OrganizationEntityService implements OrganizationService {
 	public void removeUser(Serializable orgId, Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
-			throw new UserLockedException();
+			throw new UserLockedException(user);
 		}
 		getNameById(orgId); // Si la organización no existe lanza excepción
 		Long id = userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId);
 		if(id==null) {
-			throw new UserNotInOrganizationException(
-				"User with id=" + userId + " is not in organization with id=" + orgId + ".");
+			throw new UserNotInOrganizationException(orgId, userId);
 		}
 		userOrganizationDao.deleteById(id);
 	}
@@ -262,7 +266,7 @@ public class OrganizationEntityService implements OrganizationService {
 	public int removeUserFromAll(Serializable userId) {
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
-			throw new UserLockedException();
+			throw new UserLockedException(user);
 		}
 		return userOrganizationDao.removeUserFromAll((Long)userId);
 	}
@@ -352,9 +356,76 @@ public class OrganizationEntityService implements OrganizationService {
 		getNameById(orgId);                  // Lanza una excepción si no existe la organización
 		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
 		if(userOrganization==null) {
-			throw new UserNotInOrganizationException(
-				"User with id=" + userId + " is not in organization with id=" + orgId + ".");
+			throw new UserNotInOrganizationException(orgId, userId);
 		}
 		return userOrganization.getRoles();
+	}
+
+	@Transactional(readOnly = true)
+	public boolean hasRoleInOrganization(Serializable orgId,
+			Serializable userId, String roleName) {
+		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
+		getNameById(orgId);                  // Lanza una excepción si no existe la organización
+		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
+		if(userOrganization==null) {
+			throw new UserNotInOrganizationException(orgId, userId);
+		}
+		List<Role> roles = userOrganization.getRoles();
+		for(Role r : roles) {
+			if(r.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transactional(readOnly = true)
+	public boolean hasRoleInOrganization(Serializable orgId,
+			Serializable userId, Role role) {
+		return hasRoleInOrganization(orgId, userId, role.getAuthority());
+	}
+
+	@Transactional(readOnly = false)
+	public void updateUserOrganizationRoles(Serializable orgId,
+			Serializable userId, List<Role> newRoles) {
+		UserEntity user = (UserEntity) userService.getById(userId);
+		if(user.isLocked()) {
+			throw new UserLockedException(user);
+		}
+		getNameById(orgId);   // Lanza una excepción si no existe la organización
+		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
+		if(userOrganization==null) {
+			throw new UserNotInOrganizationException(orgId, userId);
+		}
+
+		// Borramos los roles anteriores contenidos en
+		// la nueva lista
+		List<Role> currentSavedRoles = new ArrayList<Role>(newRoles.size());
+		if(userOrganization.getAuthorities()!=null) {
+			for(UserOrganizationRole au : userOrganization.getAuthorities()) {
+				if(!newRoles.contains(au.getRole())) {
+					userOrganizationRoleDao.delete(au);
+				} else {
+					currentSavedRoles.add(au.getRole());
+				}
+			}
+		}
+
+		// Cargamos los nuevos
+		for(Role role : newRoles) {
+			if(!currentSavedRoles.contains(role)) {
+				UserOrganizationRole au = new UserOrganizationRole();
+				au.setRole((RoleEntity)role);
+				au.setUserOrganization(userOrganization);
+				userOrganizationRoleDao.save(au);
+			}
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void addUser(Serializable orgId, Serializable userId,
+			List<Role> roles) {
+		addUser(orgId, userId);
+		updateUserOrganizationRoles(orgId, userId, roles);
 	}
 }
