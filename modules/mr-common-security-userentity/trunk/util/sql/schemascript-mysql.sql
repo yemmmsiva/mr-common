@@ -157,3 +157,25 @@ CREATE TABLE usersorgs (
   CONSTRAINT FK_usersorgs_userId FOREIGN KEY (userId) REFERENCES systemuser(id),
   CONSTRAINT FK_usersorgs_orgId  FOREIGN KEY (organizationId) REFERENCES organization(id)
 ) /*! ENGINE = InnoDB */;
+
+
+/*
+ * Usuarios - Organizaciones -Roles.
+ */
+CREATE TABLE usersorgsrole (
+  id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
+  version					INTEGER,
+  usersorgsId				INTEGER(16)		NOT NULL,
+  roleId					INTEGER(16)		NOT NULL,
+
+  owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
+  created					TIMESTAMP		NOT NULL,
+  lastupdater				VARCHAR(50),
+  lastupdate				TIMESTAMP		NULL DEFAULT NULL,
+  deleteduser				VARCHAR(50),
+  deleteddate				TIMESTAMP		NULL DEFAULT NULL,
+  deleted					INTEGER(1)		DEFAULT 0 NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_uor_usersorgsId FOREIGN KEY (usersorgsId) REFERENCES usersorgs(id),
+  CONSTRAINT FK_uor_roleId FOREIGN KEY (roleId) REFERENCES role(id)
+) /*! ENGINE = InnoDB */;

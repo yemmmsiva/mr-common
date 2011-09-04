@@ -18,6 +18,20 @@ import mr.common.security.userentity.organization.model.UserOrganization;
 public interface UserOrganizationDao extends AbstractAuditableDao<UserOrganization> {
 
 	/**
+	 * Obtiene el {@link mr.common.security.userentity.organization.model.
+	 * UserOrganization UserOrganization} si existe uno con el <code>orgId</code>
+	 * y el <code>userId</code>.<br/>
+	 * Tener en cuenta que si no existe la organización o el usuario con los
+	 * ids pasados el resultado será <code>null</code>.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @return el objeto entidad, <code>null</code> si no existe la relación entre
+	 * el usuario y la organización, o no existen usuario u organización con los
+	 * ids pasados
+	 */
+	UserOrganization getUserOrganization(Long orgId, Long userId);
+
+	/**
 	 * Obtiene el id del {@link mr.common.security.userentity.organization.model.
 	 * UserOrganization UserOrganization} si existe uno con el <code>orgId</code>
 	 * y el <code>userId</code>.<br/>

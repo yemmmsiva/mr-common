@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import mr.common.model.ConfigurableData;
 import mr.common.security.exception.UserLockedException;
+import mr.common.security.model.Role;
 import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
@@ -342,5 +343,18 @@ public class OrganizationEntityService implements OrganizationService {
 	public int getUsersCount(Serializable id) {
 		getNameById(id); // Si la organización no existe lanza excepción
 		return userOrganizationDao.getUsersCount(id);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Role> getUserOrganizationRoles(Serializable orgId,
+			Serializable userId) {
+		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
+		getNameById(orgId);                  // Lanza una excepción si no existe la organización
+		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
+		if(userOrganization==null) {
+			throw new UserNotInOrganizationException(
+				"User with id=" + userId + " is not in organization with id=" + orgId + ".");
+		}
+		return userOrganization.getRoles();
 	}
 }

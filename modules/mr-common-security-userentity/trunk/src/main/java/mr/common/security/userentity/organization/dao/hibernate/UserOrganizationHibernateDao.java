@@ -24,6 +24,16 @@ import org.springframework.stereotype.Repository;
 public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<UserOrganization>
     implements UserOrganizationDao {
 
+	public UserOrganization getUserOrganization(Long orgId, Long userId) {
+		String hql = "select userOrgs from " + UserOrganization.class.getName()
+		          + " userOrgs where userOrgs.organization.id = :orgId and userOrgs.user.id = :userId "
+		          + " and userOrgs.audit.deleted = false";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("orgId", orgId);
+		query.setParameter("userId", userId);
+		return (UserOrganization) query.uniqueResult();
+	}
+
 	public Long getUserOrganizationId(Long orgId, Long userId) {
 		String hql = "select userOrgs.id from " + UserOrganization.class.getName()
 		          + " userOrgs where userOrgs.organization.id = :orgId and userOrgs.user.id = :userId "
