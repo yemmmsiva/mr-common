@@ -155,7 +155,7 @@ public class UserEntityService implements UserService {
 					"User with username=" + username + " not exist.");
 		}
 		if(toEdit && user.isLocked()) {
-			throw new UserLockedException();
+			throw new UserLockedException(user);
 		}
 		return user;
 	}
@@ -406,7 +406,7 @@ public class UserEntityService implements UserService {
 	}
 
 	private void updateRoles(UserEntity user, List<Role> newRoles) {
-		// Borramos los roles anteriores no contenidos en
+		// Borramos los roles anteriores contenidos en
 		// la nueva lista
 		List<Role> currentSavedRoles = new ArrayList<Role>(newRoles.size());
 		if(user.getAuthorities()!=null) {
@@ -464,7 +464,7 @@ public class UserEntityService implements UserService {
 					"User with id=" + id + " not exist.");
 		}
 		if(toEdit && user.isLocked()) {
-			throw new UserLockedException();
+			throw new UserLockedException(user);
 		}
 		return user;
 	}
