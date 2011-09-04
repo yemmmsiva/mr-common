@@ -6,9 +6,11 @@ import java.util.List;
 import mr.common.model.ConfigurableData;
 import mr.common.security.exception.UserLockedException;
 import mr.common.security.exception.UserNotExistException;
+import mr.common.security.model.Role;
 import mr.common.security.model.User;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.InvalidOrganizationNameException;
+import mr.common.security.organization.exception.OrganizationLockedException;
 import mr.common.security.organization.exception.OrganizationNotExistException;
 import mr.common.security.organization.exception.UserIsInOrganizationException;
 import mr.common.security.organization.exception.UserNotInOrganizationException;
@@ -343,6 +345,22 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	boolean isUserInOrganization(Serializable orgId, Serializable userId);
+
+	/**
+	 * Obtiene los roles del usuario en la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @return lista con los roles, o lista vacía si el usuario
+	 * pertenece a la organización pero no posee roles
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserNotInOrganizationException si el usuario
+	 * no pertenece a la organización
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Role> getUserOrganizationRoles(Serializable orgId, Serializable userId);
 
 	/**
 	 * Obtiene todas las organizaciones a las que
