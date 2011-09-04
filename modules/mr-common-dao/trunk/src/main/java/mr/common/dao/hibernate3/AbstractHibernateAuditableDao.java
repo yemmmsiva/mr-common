@@ -208,7 +208,7 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     	DomainObject obj = get(id);
     	if(obj==null) {
     		throw  new DaoException(
-    				"Entity with id=" + id + "not exist.");
+    				"Entity with id=" + id + " not exist.");
     	}
     	deleteAudit(obj);
         getHibernateTemplate().update(obj);
@@ -231,7 +231,7 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     	DomainObject obj = getIgnoreIsDeleted(id);
     	if(obj==null) {
     		throw  new DaoException(
-    				"Entity with id=" + id + "not exist.");
+    				"Entity with id=" + id + " not exist.");
     	}
         getHibernateTemplate().delete(obj);
     }
