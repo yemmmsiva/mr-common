@@ -293,6 +293,25 @@ public interface OrganizationService {
 	void addUser(Serializable orgId, Serializable userId);
 
 	/**
+	 * Agrega al usuario a la organización, con los roles pasados.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @param roles lista con los roles
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 * @throws UserIsInOrganizationException Si el usuario
+	 * ya pertenece a la organización
+	 * @throws UserLockedException Si el usuario está bloqueado
+	 * para escritura
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void addUser(Serializable orgId, Serializable userId, List<Role> roles);
+
+	/**
 	 * Quita el usuario de la organización.
 	 * @param orgId id de la organización
 	 * @param userId id del usuario
@@ -361,6 +380,55 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	List<Role> getUserOrganizationRoles(Serializable orgId, Serializable userId);
+
+	/**
+	 * Verifica si el usuario posee el role en la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @param role role a verificar
+	 * @return <code>true</code> si el usuario posee el role
+	 * en la organización
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserNotInOrganizationException si el usuario
+	 * no pertenece a la organización
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	boolean hasRoleInOrganization(Serializable orgId, Serializable userId, Role role);
+
+	/**
+	 * Verifica si el usuario posee el role en la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @param roleName nombre del role a verificar
+	 * @return <code>true</code> si el usuario posee el role
+	 * en la organización
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserNotInOrganizationException si el usuario
+	 * no pertenece a la organización
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	boolean hasRoleInOrganization(Serializable orgId, Serializable userId, String roleName);
+
+	/**
+	 * Actualiza los roles del usuario en la organización.
+	 * @param orgId id de la organización
+	 * @param userId id del usuario
+	 * @param newRoles lista con los roles
+	 * @throws OrganizationNotExistException Si la organización
+	 * no existe
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UserNotInOrganizationException si el usuario
+	 * no pertenece a la organización
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	void updateUserOrganizationRoles(Serializable orgId, Serializable userId, List<Role> newRoles);
 
 	/**
 	 * Obtiene todas las organizaciones a las que
