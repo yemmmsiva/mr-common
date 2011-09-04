@@ -1,5 +1,7 @@
 package mr.common.security.organization.exception;
 
+import java.io.Serializable;
+
 import mr.common.security.exception.SecurityException;
 
 
@@ -28,5 +30,9 @@ public class UserNotInOrganizationException extends SecurityException {
 
 	public UserNotInOrganizationException(String message, Throwable cause) {
 		super(message, cause);
+	}
+
+	public UserNotInOrganizationException(Serializable orgId, Serializable userId) {
+		super("User with id=" + userId + " is not in organization with id=" + orgId + ".");
 	}
 }
