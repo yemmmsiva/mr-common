@@ -128,7 +128,9 @@ public interface UserService {
 
 	/**
 	 * Busca usuarios por determinados parámetros.
-	 * @param user - datos a machear
+	 * @param user - datos a machear del usuario. Si
+	 * <code>user.getRoles()!=null</code>, verifica
+	 * que el usuario tenga al menos un role de la lista
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * activados/desactivados
@@ -144,7 +146,9 @@ public interface UserService {
 
 	/**
 	 * Obtiene la cantidad de usuarios por determinados parámetros.
-	 * @param user - datos a machear
+	 * @param user - datos a machear del usuario. Si
+	 * <code>user.getRoles()!=null</code>, verifica
+	 * que el usuario tenga al menos un role de la lista
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * @return int
@@ -157,7 +161,10 @@ public interface UserService {
 
 	/**
 	 * Busca usuarios por determinados parámetros.
-	 * @param user - datos a machear
+	 * @param user - datos a machear del usuario. Si
+	 * <code>user.getRoles()!=null</code>, verifica
+	 * que el usuario tenga al menos un role de la lista
+	 * en la organización
 	 * @param orgId - id de organización al que deben
 	 * pertener los usuarios, <code>null</code> para
 	 * cualquier organización
@@ -177,7 +184,10 @@ public interface UserService {
 
 	/**
 	 * Obtiene la cantidad de usuarios por determinados parámetros.
-	 * @param user - datos a machear
+	 * @param user - datos a machear del usuario. Si
+	 * <code>user.getRoles()!=null</code>, verifica
+	 * que el usuario tenga al menos un role de la lista
+	 * en la organización
 	 * @param orgId - id de organización al que deben
 	 * pertener los usuarios, <code>null</code> para
 	 * cualquier organización

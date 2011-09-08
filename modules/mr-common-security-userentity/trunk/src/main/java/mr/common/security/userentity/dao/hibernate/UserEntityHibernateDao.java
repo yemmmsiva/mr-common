@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mr.common.collection.CollectionUtils;
 import mr.common.dao.HibernateUtils;
 import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
@@ -16,6 +17,7 @@ import mr.common.security.userentity.dao.UserEntityDao;
 import mr.common.security.userentity.model.Authority;
 import mr.common.security.userentity.model.UserEntity;
 import mr.common.security.userentity.organization.model.UserOrganization;
+import mr.common.security.userentity.organization.model.UserOrganizationRole;
 
 import org.hibernate.Query;
 import org.hibernate.QueryException;
@@ -102,6 +104,13 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 		if(orgId!=null) {
 			hql += ", " + UserOrganization.class.getName() + " usersOrgs ";
 		}
+		if(user.getRoles()!=null) {
+			if(orgId!=null) {
+				hql += ", " + UserOrganizationRole.class.getName() + " au ";
+			} else {
+				hql += ", " + Authority.class.getName() + " au ";
+			}
+		}
 		hql += "where u.audit.deleted = false";
 		Map<String, Object> params = new HashMap<String, Object>();
 
@@ -109,6 +118,15 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
 			hql += " and usersOrgs.organization.id = :orgId and usersOrgs.user = u"
 				 + " and usersOrgs.audit.deleted = false";
 			params.put("orgId", orgId);
+		}
+		if(user.getRoles()!=null) {
+			hql += " and au.audit.deleted = false and au.role.code in (:rolesName)";
+			params.put("rolesName", CollectionUtils.objectListToList(user.getRoles(), "authority"));
+			if(orgId!=null) {
+				hql += " and au.userOrganization.user = u and au.userOrganization.organization = u";
+			} else {
+				hql += " and au.user = u";
+			}
 		}
 		if (StringUtils.hasText(userEntity.getUsername())) {
 			hql += " and lower(u.username) like :username";
