@@ -263,7 +263,8 @@ public interface UserService {
 	 * Actualiza la información del usuario.
 	 * @param id: identificador del usuario
 	 * @param user: datos nuevos a actualizar. Si no se quiere
-	 * actualizar los roles, <code>user.getRoles()=null</code>
+	 * actualizar los roles, <code>user.getRoles()=null</code>,
+	 * lo mismo para la password
 	 * @return el usuario actualizado
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
@@ -285,7 +286,8 @@ public interface UserService {
 	 * Actualiza la información del usuario.
 	 * @param username: nombre del usuario
 	 * @param user: datos nuevos a actualizar. Si no se quiere
-	 * actualizar los roles, <code>user.getRoles()=null</code>
+	 * actualizar los roles, <code>user.getRoles()=null</code>,
+	 * lo mismo para la password
 	 * @return el usuario actualizado
 	 * @throws UserNotExistException Si el usuario no existe
 	 * @throws InvalidPasswordException Si la password es
