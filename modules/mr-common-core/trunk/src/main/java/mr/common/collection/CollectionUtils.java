@@ -89,6 +89,31 @@ public class CollectionUtils {
     }
 
     /**
+     * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y
+     * los devuelve en una lista nueva.<br/>
+     * @param list lista de objetos
+     * @param propertyExpression expresión java bean de la propiedad
+     * @return lista nueva con los objetos de la expresión. Si <code>list=null</code> retorna
+     * <code>null</code>
+	 * @throws RuntimeException si la property expression es erronea
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List objectListToList(List list, String propertyExpression) throws RuntimeException {
+    	if(list==null || list.size()==0) {
+    		return list;
+    	}
+    	List result = new ArrayList(list.size());
+    	try {
+	    	for(Object obj : list) {
+	    		result.add(PropertyUtils.getProperty(obj, propertyExpression));
+	    	}
+    	} catch(Exception e) {
+    		throw new RuntimeException(e);
+    	}
+    	return result;
+    }
+
+    /**
      * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y concatena
      * en un <code>String</code> el resultado de cada uno separados por coma.
      * @param list List: lista de objetos
