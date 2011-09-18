@@ -6,7 +6,7 @@
 	<groupId>mr.common</groupId>
 	<artifactId>mr-common-security-userentity</artifactId>
 	<packaging>jar</packaging>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<name>mr-common-security-userentity</name>
     <url>http://mr-common.googlecode.com</url>
 
@@ -18,12 +18,12 @@
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-core</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-security</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
