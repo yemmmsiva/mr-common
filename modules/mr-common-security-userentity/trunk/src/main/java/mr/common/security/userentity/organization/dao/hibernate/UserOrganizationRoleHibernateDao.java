@@ -34,7 +34,7 @@ public class UserOrganizationRoleHibernateDao extends
 				+ "     and uor.role.code in (:rolesName) and uor.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
-		query.setParameter("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
+		query.setParameterList("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
 		return query.list();
 	}
 
@@ -47,7 +47,7 @@ public class UserOrganizationRoleHibernateDao extends
 				+ "     and uor.role.code in (:rolesName) and uor.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
-		query.setParameter("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
+		query.setParameterList("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
 		return query.list();
 	}
 
@@ -58,7 +58,7 @@ public class UserOrganizationRoleHibernateDao extends
 				+ "     and uor.role.code in (:rolesName) and uor.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
-		query.setParameter("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
+		query.setParameterList("rolesName", CollectionUtils.objectArrayToList(roles, "authority"));
 		return ((Number)query.uniqueResult()).intValue();
 	}
 }
