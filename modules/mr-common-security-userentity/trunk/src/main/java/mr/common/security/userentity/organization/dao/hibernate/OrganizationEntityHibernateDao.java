@@ -9,12 +9,14 @@ import mr.common.dao.HibernateUtils;
 import mr.common.dao.QueryUtils;
 import mr.common.dao.hibernate3.AbstractHibernateAuditableDao;
 import mr.common.model.ConfigurableData;
+import mr.common.security.model.Role;
 import mr.common.security.organization.exception.DuplicatedOrganizationException;
 import mr.common.security.organization.exception.IllegalArgumentOrganizationFindException;
 import mr.common.security.organization.model.Organization;
 import mr.common.security.userentity.organization.dao.OrganizationEntityDao;
 import mr.common.security.userentity.organization.model.OrganizationEntity;
 import mr.common.security.userentity.organization.model.UserOrganization;
+import mr.common.security.userentity.organization.model.UserOrganizationRole;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -30,19 +32,19 @@ public class OrganizationEntityHibernateDao extends
 		AbstractHibernateAuditableDao<OrganizationEntity> implements OrganizationEntityDao {
 
 	@SuppressWarnings("unchecked")
-	public List<OrganizationEntity> find(String nameOrDescription, Serializable userId,
+	public List<OrganizationEntity> find(String nameOrDescription, Serializable userId, Role role,
 			Boolean activeFilter, ConfigurableData page) {
 		
-		return prepareQuery(nameOrDescription, userId, activeFilter, page, false).list();
+		return prepareQuery(nameOrDescription, userId, role, activeFilter, page, false).list();
 	}
 
-	public int findCount(String nameOrDescription, Serializable userId,
+	public int findCount(String nameOrDescription, Serializable userId, Role role,
 			Boolean activeFilter) {
 		return ((Number)prepareQuery(
-				nameOrDescription, userId, activeFilter, null, true).uniqueResult()).intValue();
+				nameOrDescription, userId, role, activeFilter, null, true).uniqueResult()).intValue();
 	}
 
-	private Query prepareQuery(String nameOrDescription, Serializable userId, Boolean activeFilter,
+	private Query prepareQuery(String nameOrDescription, Serializable userId, Role role, Boolean activeFilter,
 			ConfigurableData page, boolean countQuery) {
 
 		if(nameOrDescription==null && activeFilter==null) {
@@ -51,6 +53,9 @@ public class OrganizationEntityHibernateDao extends
 		String hql = "select o from " + OrganizationEntity.class.getName() + " o";
 		if(userId!=null) {
 			hql += " , " + UserOrganization.class.getName() + " usersorgs";
+			if(role!=null) {
+				hql += " , " + UserOrganizationRole.class.getName() + " usersorgroles";
+			}
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		hql += " where o.audit.deleted = false";
@@ -58,6 +63,11 @@ public class OrganizationEntityHibernateDao extends
 			hql += " and usersorgs.audit.deleted = false and o = usersorgs.organization"
 				 + " and usersorgs.user.id = :userId";
 			params.put("userId", userId);
+			if(role!=null) {
+				hql += " and usersorgroles.audit.deleted = false and usersorgroles.userOrganization = usersorgs"
+						 + " and usersorgroles.role.code = :role";
+				params.put("role", role.getAuthority());
+			}
 		}
 		if(nameOrDescription!=null) {
 			hql += " and (o.name like :nameOrDescription or o.description like :nameOrDescription)";

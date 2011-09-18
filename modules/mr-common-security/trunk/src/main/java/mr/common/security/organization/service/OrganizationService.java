@@ -70,7 +70,11 @@ public interface OrganizationService {
 	 * y en forma paginada.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
-	 * @param userId - id del usuario que debe estar en las organizaciones
+	 * @param userId - id del usuario que debe estar en las organizaciones,
+	 * <code>null</code> para no filtrar por usuario
+	 * @param role - role que debe tener el usuario con <code>userId</code>,
+	 * sino se va a filtrar por usuario o no se desea filtrar por
+	 * role -> <code>null</code>
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar organizaciones
 	 * activados/desactivados
@@ -81,7 +85,7 @@ public interface OrganizationService {
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	List<Organization> find(String nameOrDescription, Serializable userId,
+	List<Organization> find(String nameOrDescription, Serializable userId, Role role,
 	                        Boolean activeFilter, ConfigurableData page);
 
 	/**
@@ -101,7 +105,11 @@ public interface OrganizationService {
 	 * Obtiene la cantidad de organizaciones por determinados parámetros.
 	 * @param nameOrDescription - nombre o descripción
 	 * de la organización
-	 * @param userId - id del usuario que debe estar en las organizaciones
+	 * @param userId - id del usuario que debe estar en las organizaciones,
+	 * <code>null</code> para no filtrar por usuario
+	 * @param role - role que debe tener el usuario con <code>userId</code>,
+	 * sino se va a filtrar por usuario o no se desea filtrar por
+	 * role -> <code>null</code>
 	 * @param activeFilter - si es distinto de <code>null</code>,
 	 * su valor indica si se debe filtrar usuarios
 	 * activados/desactivados
@@ -110,7 +118,7 @@ public interface OrganizationService {
 	 * @throws UnsupportedOperationException Si la operación
 	 * no es soportada por la implementación
 	 */
-	int findCount(String nameOrDescription, Serializable userId,
+	int findCount(String nameOrDescription, Serializable userId, Role role,
 	              Boolean activeFilter);
 
 	/**
@@ -462,6 +470,43 @@ public interface OrganizationService {
 	 * no es soportada por la implementación
 	 */
 	int getUserOrganizationsCount(Serializable userId);
+
+
+	/**
+	 * Obtiene todas las organizaciones a las que
+	 * pertenece el usuario con al menos uno de los roles pasados.
+	 * @param userId id del usuario
+	 * @param roles las credenciales requeridas
+	 * @return lista con las organizaciones
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Organization> getUserOrganizationsWithRoles(Serializable userId, Role ... roles);
+
+	/**
+	 * Obtiene todos los ids de las organizaciones a las que
+	 * pertenece el usuario con al menos uno de los roles pasados.
+	 * @param userId id del usuario
+	 * @param roles las credenciales requeridas
+	 * @return lista con los ids de organización
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	List<Serializable> getUserOrganizationsWithRolesId(Serializable userId, Role ... roles);
+
+	/**
+	 * Obtiene la cantidad de organizaciones a las que
+	 * pertenece el usuario con al menos uno de los roles pasados.
+	 * @param userId id del usuario
+	 * @param roles las credenciales requeridas
+	 * @return cantidad de organizaciones
+	 * @throws UserNotExistException Si el usuario no existe
+	 * @throws UnsupportedOperationException Si la operación
+	 * no es soportada por la implementación
+	 */
+	int getUserOrganizationsWithRolesCount(Serializable userId, Role ... roles);
 
 	/**
 	 * Obtiene todos los usuarios de la organización.

@@ -69,25 +69,26 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public List find(String nameOrDescription, Boolean activeFilter,
 			ConfigurableData page) {
-		return orgDao.find(nameOrDescription, null, activeFilter, page);
+		return orgDao.find(nameOrDescription, null, null, activeFilter, page);
 	}
 
 	@Transactional(readOnly = true)
 	public int findCount(String nameOrDescription, Boolean activeFilter) {
-		return orgDao.findCount(nameOrDescription, null, activeFilter);
+		return orgDao.findCount(nameOrDescription, null, null, activeFilter);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
-	public List find(String nameOrDescription, Serializable userId, Boolean activeFilter,
-			ConfigurableData page) {
+	public List find(String nameOrDescription, Serializable userId, Role role,
+			Boolean activeFilter, ConfigurableData page) {
 		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
-		return orgDao.find(nameOrDescription, userId, activeFilter, page);
+		return orgDao.find(nameOrDescription, userId, role, activeFilter, page);
 	}
 
 	@Transactional(readOnly = true)
-	public int findCount(String nameOrDescription, Serializable userId, Boolean activeFilter) {
-		return orgDao.findCount(nameOrDescription, userId, activeFilter);
+	public int findCount(String nameOrDescription, Serializable userId, Role role,
+			Boolean activeFilter) {
+		return orgDao.findCount(nameOrDescription, userId, role, activeFilter);
 	}
 
 	@Transactional(readOnly = true)
@@ -299,6 +300,13 @@ public class OrganizationEntityService implements OrganizationService {
 		return userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId) != null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Serializable> getUserOrganizationsId(Serializable userId) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationDao.getUserOrganizationsId((Long)userId);
+	}
+
 	@Transactional(readOnly = true)
 	public List<Organization> getUserOrganizations(Serializable userId) {
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
@@ -309,6 +317,24 @@ public class OrganizationEntityService implements OrganizationService {
 	public int getUserOrganizationsCount(Serializable userId) {
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationDao.getUserOrganizationsCount((Long)userId);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Serializable> getUserOrganizationsWithRolesId(Serializable userId, Role ... roles) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationRoleDao.getUserOrganizationsWithRolesId((Long)userId, roles);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Organization> getUserOrganizationsWithRoles(Serializable userId, Role ... roles) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationRoleDao.getUserOrganizationsWithRoles((Long)userId, roles);
+	}
+
+	@Transactional(readOnly = true)
+	public int getUserOrganizationsWithRolesCount(Serializable userId, Role ... roles) {
+		userService.getUsernameById(userId); // Si el user no existe lanza excepción
+		return userOrganizationRoleDao.getUserOrganizationsWithRolesCount((Long)userId, roles);
 	}
 
 	@Transactional(readOnly = true)
@@ -337,12 +363,6 @@ public class OrganizationEntityService implements OrganizationService {
 					"Organization with name=" + name + " not exist.");
 		}
 		return id;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Serializable> getUserOrganizationsId(Serializable userId) {
-		userService.getUsernameById(userId); // Si el user no existe lanza excepción
-		return userOrganizationDao.getUserOrganizationsId((Long)userId);
 	}
 
 	@Transactional(readOnly = true)

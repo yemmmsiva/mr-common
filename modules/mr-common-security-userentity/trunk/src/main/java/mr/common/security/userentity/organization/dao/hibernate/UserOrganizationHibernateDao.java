@@ -67,7 +67,7 @@ public class UserOrganizationHibernateDao extends AbstractHibernateAuditableDao<
 	public int getUserOrganizationsCount(Long userId) {
 		String hql = "select count(*) from "
 				+ UserOrganization.class.getName()
-				+ " where user.id = :userId and audit.deleted = false";
+				+ " userOrgs where userOrgs.user.id = :userId and userOrgs.audit.deleted = false";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("userId", userId);
 		return ((Number)query.uniqueResult()).intValue();
