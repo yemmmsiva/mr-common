@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://mr-common.googlecode.com/schema/users"
+           targetNamespace="http://mr-common.googlecode.com/schema/users"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:element name="users">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="user" maxOccurs="unbounded" />
+        <xs:element ref="roles" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="user">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="roles"/>
+      </xs:sequence>
+      <xs:attribute name="commonName" use="required" type="xs:string"/>
+      <xs:attribute name="emailAddress"/>
+      <xs:attribute name="enabled" type="xs:boolean"/>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="password" type="xs:string"/>
+      <xs:attribute name="username" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="roles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="role"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="role">
+    <xs:complexType mixed="true">
+      <xs:attribute name="authority" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
