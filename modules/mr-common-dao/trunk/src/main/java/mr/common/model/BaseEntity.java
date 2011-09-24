@@ -23,8 +23,7 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 
 	private Long id;
 
-    @Version
-    private Integer version;
+    private int version;
 
 
 	/**
@@ -109,16 +108,17 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return {@link Integer} version
+	 * @return version
 	 */
-	public Integer getVersion() {
+    @Version
+	public int getVersion() {
 		return version;
 	}
 
 	/**
-	 * @param {@link Integer} version
+	 * @param version
 	 */
-	public void setVersion(Integer version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 }

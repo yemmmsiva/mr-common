@@ -15,9 +15,9 @@ public abstract class AuditableEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-
 	@Embedded
 	private Audit audit;
+
 
 	/**
 	 * @return {@link Audit} audit

@@ -11,9 +11,9 @@ USE test_mr_common;
 
 CREATE TABLE auditableentityexample (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   comentario				VARCHAR(50),
 
+  version					INTEGER			DEFAULT 0,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
