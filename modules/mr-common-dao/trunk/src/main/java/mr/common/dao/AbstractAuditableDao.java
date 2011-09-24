@@ -188,13 +188,15 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
     /**
      * Borra lógicamente todos los objetos de la tabla.
+     * @return cantidad de elementos borrados
      * @see #removeAll()
      */
-    void deleteAll();
+    int deleteAll();
 
     /**
      * Borra físicamente todos los objetos de la tabla.
+     * @return cantidad de elementos borrados
      * @see #deleteAll()
      */
-    void removeAll();
+    int removeAll();
 }

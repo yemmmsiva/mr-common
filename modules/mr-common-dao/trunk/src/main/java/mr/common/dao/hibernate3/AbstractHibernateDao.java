@@ -8,11 +8,8 @@ import javax.annotation.Resource;
 import mr.common.dao.AbstractDao;
 import mr.common.model.BaseEntity;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 
@@ -168,15 +165,9 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
     /**
 	 * @see mr.common.dao.AbstractDao#deleteAll()
 	 */
-    public void deleteAll() {
-        getHibernateTemplate().execute(new HibernateCallback() {
-            public Object doInHibernate(Session session) throws HibernateException {
-                String hqlDelete = "delete " + domainClass.getName();
-                session.createQuery(hqlDelete).executeUpdate();
-                return null;
-            }
-
-        });
+    public int deleteAll() {
+		String hqlDelete = "delete " + domainClass.getName();
+		return getSession().createQuery(hqlDelete).executeUpdate();
     }
 
     /**

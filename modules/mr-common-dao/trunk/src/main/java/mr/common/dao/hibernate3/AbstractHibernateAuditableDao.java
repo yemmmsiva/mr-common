@@ -10,13 +10,11 @@ import mr.common.dao.AbstractAuditableDao;
 import mr.common.dao.exception.DaoException;
 import mr.common.model.Audit;
 import mr.common.model.AuditableEntity;
+import mr.common.model.BaseEntity;
 import mr.common.security.service.UserSecurityService;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 
@@ -248,35 +246,22 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#deleteAll()
 	 */
-    public void deleteAll() {
-        getHibernateTemplate().execute(new HibernateCallback() {
-
-            public Object doInHibernate(Session session) throws HibernateException {
-            	String hql = "update " + domainClass.getName()
-                + " set audit.deleted = true, audit.deletedDate = :currentDate, audit.deletedUser = :currentUser";
-                Query query = session.createQuery(hql);
-                query.setTimestamp("currentDate", new Date());
-                query.setString("currentUser", getCurrentUsername());
-                query.executeUpdate();
-                return null;
-            }
-
-        });
+    public int deleteAll() {
+		String hql = "update "
+				+ domainClass.getName()
+				+ " set audit.deleted = true, audit.deletedDate = :currentDate, audit.deletedUser = :currentUser";
+		Query query = getSession().createQuery(hql);
+		query.setTimestamp("currentDate", new Date());
+		query.setString("currentUser", getCurrentUsername());
+		return query.executeUpdate();
     }
 
     /**
 	 * @see mr.common.dao.AbstractAuditableDao#removeAll()
 	 */
-    public void removeAll() {
-        getHibernateTemplate().execute(new HibernateCallback() {
-
-            public Object doInHibernate(Session session) throws HibernateException {
-                String hqlDelete = "delete " + domainClass.getName();
-                session.createQuery(hqlDelete).executeUpdate();
-                return null;
-            }
-
-        });
+    public int removeAll() {
+		String hqlDelete = "delete " + domainClass.getName();
+		return getSession().createQuery(hqlDelete).executeUpdate();
     }
 
     /**

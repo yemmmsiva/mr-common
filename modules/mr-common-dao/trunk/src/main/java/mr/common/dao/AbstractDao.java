@@ -119,6 +119,7 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Borra todos los objetos de la tabla.
+     * @return cantidad de elementos borrados
 	 */
-	void deleteAll();
+	int deleteAll();
 }
