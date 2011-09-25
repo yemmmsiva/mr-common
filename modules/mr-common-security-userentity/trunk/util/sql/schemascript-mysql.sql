@@ -7,7 +7,6 @@
  */
 CREATE TABLE userdata (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   firstName					VARCHAR(50)		DEFAULT NULL,
   lastName					VARCHAR(50)		DEFAULT NULL,
   commonName				VARCHAR(50)		DEFAULT NULL,
@@ -25,6 +24,7 @@ CREATE TABLE userdata (
   portraitId				INTEGER(16)		DEFAULT NULL,
   locked					INTEGER(1)		DEFAULT 0 NOT NULL,
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -41,13 +41,13 @@ CREATE TABLE userdata (
  */
 CREATE TABLE systemuser (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   username					VARCHAR(50)		NOT NULL,
   emailAddress				VARCHAR(50)		NOT NULL,
   password					VARCHAR(50)		NOT NULL,
   enabled					INTEGER(1)		DEFAULT 1 NOT NULL,
   userDataId				INTEGER(16),
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -67,11 +67,11 @@ ALTER TABLE systemuser ADD INDEX emailAddressIndex(emailAddress);
  */
 CREATE TABLE role (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   code						VARCHAR(20),
   description				VARCHAR(250)	NOT NULL,
   largeDescription			VARCHAR(1000),
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -89,10 +89,10 @@ ALTER TABLE role ADD INDEX codeIndex(code);
  */
 CREATE TABLE authority (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   userId					INTEGER(16)		NOT NULL,
   roleId					INTEGER(16)		NOT NULL,
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -111,7 +111,6 @@ CREATE TABLE authority (
  */
 CREATE TABLE organization (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   name						VARCHAR(50)		NOT NULL,
   description				VARCHAR(200)	NOT NULL,
   enabled					BOOLEAN			NOT NULL DEFAULT true,
@@ -125,6 +124,7 @@ CREATE TABLE organization (
   logoId					INTEGER(16)		DEFAULT NULL,
   locked					INTEGER(1)		DEFAULT 0 NOT NULL,
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -142,10 +142,10 @@ CREATE TABLE organization (
  */
 CREATE TABLE usersorgs (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   userId					INTEGER(16)		NOT NULL,
   organizationId			INTEGER(16)		NOT NULL,
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
@@ -164,10 +164,10 @@ CREATE TABLE usersorgs (
  */
 CREATE TABLE usersorgsrole (
   id						INTEGER(16)		NOT NULL /*! AUTO_INCREMENT */,
-  version					INTEGER,
   usersorgsId				INTEGER(16)		NOT NULL,
   roleId					INTEGER(16)		NOT NULL,
 
+  version					INTEGER			DEFAULT 0 NOT NULL,
   owner						VARCHAR(50)		NOT NULL DEFAULT 'APP',
   created					TIMESTAMP		NOT NULL,
   lastupdater				VARCHAR(50),
