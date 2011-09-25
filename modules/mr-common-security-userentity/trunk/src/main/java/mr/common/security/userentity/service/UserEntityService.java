@@ -131,16 +131,25 @@ public class UserEntityService implements UserService {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List getList() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Loading all users.");
+    	}
     	return userDao.getList();
 	}
 
     @Transactional(readOnly = true)
 	public int count() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Counting all users.");
+    	}
     	return (int) userDao.count();
     }
 
     @Transactional(readOnly = true)
 	public User getByUsername(String username) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting user with username=" + username);
+    	}
     	return getByUsername(username, false);
 	}
 
@@ -162,6 +171,9 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public User getByEmailAddress(String emailAddress) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting user with emailAddress=" + emailAddress);
+    	}
     	if(emailAddress==null) {
     		throw new NullPointerException("emailAddress = null.");
     	}
@@ -175,7 +187,13 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public User getCurrentUser() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting current user...");
+    	}
 		String username = userSecurityService.getCurrentUsername();
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("... current username=" + username);
+    	}
 		if(username != null) {
 			return getByUsername(username);
 		}
@@ -184,44 +202,73 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public Serializable getCurrentUserId() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting current user id...");
+    	}
 		String username = userSecurityService.getCurrentUsername();
 		if(username != null) {
-			return getIdByUsername(username);
+			Serializable userId = getIdByUsername(username);
+	    	if(logger.isDebugEnabled()) {
+	    		logger.debug("... current userId=" + userId);
+	    	}
+			return userId;
 		}
 		return null;
 	}
 
     @Transactional(readOnly = true)
 	public String getCurrentUsername() {
-		return userSecurityService.getCurrentUsername();
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting current username...");
+    	}
+		String username = userSecurityService.getCurrentUsername();
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("... current username=" + username);
+    	}
+    	return username;
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List find(User user, Boolean activeFilter, ConfigurableData page) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Finding users.");
+    	}
 		return userDao.find(user, null, activeFilter, page);
 	}
 
     @Transactional(readOnly = true)
 	public int findCount(User user, Boolean activeFilter) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Count finding users.");
+    	}
 		return userDao.findCount(user, null, activeFilter);
 	}
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Finding users in organization.");
+    	}
     	organizationService.getNameById(orgId); // Lanza una excepción si no existe la organización
 		return userDao.find(user, orgId, activeFilter, page);
 	}
 
     @Transactional(readOnly = true)
 	public int findCount(User user, Serializable orgId, Boolean activeFilter) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Count finding users in organization.");
+    	}
     	organizationService.getNameById(orgId); // Lanza una excepción si no existe la organización
 		return userDao.findCount(user, orgId, activeFilter);
 	}
 
     @Transactional(readOnly = false)
 	public void deleteByUsername(String username) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Deleting user with username=" + username);
+    	}
     	UserEntity u = (UserEntity) getByUsername(username, true);
     	if(organizationService!=null) {
     		organizationService.removeUserFromAll(u.getId());
@@ -313,6 +360,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public User newUser(User user) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Creating new user...");
+    	}
 		if(user==null) {
 			throw new NullPointerException("user = null.");
 		}
@@ -320,11 +370,18 @@ public class UserEntityService implements UserService {
 			throw new IllegalArgumentException(
 					"New user should not have set the id.");
 		}
-		return saveOrUpdate((UserEntity)user, null);
+		UserEntity userEntity = saveOrUpdate((UserEntity)user, null);
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("... new user created with id=" + userEntity.getId());
+    	}
+		return userEntity;
 	}
 
 	@Transactional(readOnly = false)
 	public User newUser(User user, Serializable orgId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Creating new user in organization with id=" + orgId);
+    	}
 		if(user==null) {
 			throw new NullPointerException("user = null.");
 		}
@@ -340,6 +397,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public User updateUser(Serializable id, User user) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating user with id=" + id);
+    	}
 		if(id==null) {
 			throw new NullPointerException(
 					"id = null.");
@@ -355,6 +415,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public User updateUser(String username, User user) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating user with username=" + username);
+    	}
 		if(username==null) {
 			throw new NullPointerException(
 					"username = null.");
@@ -371,11 +434,21 @@ public class UserEntityService implements UserService {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List getRolesList() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Loading all roles.");
+    	}
 		return roleDao.getList();
 	}
 
     @Transactional(readOnly = true)
     public Role getRole(String roleName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting role with name=" + roleName);
+    	}
+    	if(roleName==null) {
+			throw new NullPointerException(
+					"roleName = null.");
+    	}
     	Role role = roleDao.getByCode(roleName);
     	if(role==null) {
     		throw new InvalidRoleException("role=" + roleName + " not exist");
@@ -384,6 +457,9 @@ public class UserEntityService implements UserService {
     }
 
 	private void updatePassword(UserEntity user, String newPassword) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating password of user with id=" + user.getId());
+    	}
 		try {
 			user.setPassword(encodePassword(newPassword));
 		} catch (EncodePasswordException e) {
@@ -395,17 +471,26 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateRoles(String username, List<Role> newRoles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating roles of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		updateRoles(user, newRoles);
 	}
 
 	@Transactional(readOnly = false)
 	public void updateRoles(Serializable id, List<Role> newRoles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating roles of user with id=" + id);
+    	}
 		UserEntity user = (UserEntity) getById(id, true);
 		updateRoles(user, newRoles);
 	}
 
 	private void updateRoles(UserEntity user, List<Role> newRoles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating roles of user with id=" + user.getId());
+    	}
 		// Borramos los roles anteriores contenidos en
 		// la nueva lista
 		List<Role> currentSavedRoles = new ArrayList<Role>(newRoles.size());
@@ -432,6 +517,9 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = false)
 	public void updatePassword(String username, String newPassword) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating password of user with username=" + username);
+    	}
     	if(!isValidPassword(newPassword)) {
     		throw new InvalidPasswordException();
     	}
@@ -441,6 +529,9 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = false)
 	public void updatePassword(Serializable id, String newPassword) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating password of user with id=" + id);
+    	}
     	if(!isValidPassword(newPassword)) {
     		throw new InvalidPasswordException();
     	}
@@ -450,6 +541,9 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = true)
 	public User getById(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting user with id=" + id);
+    	}
 		return getById(id, false);
 	}
 
@@ -471,6 +565,9 @@ public class UserEntityService implements UserService {
 
     @Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Deleting user with id=" + id);
+    	}
     	UserEntity u = (UserEntity) getById(id, true);
     	if(organizationService!=null) {
     		organizationService.removeUserFromAll(u.getId());
@@ -481,6 +578,9 @@ public class UserEntityService implements UserService {
 	}
 
 	public String encodePassword(String plainPassword) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Encoding password.");
+    	}
 		try {
 			return passwordEncoder.encode(plainPassword);
 		} catch(Exception e) {
@@ -490,6 +590,9 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean isValidUsername(String username) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating username=" + username);
+    	}
 		if(username==null) {
 			throw new NullPointerException("username = null.");
 		}
@@ -497,14 +600,23 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean isValidPassword(String password) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating password.");
+    	}
 		return passwordValidator.isValid(password);
 	}
 
 	public String generateRandomPassword() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Generating random password.");
+    	}
 		return passwordGenerator.nextString();
 	}
 
 	public boolean isValidEmailAddress(String emailAddress) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating emailAddress=" + emailAddress);
+    	}
 		if(emailAddress==null) {
 			throw new NullPointerException("emailAddress = null.");
 		}
@@ -512,11 +624,17 @@ public class UserEntityService implements UserService {
 	}
 
 	public boolean hasRole(User user, Role role) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating roles of user with id=" + user.getId());
+    	}
 		return ((UserEntity)user).hasRole(role);
 	}
 
 	@Transactional(readOnly = true)
 	public boolean hasRole(Serializable userId, String roleName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating roles of user with id=" + userId);
+    	}
 		Role role = getRole(roleName);
 		List <Authority> authorities = userDao.getAuthorityList((Long)getById(userId).getId());
 		for(Authority authority : authorities) {
@@ -529,6 +647,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public boolean hasRole(String username, String roleName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating roles of user with username=" + username);
+    	}
 		List <Authority> authorities = userDao.getAuthorityList((Long)getByUsername(username).getId());
 		for(Authority authority : authorities) {
 			if(authority.getRole().getAuthority().equals(roleName)) {
@@ -547,6 +668,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCommonName(Serializable userId, String newCommonName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating commonName of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCommonName(newCommonName);
 		userDataDao.update(user.getUserData());
@@ -554,6 +678,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateLock(Serializable userId, boolean lock) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating lock information of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId);
 		user.getUserData().setLocked(lock);
 		userDataDao.update(user.getUserData());
@@ -561,6 +688,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateLock(String username, boolean lock) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating lock information of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username);
 		user.getUserData().setLocked(lock);
 		userDataDao.update(user.getUserData());
@@ -568,6 +698,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateTimeZoneId(String username, String newTimeZoneId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating timeZone of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setTimeZoneId(newTimeZoneId);
 		userDataDao.update(user.getUserData());
@@ -575,6 +708,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updatePortraitId(String username, Serializable newPortraitId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating portraitId of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setPortraitId((Long)newPortraitId);
 		userDataDao.update(user.getUserData());
@@ -582,6 +718,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updatePortraitId(Serializable userId, Serializable newPortraitId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating portraitId of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setPortraitId((Long)newPortraitId);
 		userDataDao.update(user.getUserData());
@@ -589,6 +728,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateTimeZoneId(Serializable userId, String newTimeZoneId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating timeZone of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId);
 		user.getUserData().setTimeZoneId(newTimeZoneId);
 		userDataDao.update(user.getUserData());
@@ -596,6 +738,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCountryId(String username, String newCountryId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating countryId of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setCountryId(newCountryId);
 		userDataDao.update(user.getUserData());
@@ -603,6 +748,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCountryId(Serializable userId, String newCountryId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating countryId of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCountryId(newCountryId);
 		userDataDao.update(user.getUserData());
@@ -610,6 +758,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCityOrRegionName(String username, String newCityOrRegionName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating cityOrRegionName of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setCityOrRegionName(newCityOrRegionName);
 		userDataDao.update(user.getUserData());
@@ -617,6 +768,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateCityOrRegionName(Serializable userId, String newCityOrRegionName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating cityOrRegionName of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setCityOrRegionName(newCityOrRegionName);
 		userDataDao.update(user.getUserData());
@@ -624,6 +778,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateBirthdayDate(String username, Date newBirthdayDate) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating birthdayDate of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		user.getUserData().setBirthdayDate(newBirthdayDate);
 		userDataDao.update(user.getUserData());
@@ -631,6 +788,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateBirthdayDate(Serializable userId, Date newBirthdayDate) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating birthdayDate of user with id=" + userId);
+    	}
 		UserEntity user = (UserEntity) getById(userId, true);
 		user.getUserData().setBirthdayDate(newBirthdayDate);
 		userDataDao.update(user.getUserData());
@@ -638,6 +798,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateEmailAddress(String username, String newEmailAddress) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating emailAddress of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username, true);
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
@@ -650,6 +813,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateEmailAddress(Serializable id, String newEmailAddress) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating emailAddress of user with id=" + id);
+    	}
 		UserEntity user = (UserEntity) getById(id, true);
 		UserEntity user2 = userDao.getByEmailAddress(newEmailAddress);
 		if(user2!=null && !user2.getId().equals(user.getId())) {
@@ -662,6 +828,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateUsername(String username, String newUsername) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating username of user with username=" + username);
+    	}
 		if(!isValidUsername(newUsername)) {
 			throw new InvalidUsernameException();
 		}
@@ -677,6 +846,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = false)
 	public void updateUsername(Serializable id, String newUsername) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating username of user with id=" + id);
+    	}
 		if(!isValidUsername(newUsername)) {
 			throw new InvalidUsernameException();
 		}
@@ -692,12 +864,18 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public boolean checkPassword(String username, String password) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Verifying password of user with username=" + username);
+    	}
 		UserEntity user = (UserEntity) getByUsername(username);
 		return user.getPassword().equals(encodePassword(password));
 	}
 
 	@Transactional(readOnly = true)
 	public boolean checkPassword(Serializable id, String password) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Verifying password of user with id=" + id);
+    	}
 		UserEntity user = (UserEntity) getById(id);
 		return user.getPassword().equals(encodePassword(password));
 	}
@@ -714,6 +892,10 @@ public class UserEntityService implements UserService {
 	 * {@link mr.common.security.service.UserService#getUserInstance()}
 	 */
 	public User getUserInstance() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Creating a new user object instance, class="
+    				+ UserEntity.class.getName());
+    	}
 		UserEntity user = new UserEntity();
 		UserData userData = new UserData();
 		user.setUserData(userData);
@@ -722,6 +904,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public String getUsernameById(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting username of user with id=" + userId);
+    	}
     	if(userId==null) {
     		throw new NullPointerException("userId = null.");
     	}
@@ -735,6 +920,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public Serializable getIdByUsername(String username) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting id of user with username=" + username);
+    	}
     	if(username==null) {
     		throw new NullPointerException("username = null.");
     	}
@@ -748,6 +936,9 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public Serializable getIdByEmailAddress(String emailAddress) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting id of user with emailAddress=" + emailAddress);
+    	}
     	if(emailAddress==null) {
     		throw new NullPointerException("emailAddress = null.");
     	}
@@ -761,11 +952,17 @@ public class UserEntityService implements UserService {
 
 	@Transactional(readOnly = true)
 	public List<Role> getUserRoles(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting roles of user with id=" + userId);
+    	}
 		return getById(userId, false).getRoles();
 	}
 
 	@Transactional(readOnly = true)
 	public List<Role> getUserRoles(String username) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting roles of user with username=" + username);
+    	}
 		return getByUsername(username, false).getRoles();
 	}
 
