@@ -28,6 +28,8 @@ import mr.common.security.userentity.organization.model.OrganizationEntity;
 import mr.common.security.userentity.organization.model.UserOrganization;
 import mr.common.security.userentity.organization.model.UserOrganizationRole;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +42,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Mariano Ruiz
  */
 public class OrganizationEntityService implements OrganizationService {
+
+	private static final Log logger = LogFactory.getLog(OrganizationEntityService.class);
 
 	@Resource
 	private OrganizationEntityDao orgDao;
@@ -57,11 +61,17 @@ public class OrganizationEntityService implements OrganizationService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional(readOnly = true)
 	public List getList() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Loading all organizations.");
+    	}
 		return orgDao.getList();
 	}
 
 	@Transactional(readOnly = true)
 	public int count() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Counting all organizations.");
+    	}
 		return (int) orgDao.count();
 	}
 
@@ -69,11 +79,17 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public List find(String nameOrDescription, Boolean activeFilter,
 			ConfigurableData page) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Finding organizations.");
+    	}
 		return orgDao.find(nameOrDescription, null, null, activeFilter, page);
 	}
 
 	@Transactional(readOnly = true)
 	public int findCount(String nameOrDescription, Boolean activeFilter) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Count finding organizations.");
+    	}
 		return orgDao.findCount(nameOrDescription, null, null, activeFilter);
 	}
 
@@ -81,6 +97,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public List find(String nameOrDescription, Serializable userId, Role role,
 			Boolean activeFilter, ConfigurableData page) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Finding organizations of user.");
+    	}
 		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
 		return orgDao.find(nameOrDescription, userId, role, activeFilter, page);
 	}
@@ -88,11 +107,17 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public int findCount(String nameOrDescription, Serializable userId, Role role,
 			Boolean activeFilter) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Count finding organizations of user.");
+    	}
 		return orgDao.findCount(nameOrDescription, userId, role, activeFilter);
 	}
 
 	@Transactional(readOnly = true)
 	public Organization getById(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization with id=" + id);
+    	}
     	return getById(id, true);
 	}
 
@@ -114,6 +139,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public Organization getByName(String name) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization with name=" + name);
+    	}
     	if(name==null) {
     		throw new NullPointerException("name = null.");
     	}
@@ -127,6 +155,12 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public Organization newOrganization(Organization org) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Creating new organization.");
+    	}
+    	if(org==null) {
+    		throw new NullPointerException("org = null.");
+    	}
 		if(org.getId()!=null) {
 			throw new IllegalArgumentException(
 					"New organization should not have set the id.");
@@ -167,6 +201,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public Organization updateOrganization(Serializable id, Organization organization) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating organization with id=" + id);
+    	}
 		if(id==null) {
 			throw new NullPointerException(
 					"id = null.");
@@ -182,6 +219,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public Organization updateOrganization(String name, Organization organization) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating organization with name=" + name);
+    	}
 		if(name==null) {
 			throw new NullPointerException(
 					"name = null.");
@@ -196,10 +236,17 @@ public class OrganizationEntityService implements OrganizationService {
 	}
 
 	public Organization getOrganizationInstance() {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Creating a new organization object instance, class="
+    				+ OrganizationEntity.class.getName());
+    	}
 		return new OrganizationEntity();
 	}
 
 	public boolean isValidOrganizationName(String name) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating organization name=" + name);
+    	}
 		if(!name.equals(name.trim())) {
 			return false;
 		}
@@ -208,6 +255,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void deleteByName(String name) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Deleting organization with name=" + name);
+    	}
 		Long orgId = (Long) getIdByName(name);
 		removeAllUsersFromOrganization(orgId);
 		orgDao.delete((OrganizationEntity) getById(orgId, false));
@@ -215,12 +265,18 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void deleteById(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Deleting organization with id=" + id);
+    	}
 		removeAllUsersFromOrganization((Long) id);
 		orgDao.delete((OrganizationEntity) getById(id, false));
 	}
 
 	@Transactional(readOnly = false)
 	public void updateLogoId(Serializable orgId, Serializable newLogoId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating logoId of organization with id=" + orgId);
+    	}
 		OrganizationEntity org = (OrganizationEntity) getById(orgId, false);
 		org.setLogoId((Long)newLogoId);
 		orgDao.update(org);
@@ -228,6 +284,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void updateLock(Serializable orgId, boolean lock) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating lock of organization with id=" + orgId);
+    	}
 		OrganizationEntity org = (OrganizationEntity) getById(orgId);
 		org.setLocked(lock);
 		orgDao.update(org);
@@ -235,6 +294,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void addUser(Serializable orgId, Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Adding user to organization with id=" + orgId);
+    	}
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
 			throw new UserLockedException(user);
@@ -251,6 +313,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = false)
 	public void removeUser(Serializable orgId, Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Removing user from organization with id=" + orgId);
+    	}
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
 			throw new UserLockedException(user);
@@ -271,6 +336,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = false)
 	public int removeUserFromAll(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Removing user from all organizations.");
+    	}
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
 			throw new UserLockedException(user);
@@ -285,6 +353,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = false)
 	public int removeAllUsersFromOrganization(Long id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Removing all user from organization with id=" + id);
+    	}
 		getNameById(id); // Si la organización no existe lanza excepción
 		List<Long> userIds = userOrganizationDao.getUsersId(id);
 		for(Long userId : userIds) {
@@ -295,6 +366,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public boolean isUserInOrganization(Serializable orgId, Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating if user is in organization with id=" + orgId);
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		getNameById(orgId); // Si la organización no existe lanza excepción
 		return userOrganizationDao.getUserOrganizationId((Long)orgId, (Long)userId) != null;
@@ -303,42 +377,63 @@ public class OrganizationEntityService implements OrganizationService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Serializable> getUserOrganizationsId(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization ids of user with id=" + userId);
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationDao.getUserOrganizationsId((Long)userId);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Organization> getUserOrganizations(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization of user with id=" + userId);
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationDao.getUserOrganizations((Long)userId);
 	}
 
 	@Transactional(readOnly = true)
 	public int getUserOrganizationsCount(Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Counting organization of user with id=" + userId);
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationDao.getUserOrganizationsCount((Long)userId);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Serializable> getUserOrganizationsWithRolesId(Serializable userId, Role ... roles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization ids of user with roles.");
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationRoleDao.getUserOrganizationsWithRolesId((Long)userId, roles);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Organization> getUserOrganizationsWithRoles(Serializable userId, Role ... roles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting organization of user with roles.");
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationRoleDao.getUserOrganizationsWithRoles((Long)userId, roles);
 	}
 
 	@Transactional(readOnly = true)
 	public int getUserOrganizationsWithRolesCount(Serializable userId, Role ... roles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Counting organization ids of user with roles.");
+    	}
 		userService.getUsernameById(userId); // Si el user no existe lanza excepción
 		return userOrganizationRoleDao.getUserOrganizationsWithRolesCount((Long)userId, roles);
 	}
 
 	@Transactional(readOnly = true)
 	public String getNameById(Serializable orgId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting name of organization with id=" + orgId);
+    	}
 		if(orgId==null) {
 			throw new NullPointerException(
 					"orgId = null.");
@@ -353,6 +448,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public Serializable getIdByName(String name) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting id of organization with name=" + name);
+    	}
 		if(name==null) {
 			throw new NullPointerException(
 					"name = null.");
@@ -367,6 +465,9 @@ public class OrganizationEntityService implements OrganizationService {
 
 	@Transactional(readOnly = true)
 	public List<User> getUsers(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Loading users from organization with id=" + id);
+    	}
 		getNameById(id); // Si la organización no existe lanza excepción
 		return userOrganizationDao.getUsers(id);
 	}
@@ -374,12 +475,18 @@ public class OrganizationEntityService implements OrganizationService {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Serializable> getUsersId(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Loading users ids from organization with id=" + id);
+    	}
 		getNameById(id); // Si la organización no existe lanza excepción
 		return userOrganizationDao.getUsersId(id);
 	}
 
 	@Transactional(readOnly = true)
 	public int getUsersCount(Serializable id) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Counting users from organization with id=" + id);
+    	}
 		getNameById(id); // Si la organización no existe lanza excepción
 		return userOrganizationDao.getUsersCount(id);
 	}
@@ -387,6 +494,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public List<Role> getUserOrganizationRoles(Serializable orgId,
 			Serializable userId) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Getting roles of user in organization.");
+    	}
 		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
 		getNameById(orgId);                  // Lanza una excepción si no existe la organización
 		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
@@ -399,6 +509,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public boolean hasRoleInOrganization(Serializable orgId,
 			Serializable userId, String roleName) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating roles of user in organization.");
+    	}
 		userService.getUsernameById(userId); // Lanza una excepción si no existe el usuario
 		getNameById(orgId);                  // Lanza una excepción si no existe la organización
 		UserOrganization userOrganization = userOrganizationDao.getUserOrganization((Long)orgId, (Long)userId);
@@ -417,12 +530,18 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = true)
 	public boolean hasRoleInOrganization(Serializable orgId,
 			Serializable userId, Role role) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Validating roles of user in organization.");
+    	}
 		return hasRoleInOrganization(orgId, userId, role.getAuthority());
 	}
 
 	@Transactional(readOnly = false)
 	public void updateUserOrganizationRoles(Serializable orgId,
 			Serializable userId, List<Role> newRoles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Updating roles of user in organization.");
+    	}
 		UserEntity user = (UserEntity) userService.getById(userId);
 		if(user.isLocked()) {
 			throw new UserLockedException(user);
@@ -460,6 +579,9 @@ public class OrganizationEntityService implements OrganizationService {
 	@Transactional(readOnly = false)
 	public void addUser(Serializable orgId, Serializable userId,
 			List<Role> roles) {
+    	if(logger.isDebugEnabled()) {
+    		logger.debug("Adding user in organization with roles.");
+    	}
 		addUser(orgId, userId);
 		updateUserOrganizationRoles(orgId, userId, roles);
 	}
