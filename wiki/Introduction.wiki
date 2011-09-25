@@ -49,7 +49,7 @@ Example of modules dependency of mr-common jars in *pom.xml*:
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-dao</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
@@ -59,7 +59,7 @@ Example of modules dependency of mr-common jars in *pom.xml*:
         <dependency>
             <groupId>mr.common</groupId>
             <artifactId>mr-common-security-userentity</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>mr.common</groupId>
