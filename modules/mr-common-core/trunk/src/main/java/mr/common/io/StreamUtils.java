@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.io.StringReader;
 
 import org.xml.sax.InputSource;
@@ -52,4 +53,20 @@ public abstract class StreamUtils {
 		}
 		output.flush();
 	}
+
+	/**
+	 * Copia todo el contenido desde <code>inputFile</code> hasta <code>output</code>.
+	 * @param inputFile {@link java.io.RandomAccessFile}
+	 * @param output {@link java.io.OutputStream}
+	 * @throws IOException
+	 */
+    static public void copy(RandomAccessFile inputFile, OutputStream output) throws IOException {
+        byte[] buf = new byte[4096];
+        int bytesRead = inputFile.read(buf);
+        while (bytesRead != -1) {
+        	output.write(buf, 0, bytesRead);
+            bytesRead = inputFile.read(buf);
+        }
+		output.flush();
+    }
 }
