@@ -19,7 +19,7 @@ The framework is divided into modules (jars):
 
 Each module is compiled with [http://maven.apache.org/ Apache Maven 2].
 
-An application example is [http://apps.mrdev.com.ar/mr-common/ here] (_no source code available_). *User*: `admin`, *password*: `admin`.
+An application example is [http://apps.mrdev.com.ar/mr-common/ here]. *User*: `admin`, *password*: `admin`. Read more about the template [MrCommonTemplate here].
 
 A configuration example of each modules is in folder `utils` on the root.
 
@@ -97,7 +97,7 @@ A local m2 repository folder zipped are archive to download [http://mr-common.go
 
 == About me ==
 
-My name is *Mariano Ruiz*, I work as _Java Developer_. I'm from Argentina.
+My name is *Mariano Ruiz*, I work as _Java & Web Developer_. I'm from Argentina.
 
 *My Home Page*: [http://www.mrdev.com.ar]
 
