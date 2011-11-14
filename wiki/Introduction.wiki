@@ -92,7 +92,7 @@ Configure example of repo in the pom.xml:
 
 See the [http://code.google.com/p/mr-common/source/browse/modules/mr-common-security-userentity/trunk/pom.xml pom.xml] file of the _mr-common-security-userentity_ as example.
 
-A local m2 repository folder zipped are archive to download [http://mr-common.googlecode.com/files/repository.zip here], with all dependencies.
+A local m2 repository folder zipped are archive to download [http://mr-common.googlecode.com/files/repository-1.4.zip here], with all dependencies.
 
 
 == About me ==
