@@ -1,4 +1,4 @@
-= mr-common template =
+= mr-common Template =
 
 The _mr-common Template_ is a web application template, based on the *mr-common framework*, witch can be extended to create enterprise Web 2.0 applications.
 
