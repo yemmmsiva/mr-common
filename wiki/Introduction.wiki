@@ -19,7 +19,8 @@ The framework is divided into modules (jars):
 
 Each module is compiled with [http://maven.apache.org/ Apache Maven 2].
 
-An application example is [http://apps.mrdev.com.ar/mr-common/ here]. *User*: `admin`, *password*: `admin`. Read more about the template [MrCommonTemplate here].
+== Example template ==
+An *application example* is [http://apps.mrdev.com.ar/mr-common/ here]. _User_: `admin`, _password_: `admin`. Read more about the template [MrCommonTemplate here].
 
 A configuration example of each modules is in folder `utils` on the root.
 
