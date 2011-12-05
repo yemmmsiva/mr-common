@@ -159,6 +159,7 @@ public class AsyncMailSender implements JavaMailSender {
 	/*
 	 * Getters and Setters.
 	 */
+
 	public void setMailSender(JavaMailSenderImpl mailSender) {
 		this.mailSender = mailSender;
 	}

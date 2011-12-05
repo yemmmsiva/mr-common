@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Extiende de {@link ThreadGroup}, y loguea como <b><code>ERROR</code></b>
- * con <i>Log4j</i> las excepciones del thread.
+ * con <i>Apache Commons Logging</i> las excepciones del thread.
  * @author Mariano Ruiz
  */
 public class LogErrorThreadGroupHandler extends ThreadGroup {

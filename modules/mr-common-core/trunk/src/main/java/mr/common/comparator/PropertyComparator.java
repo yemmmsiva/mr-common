@@ -23,12 +23,11 @@ public class PropertyComparator extends ConfigurableComparator {
 
 
 	/**
-	 * @see mr.common.comparator.PropertyComparator
-	 * @param propertyExpression String: expresión java beans del valor a comparar.<br/>
-	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}
-	 * @throws RuntimeException si la property expression es erronea
+	 * @param propertyExpression expresión java beans del valor a comparar.<br/>
+	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}.
+	 * @throws RuntimeException si la property expression es erronea.
 	 *
-	 * @see PropertyComparator
+	 * @see mr.common.comparator.PropertyComparator
 	 */
 	public PropertyComparator(String propertyExpression) {
 		this.propertyExpression = propertyExpression;
@@ -36,17 +35,16 @@ public class PropertyComparator extends ConfigurableComparator {
 
 
 	/**
-	 * @see mr.common.comparator.PropertyComparator
-	 * @param propertyExpression String: expresión java beans del valor a comparar.<br/>
-	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}
-	 * @throws RuntimeException si la property expression es erronea
-	 * @param order int:
+	 * @param propertyExpression expresión java beans del valor a comparar.<br/>
+	 * Por lo tanto el valor obtenido de la expresión debe implementar {@link java.lang.Comparable}.
+	 * @throws RuntimeException si la property expression es erronea.
+	 * @param order
 	 * <ul>
 	 *   <li><i>{@link ConfigurableComparator#ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link ConfigurableComparator#ORDER_ZA} (-1)</i>: orden descendente</li>
 	 * </ul>
 	 *
-	 * @see PropertyComparator
+	 * @see mr.common.comparator.PropertyComparator
 	 */
 	public PropertyComparator(String propertyExpression, int order) {
 		super(order);

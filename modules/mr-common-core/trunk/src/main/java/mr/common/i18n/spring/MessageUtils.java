@@ -65,8 +65,8 @@ public class MessageUtils {
      * Si esa localización no es soportada por la aplicación (ver
      * {@link #isLocadeSupported(String)}), se devuelve el locale
      * del hilo de ejecución o de la aplicación. 
-     * @param locale código <i>ISO-639</i>
-     * @return objeto locale
+     * @param locale código <i>ISO-639</i>.
+     * @return objeto locale.
      */
     public static Locale getLocale(String locale) {
     	if(locale==null || localesSupported==null || !isLocadeSupported(locale)) {
@@ -77,9 +77,9 @@ public class MessageUtils {
 
     /**
      * Indica si una localización es soportada por la aplicación.
-     * @param locale la localización que se quiere evaluar
+     * @param locale la localización que se quiere evaluar.
      * @return <code>true</code> si la localización es
-     * soportada
+     * soportada.
      * @see #getLocalesSupported()
      */
     public static boolean isLocadeSupported(String locale) {
@@ -101,7 +101,7 @@ public class MessageUtils {
     /**
      * Retorna un array de strings con todas las localizaciones
      * soportadas por la aplicación.
-     * @return array de strings
+     * @return array de strings.
      * @see #isLocadeSupported(String)
      */
     public static String[] getLocalesSupported() {
@@ -111,8 +111,7 @@ public class MessageUtils {
 	/**
      * Devuelve el mensaje internacionalizado de la <code>key</code>
      * en la localización del hilo actual.
-     * @param key String
-     * @return mensaje traducido
+     * @return mensaje traducido.
      */
     public static String getMessage(String key) {
     	return getMessageSource().getMessage(key, null, getLocale());
@@ -123,9 +122,7 @@ public class MessageUtils {
      * Devuelve el mensaje internacionalizado de la <code>key</code>
      * en la localización del hilo actual, y con la parametrización
      * <code>args</code>.
-     * @param key String
-     * @param args argumentos
-     * @return mensaje traducido
+     * @return mensaje traducido.
      */
     public static String getMessage(String key, Object ... args) {
     	return getMessageSource().getMessage(key, args, getLocale());

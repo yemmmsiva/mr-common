@@ -19,8 +19,7 @@ public abstract class StreamUtils {
 	/**
 	 * Obtiene los datos de <code>input</code> como un array de bytes.<br/>
 	 * No olvidar cerrar la conexión de <code>input</code>.
-	 * @param input {@link java.io.InputStream}
-	 * @return array de bytes
+	 * @return array de bytes.
 	 * @throws IOException
 	 */
 	public static byte[] getBytes(InputStream input) throws IOException {
@@ -40,8 +39,6 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copia todo el contenido desde <code>input</code> hasta <code>output</code>.
-	 * @param input {@link java.io.InputStream}
-	 * @param output {@link java.io.OutputStream}
 	 * @throws IOException
 	 */
 	public static void copy(InputStream input, OutputStream output) throws IOException {
@@ -56,8 +53,6 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copia todo el contenido desde <code>inputFile</code> hasta <code>output</code>.
-	 * @param inputFile {@link java.io.RandomAccessFile}
-	 * @param output {@link java.io.OutputStream}
 	 * @throws IOException
 	 */
     static public void copy(RandomAccessFile inputFile, OutputStream output) throws IOException {

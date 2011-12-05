@@ -171,7 +171,7 @@ public abstract class TimeZoneUtils {
 	 * conveniente si queremos reducir y normalizar la cantidad de opciones,
 	 * por ejemplo para listarlas en una aplicación.
 	 * 
-	 * @return lista de ids de las zonas
+	 * @return lista de ids de las zonas.
 	 */
 	public static List<String> getAvailableIDs() {
 		if(timeZoneIDs==null) {
@@ -212,7 +212,7 @@ public abstract class TimeZoneUtils {
 	 * conveniente si queremos reducir y normalizar la cantidad de opciones,
 	 * por ejemplo para listarlas en una aplicación.
 	 * 
-	 * @return lista de {@link java.util.TimeZone} de las zonas
+	 * @return lista de {@link java.util.TimeZone} de las zonas.
 	 */
 	public static List<TimeZone> getAvailableTimeZones() {
 		if(timeZones==null) {
@@ -236,7 +236,7 @@ public abstract class TimeZoneUtils {
 
 	/**
 	 * Borra la caché de los time zones devueltos por
-	 * {@link #getAvailableTimeZones()} y {@link #getAvailableIDs()}
+	 * {@link #getAvailableTimeZones()} y {@link #getAvailableIDs()}.
 	 */
 	public synchronized static void cleanAvailableTimeZonesCache() {
 		timeZones = null;

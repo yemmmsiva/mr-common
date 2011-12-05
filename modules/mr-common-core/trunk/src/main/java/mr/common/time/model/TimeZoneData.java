@@ -22,11 +22,8 @@ public class TimeZoneData implements OptionData {
 	private String displayName;
 
 	/**
-	 * @param timeZone - time zone
-	 * @param locale - localización, si es <code>null</code> se
-	 * localizará con el lenguaje por defecto del sistema
-	 * @see mr.common.time.model.TimeZoneData#TimeZoneWrapperData(TimeZone)
-	 * @see mr.common.time.model.TimeZoneData
+	 * @param locale localización, si es <code>null</code> se
+	 * localizará con el lenguaje por defecto del sistema.
 	 */
 	public TimeZoneData(TimeZone timeZone, Locale locale) {
 		code = timeZone.getID();
@@ -38,11 +35,6 @@ public class TimeZoneData implements OptionData {
 		displayName += " (" + code.replace('_', ' ') + ")";
 	}
 
-	/**
-	 * @param timeZone time zone
-	 * @see mr.common.time.model.TimeZoneData#TimeZoneWrapperData(TimeZone, Locale)
-	 * @see mr.common.time.model.TimeZoneData
-	 */
 	public TimeZoneData(TimeZone timeZone) {
 		code = timeZone.getID();
 		displayName = timeZone.getDisplayName() + " (" + code.replace('_', ' ') + ")";

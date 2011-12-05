@@ -56,13 +56,13 @@ import java.util.List;
  * Se deben implementar los métodos {@link #getParent(Type)} y {@link #getChild(Type)}
  * para que la lista conozca cómo extraer los elementos {@code <Parent>} y los elementos {@code <Child>}
  * de cada objeto {@code <Type>} de la lista origen.
- * 
- * @author mruiz
  *
- * @param <Type> Tipo de datos que contiene la lista que se va a transformar
- * @param <Parent> Tipo de datos 'padre' (que se repite varias veces agrupadamente)
- * que contendrá los elementos 'hijos'
- * @param <Child> Tipo de datos 'hijo'
+ * @param <Type> Tipo de datos que contiene la lista que se va a transformar.
+ * @param <Parent> Tipo de datos 'padre' (que se repite varias veces agrupadamente).
+ * que contendrá los elementos 'hijos'.
+ * @param <Child> Tipo de datos 'hijo'.
+ *
+ * @author Mariano Ruiz
  */
 public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElement<Parent, Child>> {
 
@@ -70,9 +70,8 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 
 
 	/**
-	 * @see com.livra.madmax.util.GroupList
-	 * @param list {@code List<Type>}: lista origen
-	 * @param initialCapacity <code>int</code>: capacidad inicial del array
+	 * @param list lista origen.
+	 * @param initialCapacity capacidad inicial del array.
 	 */
 	public GroupList(List<Type> list, int initialCapacity) {
 		super(initialCapacity);
@@ -80,8 +79,7 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 	}
 
 	/**
-	 * @see com.livra.madmax.util.GroupList
-	 * @param list {@code List<Type>}: lista origen
+	 * @param list lista origen.
 	 */
 	public GroupList(List<Type> list) {
 		super();
@@ -92,8 +90,6 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 	 * Se debe implementar este método para que la lista conozca de los datos de origen
 	 * de dónde extraer los objetos {@code <Parent>}. Ej.:<br/>
 	 * <code>..Parent getParent(Account obj) { return obj.getClient(); }</code>
-	 * @param obj {@code <Type>}
-	 * @return {@code <Parent>}
 	 */
 	protected abstract Parent getParent(Type obj);
 
@@ -101,8 +97,6 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 	 * Se debe implementar este método para que la lista conozca de los datos de origen
 	 * de dónde extraer los objetos {@code <Child>}. Ej.:<br/>
 	 * <code>..Parent getChild(Account obj) { return obj.getAddress(); }</code>
-	 * @param obj {@code <Type>}
-	 * @return {@code <Parent>}
 	 */
 	protected abstract Child getChild(Type obj);
 
@@ -110,8 +104,6 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 	 * Es invocado antes de agregar el elemento <b><code>toAttach</code></b> al <b><code>groupElement</code></b>
 	 * al ser construida la lista, por lo que puede ser sobreescrito para funciones de agregación,
 	 * como totalizadores, contadores, etc.
-	 * @param groupElement {@code GroupElement<Parent, Child>}
-	 * @param attached {@code <Child>}
 	 */
 	protected void beforeAdded(GroupElement<Parent, Child> groupElement, Child toAttach) {}
 
@@ -119,8 +111,6 @@ public abstract class GroupList<Type, Parent, Child> extends ArrayList<GroupElem
 	 * Es invocado luego de agregar el elemento <b><code>attached</code></b> al <b><code>groupElement</code></b>
 	 * al ser construida la lista, por lo que puede ser sobreescrito para funciones de agregación,
 	 * como totalizadores, contadores, etc.
-	 * @param groupElement {@code GroupElement<Parent, Child>}
-	 * @param attached {@code <Child>}
 	 */
 	protected void afterAdding(GroupElement<Parent, Child> groupElement, Child attached) {}
 

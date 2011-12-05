@@ -43,7 +43,7 @@ public class ConfigurableComparator<T> implements Comparator<T> {
 
 	/**
 	 * Constructor con el orden de comparación como parámetro.
-	 * @param order int:
+	 * @param order
 	 * <ul>
 	 *   <li><i>{@link #ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link #ORDER_ZA} (-1)</i>: orden descendente</li>
@@ -54,7 +54,7 @@ public class ConfigurableComparator<T> implements Comparator<T> {
 	}
 
 	/**
-	 * @return int - orden de comparación:
+	 * @return orden de comparación:
 	 * <ul>
 	 *   <li><i>{@link #ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link #ORDER_ZA} (-1)</i>: orden descendente</li>
@@ -65,7 +65,7 @@ public class ConfigurableComparator<T> implements Comparator<T> {
 	}
 	/**
 	 * Orden de comparación:
-	 * @param order int:
+	 * @param order
 	 * <ul>
 	 *   <li><i>{@link #ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link #ORDER_ZA} (-1)</i>: orden descendente</li>

@@ -42,8 +42,8 @@ public interface EnviromentConfiguration {
 	 *   <li>{@link #ENVIROMENT_PRE_PRODUCTION}</li>
 	 *   <li>{@link #ENVIROMENT_PRODUCTION}</li>
 	 * </ul>
-	 * @return String - cadena de texto con el nombre
-	 * del entorno
+	 * @return cadena de texto con el nombre
+	 * del entorno.
 	 */
 	String getEnviroment();
 
@@ -52,7 +52,7 @@ public interface EnviromentConfiguration {
 	 * de desarrollo ({@link #ENVIROMENT_DEVELOPEMENT}).
 	 * @see #getEnviroment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
-	 * no es soportado por la aplicación
+	 * no es soportado por la aplicación.
 	 */
 	boolean isDevelopmentEnviroment();
 
@@ -61,7 +61,7 @@ public interface EnviromentConfiguration {
 	 * de test ({@link #ENVIROMENT_TEST}).
 	 * @see #getEnviroment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
-	 * no es soportado por la aplicación
+	 * no es soportado por la aplicación.
 	 */
 	boolean isTestEnviroment();
 
@@ -70,7 +70,7 @@ public interface EnviromentConfiguration {
 	 * de pre-producción ({@link #ENVIROMENT_PRE_PRODUCTION}).
 	 * @see #getEnviroment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
-	 * no es soportado por la aplicación
+	 * no es soportado por la aplicación.
 	 */
 	boolean isPreProductionEnviroment();
 
@@ -79,7 +79,7 @@ public interface EnviromentConfiguration {
 	 * de producción ({@link #ENVIROMENT_PRODUCTION}).
 	 * @see #getEnviroment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
-	 * no es soportado por la aplicación
+	 * no es soportado por la aplicación.
 	 */
 	boolean isProductionEnviroment();
 }

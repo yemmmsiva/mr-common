@@ -28,14 +28,13 @@ public class CollectionUtils {
      * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y concatena
      * en un <code>String</code> el resultado de cada uno separados por <code>separator</code>,
      * y encerrado cada valor por <code>enclosedSymbol</code>.
-     * @param list List: lista de objetos
-     * @param propertyExpression String: expresión java bean de la propiedad con el texto o clave i18n
-     * @param separator String: literal que separará cada elemento en la cadena,
-     * ej. una coma y espacio: <code>', '</code>
-     * @param enclosedSymbol String: literal que contendrá cada elemento en la cadena,
-     * ej. comillas simples: <code>''</code>
-     * @return String
-	 * @throws RuntimeException si la property expression es erronea
+     * @param list lista de objetos.
+     * @param propertyExpression expresión java bean de la propiedad con el texto o clave i18n.
+     * @param separator literal que separará cada elemento en la cadena,
+     * ej. una coma y espacio: <code>', '</code>.
+     * @param enclosedSymbol literal que contendrá cada elemento en la cadena,
+     * ej. comillas simples: <code>''</code>.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings("rawtypes")
 	public static String objectListToString(List list, String propertyExpression, String separator, String enclosedSymbol) throws RuntimeException {
@@ -49,15 +48,14 @@ public class CollectionUtils {
      * y encerrado cada valor por <code>enclosedSymbol</code>.<br/>
      * Si <code>prefix</code> es distinto de nulo se usa como prefijo del string de <code>propertyExpression</code> para
      * armar la clave i18n y obtener el texto internacionalizado.
-     * @param list List: lista de objetos
-     * @param propertyExpression String: expresión java bean de la propiedad con el texto o clave i18n
-     * @param separator String: literal que separará cada elemento en la cadena,
-     * ej. una coma y espacio: <code>', '</code>
-     * @param enclosedSymbol String: literal que contendrá cada elemento en la cadena,
-     * ej. comillas simples: <code>''</code>
-     * @param prefix String: prefijo de clave i18n
-     * @return String
-	 * @throws RuntimeException si la property expression es erronea
+     * @param list lista de objetos.
+     * @param propertyExpression expresión java bean de la propiedad con el texto o clave i18n.
+     * @param separator literal que separará cada elemento en la cadena,
+     * ej. una coma y espacio: <code>', '</code>.
+     * @param enclosedSymbol literal que contendrá cada elemento en la cadena,
+     * ej. comillas simples: <code>''</code>.
+     * @param prefix prefijo de clave i18n.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings("rawtypes")
 	public static String objectListToString(List list, String propertyExpression, String separator, String enclosedSymbol, String prefix) throws RuntimeException {
@@ -91,11 +89,11 @@ public class CollectionUtils {
     /**
      * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y
      * los devuelve en una lista nueva.<br/>
-     * @param list lista de objetos
-     * @param propertyExpression expresión java bean de la propiedad
+     * @param list lista de objetos.
+     * @param propertyExpression expresión java bean de la propiedad.
      * @return lista nueva con los objetos de la expresión. Si <code>list=null</code> retorna
-     * un array vacío
-	 * @throws RuntimeException si la property expression es erronea
+     * un array vacío.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List objectListToList(List list, String propertyExpression) throws RuntimeException {
@@ -116,11 +114,11 @@ public class CollectionUtils {
     /**
      * Recorre todo el array y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y
      * los devuelve en una lista nueva.<br/>
-     * @param objs array de objetos
-     * @param propertyExpression expresión java bean de la propiedad
+     * @param objs array de objetos.
+     * @param propertyExpression expresión java bean de la propiedad.
      * @return lista nueva con los objetos de la expresión. Si <code>objs=null</code> retorna
-     * un array vacío
-	 * @throws RuntimeException si la property expression es erronea
+     * un array vacío.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List objectArrayToList(Object[] objs, String propertyExpression) throws RuntimeException {
@@ -141,10 +139,9 @@ public class CollectionUtils {
     /**
      * Recorre toda la lista y obtiene por cada objeto el elemento obtenido de <code>propertyExpression</code>, y concatena
      * en un <code>String</code> el resultado de cada uno separados por coma.
-     * @param list List: lista de objetos
-     * @param propertyExpression String: expresión java bean de la propiedad con el texto o clave i18n
-     * @return String
-	 * @throws RuntimeException si la property expression es erronea
+     * @param list lista de objetos.
+     * @param propertyExpression expresión java bean de la propiedad con el texto o clave i18n.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings({ "rawtypes" })
 	public static String objectListToString(List list, String propertyExpression) throws RuntimeException {
@@ -157,11 +154,10 @@ public class CollectionUtils {
      * en un <code>String</code> el resultado de cada uno separados por coma.<br/>
      * Si <code>prefix</code> es distinto de nulo se usa como prefijo del string de <code>propertyExpression</code> para
      * armar la clave i18n y obtener el texto internacionalizado.
-     * @param list List: lista de objetos
-     * @param propertyExpression String: expresión java bean de la propiedad con el texto o clave i18n
-     * @param prefix String: prefijo de clave i18n
-     * @return String
-	 * @throws RuntimeException si la property expression es erronea
+     * @param list lista de objetos.
+     * @param propertyExpression expresión java bean de la propiedad con el texto o clave i18n.
+     * @param prefix prefijo de clave i18n.
+	 * @throws RuntimeException si la property expression es erronea.
      */
     @SuppressWarnings({ "rawtypes" })
 	public static String objectListToString(List list, String propertyExpression, String prefix) throws RuntimeException {
@@ -172,10 +168,10 @@ public class CollectionUtils {
      * Transforma una cadena de texto con palabras separadas por <a
      * href="../util/regex/Pattern.html#sum">regular expression</a>
      * a una lista de <code>String</code>.
-     * @param stringList String: cadena que contiene las palabras a separar
-     * @param regex String: Expresión regular (o literal)
+     * @param stringList cadena que contiene las palabras a separar.
+     * @param regex Expresión regular (o literal).
      * @return lista de String, vacía si <code>stringList</code> es no
-     * contiene texto
+     * contiene texto.
      */
     public static List<String> stringToObjectList(String stringList, String regex) {
 		if(StringUtils.hasText(stringList)) {
@@ -187,9 +183,9 @@ public class CollectionUtils {
     /**
      * Transforma una cadena de texto con palabras separadas por comas <code>,</code>
      * a una lista de <code>String</code>.
-     * @param stringList String: cadena que contiene las palabras a separar
+     * @param stringList cadena que contiene las palabras a separar.
      * @return lista de String, vacía si <code>stringList</code> es no
-     * contiene texto
+     * contiene texto.
      */
     public static List<String> stringToObjectList(String stringList) {
     	return stringToObjectList(stringList, ",");
@@ -202,16 +198,16 @@ public class CollectionUtils {
      * ya que se usa el <code>compareTo(Object)</code> para obtener el resultado.<br/>
      * Si son strings los objetos obtenidos de la expresión, se usa
      * {@link String#compareToIgnoreCase(String)}.
-     * @param list List: lista a ser ordenada
-     * @param methodName String []: nombre del método que se utiliza para la ordenación.
-	 * @param orders [] int: para cada expression el orden de comparación,
+     * @param list lista a ser ordenada
+     * @param propertyExpressions nombre de las propiedades que se utiliza para la ordenación.
+	 * @param orders para cada expression el orden de comparación,
 	 * <ul>
 	 *   <li><i>{@link ConfigurableComparator#ORDER_AZ}  (1)</i>: orden ascendente</li>
 	 *   <li><i>{@link ConfigurableComparator#ORDER_ZA} (-1)</i>: orden descendente</li>
 	 * </ul>
 	 * Si <code>orders</code> es <code>null</code>, se orderna con todas las expresiones en forma ascendente
-     * @return List: lista ordenada
-	 * @throws RuntimeException si la property expression es erronea
+     * @return lista ordenada.
+	 * @throws RuntimeException si la property expression es erronea.
 	 *
  	 * @see java.util.Comparator
  	 * @see mr.common.comparator.PropertyComparator
@@ -247,7 +243,6 @@ public class CollectionUtils {
 	 * Similar a {@link java.util.Arrays#asList(Object...)}, pero retorna
 	 * un {@link java.util.Set Set} en vez de una lista (tener en cuenta que
 	 * los objetos repetidos solo serán incluidos una vez).
-	 * @param array
 	 * @return {@link java.util.Set}
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })

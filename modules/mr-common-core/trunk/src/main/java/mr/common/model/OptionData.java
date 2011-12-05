@@ -12,13 +12,12 @@ import java.io.Serializable;
 public interface OptionData extends Serializable {
 
 	/**
-	 * @return String - código identificativo de
-	 * la opción
+	 * @return código identificativo de la opción
 	 */
 	String getCode();
 
 	/**
-	 * @return String - descripción de la opción
+	 * @return descripción de la opción
 	 */
 	String getDescription();
 }

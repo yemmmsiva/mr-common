@@ -17,18 +17,12 @@ public class FormatWrapper {
 	private String nullSymbol = "";
 
 
-	/**
-	 * @see com.livra.madmax.util.FormatWrapper
-	 * @param format Format
-	 */
 	public FormatWrapper(Format format) {
 		this.format = format;
 	}
 
 	/**
-	 * @see com.livra.madmax.util.FormatWrapper
-	 * @param format Format
-	 * @param nullSymbol String: valor por default para objetos nulos.
+	 * @param nullSymbol valor por default para objetos nulos.
 	 */
 	public FormatWrapper(Format format, String nullSymbol) {
 		this.format = format;
@@ -38,8 +32,6 @@ public class FormatWrapper {
 	/**
 	 * Invoca a {@link java.lang.Format#format(Object)} si el objecto
 	 * no es nulo, sino devuelve el valor de {@link #getNullSymbol}.
-	 * @param obj
-	 * @return
 	 */
 	public String format(Object obj) {
 		if (obj == null) {

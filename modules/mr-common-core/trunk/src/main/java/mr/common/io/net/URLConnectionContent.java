@@ -23,7 +23,6 @@ public class URLConnectionContent {
 
 	/**
 	 * @see mr.common.io.net.URLConnectionContent
-	 * @param fullURL String
 	 * @throws MalformedURLException
 	 */
 	public URLConnectionContent(final String fullURL) throws MalformedURLException {
@@ -32,14 +31,13 @@ public class URLConnectionContent {
 
 	/**
 	 * @see mr.common.io.net.URLConnectionContent
-	 * @param fullURL {@link java.net.URL}
 	 */
 	public URLConnectionContent(final URL fullURL) {
 		url = fullURL;
 	}
 
 	/**
-	 * @return String - El contenido de la URL
+	 * @return El contenido de la URL.
 	 * @throws java.io.IOException
 	 */
 	public String getURLContentAsString() throws IOException {

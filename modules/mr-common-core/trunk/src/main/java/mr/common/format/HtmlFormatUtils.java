@@ -289,8 +289,9 @@ public class HtmlFormatUtils {
 
 	/**
 	 * Quita los tags HTML de un String.
-	 * @param s String: contenido HTML (puede ser <code>null</code>)
-	 * @return String - cadena sin los tags
+	 * @param html contenido web (si es <code>null</code> se
+	 * retorna cadena vacía).
+	 * @return cadena sin los tags.
 	 * */
     public static String stripHTML(String html) {
         if (html == null) {
@@ -302,24 +303,24 @@ public class HtmlFormatUtils {
 
     /**
      * Transforma los caracteres HTML a su equivalente 'escapeado'.
-     * @param s String: contenido HTML
-     * @param escapeSpaces boolean: si se deben transformar los espacios en blanco
-     * y las tabulaciones
+     * @param html contenido web (si es <code>null</code> se
+	 * retorna cadena vacía).
+     * @param escapeSpaces si se deben transformar los espacios en blanco
+     * y las tabulaciones.
      * @param convertToHtmlUnicodeEscapes boolean: si los caracteres no ASCII7
-     * deben ser transformados a <code>&#</code><i><code>codepoint</code></i><code>;</code>
-     * @return CharSequence
+     * deben ser transformados a <code>&#</code><i><code>codepoint</code></i><code>;</code>.
      */
-	public static CharSequence escapeHtmlAsCharSequence(final String s,
+	public static CharSequence escapeHtmlAsCharSequence(final String html,
 			final boolean escapeSpaces,
 			final boolean convertToHtmlUnicodeEscapes) {
 
-		if (s == null) {
-			return null;
+		if (html == null) {
+			return "";
 		} else {
-			int len = s.length();
+			int len = html.length();
 			final StringBuffer buffer = new StringBuffer((int) (len * 1.1));
 			for (int i = 0; i < len; i++) {
-				final char c = s.charAt(i);
+				final char c = html.charAt(i);
 				switch (c) {
 					case '\t':
 						if (escapeSpaces) {
@@ -376,25 +377,24 @@ public class HtmlFormatUtils {
 
     /**
      * Transforma los caracteres HTML a su equivalente 'escapeado'.
-     * @param s String: contenido HTML
-     * @param escapeSpaces boolean: si se deben transformar los espacios en blanco
-     * y las tabulaciones
+     * @param html contenido HTML (si es <code>null</code> se
+	 * retorna cadena vacía).
+     * @param escapeSpaces si se deben transformar los espacios en blanco
+     * y las tabulaciones.
      * @param convertToHtmlUnicodeEscapes boolean: si los caracteres no ASCII7
-     * deben ser transformados a <code>&#</code><i><code>codepoint</code></i><code>;</code>
-     * @return String
+     * deben ser transformados a <code>&#</code><i><code>codepoint</code></i><code>;</code>.
      */
-	public static String escapeHtml(final String s,
+	public static String escapeHtml(final String html,
 			final boolean escapeSpaces,
 			final boolean convertToHtmlUnicodeEscapes) {
-		return escapeHtmlAsCharSequence(s, escapeSpaces, convertToHtmlUnicodeEscapes).toString();
+		return escapeHtmlAsCharSequence(html, escapeSpaces, convertToHtmlUnicodeEscapes).toString();
 	}
 
     /**
      * Retorna un string agregando a errorListString el error pasado
      * con un bullet de prefijo si no es el único (formato HTML).
-     * @param errorListString String: cadena que contiene los errores anteriores
-     * @param error String: error a agregar
-     * @return: String
+     * @param errorListString cadena que contiene los errores anteriores.
+     * @param error error a agregar.
      */
     public static String addToHTMLErrorList(String errorListString, String error) {
     	if(!StringUtils.hasText(errorListString)) {
@@ -411,31 +411,36 @@ public class HtmlFormatUtils {
 
 	/**
 	 * Reemplaza todos los caracteres HTML no reconocidos por su entidad numérica.
-	 * @param s String: contenido HTML.
-	 * @param escapeTags boolean: si es <code>false</code>, no reemplazará algunos caracteres
+     * @param html contenido HTML (si es <code>null</code> se
+	 * retorna cadena vacía).
+	 * @param escapeTags si es <code>false</code>, no reemplazará algunos caracteres
 	 * necesarios para el markup html. No transformará : &lt;&gt;&quot;'&amp;;\
-	 * @return String - HTML transformado
+	 * @return HTML transformado
 	 */
-	public static String escapeEntities(String s, boolean escapeTags)
-	{
+	public static String escapeEntities(String html, boolean escapeTags) {
+
+		if (html == null) {
+			return "";
+		}
+
 		StringBuilder rv = new StringBuilder();
 
 		boolean[] map = escapeTags ? lowmapraw : lowmap;
-		int len = s.length();
+		int len = html.length();
 		int lastindex = 0;
-		for (int index = 0; index < len; index = s.offsetByCodePoints(index, 1)) {
-			int cp = s.codePointAt(index);
+		for (int index = 0; index < len; index = html.offsetByCodePoints(index, 1)) {
+			int cp = html.codePointAt(index);
 			if (cp < 128) {
 				if (map[cp]) {
 					if (index != lastindex)
-						rv.append(s, lastindex, index);
+						rv.append(html, lastindex, index);
 					rv.append(codepoint2name.get(cp));
-					lastindex = s.offsetByCodePoints(index, 1);
+					lastindex = html.offsetByCodePoints(index, 1);
 				}
 			} else {
 				// No extended ASCII is unescapeable
 				if (index != lastindex)
-					rv.append(s, lastindex, index);
+					rv.append(html, lastindex, index);
 				
 				if (codepoint2name.containsKey(cp)) { 
 					rv.append(codepoint2name.get(cp));
@@ -445,11 +450,11 @@ public class HtmlFormatUtils {
 					rv.append(";");
 				}
 
-				lastindex = s.offsetByCodePoints(index, 1);
+				lastindex = html.offsetByCodePoints(index, 1);
 			}
 		}
 		if (lastindex != len)
-			rv.append(s, lastindex, len);
+			rv.append(html, lastindex, len);
 
 		return rv.toString();
 	}

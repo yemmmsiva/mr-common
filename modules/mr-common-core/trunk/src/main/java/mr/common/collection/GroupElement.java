@@ -10,8 +10,8 @@ import java.util.List;
  * donde cada <code>GroupElement</code> contiene un objeto {@code <Parent>},
  * y asociados a este elementos {@code <Child>}.
  * 
- * @see com.livra.madmax.util.GroupList
- * @author mruiz
+ * @see GroupList
+ * @author Mariano Ruiz
  */
 public class GroupElement<Parent, Child> implements Serializable {
 
@@ -21,10 +21,6 @@ public class GroupElement<Parent, Child> implements Serializable {
 	private List<Child> childs;
 
 
-	/**
-	 * @see com.livra.madmax.util.GroupElement
-	 * @param parent {@code <Parent>}
-	 */
 	public GroupElement(Parent parent) {
 		this.parent = parent;
 		childs = new ArrayList<Child>();

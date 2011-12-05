@@ -25,7 +25,6 @@ public class Bean implements BeanFactoryAware {
 
     /**
      * Factory method usado por Spring para crear el objeto.
-     * @return {@link mr.common.context.spring.Bean}
      */
     public static Bean instance() {
         if (instance == null) {
@@ -36,8 +35,6 @@ public class Bean implements BeanFactoryAware {
 
     /**
      * Obtiene el objeto del contexto de Spring con el nombre pasado.
-     * @param name String
-     * @return Object
      */
     public static Object get(String name) {
         return instance().factory.getBean(name);
@@ -45,10 +42,8 @@ public class Bean implements BeanFactoryAware {
 
     /**
      * Obtiene el objeto del contexto de Spring del tipo pasado (incluido subclases).
-     * @param type {@link Class}
-     * @return Object
-     * @throws NoSuchBeanDefinitionException - Si existe más de un objeto del tipo pasado
-     * @throws ClassCastException - Si el contexto no es del tipo {@link ListableBeanFactory}
+     * @throws NoSuchBeanDefinitionException Si existe más de un objeto del tipo pasado.
+     * @throws ClassCastException Si el contexto no es del tipo {@link ListableBeanFactory}.
      * 
      */
     @SuppressWarnings("rawtypes")

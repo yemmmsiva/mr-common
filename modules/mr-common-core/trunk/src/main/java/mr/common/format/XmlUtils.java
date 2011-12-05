@@ -54,12 +54,12 @@ public abstract class XmlUtils {
 	 * antes valida con un esquema XML (XSD) el documento, y lanza una excepción
 	 * en caso de fallar la validación.
 	 *
-	 * @param xml - Archivo que contiene el documento XML a parsear
-	 * @param xmlSchema - Archivo que contiene el esquema que define
+	 * @param xml archivo que contiene el documento XML a parsear.
+	 * @param xmlSchema archivo que contiene el esquema que define
 	 * el formato válido para validar el XML (archivo XSD).
-	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
-	 * o se produce un error al obtener los archivos o parsear el documento
+	 * @return DOM del XML.
+	 * @throws mr.common.format.XmlBindException si hay un error en la validación
+	 * o se produce un error al obtener los archivos o parsear el documento.
 	 */
 	public static Document getAndValidateDocument(File xml, File xmlSchema) {
 
@@ -93,12 +93,12 @@ public abstract class XmlUtils {
 	 * antes valida con un esquema XML (XSD) el documento, y lanza una excepción
 	 * en caso de fallar la validación.
 	 *
-	 * @param xml - Archivo que contiene el documento XML a parsear
-	 * @param xmlSchema - Archivo que contiene el esquema que define
+	 * @param xml archivo que contiene el documento XML a parsear
+	 * @param xmlSchema archivo que contiene el esquema que define
 	 * el formato válido para validar el XML (archivo XSD).
-	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
-	 * o se produce un error al parsear el documento
+	 * @return DOM del XML.
+	 * @throws mr.common.format.XmlBindException si hay un error en la validación
+	 * o se produce un error al parsear el documento.
 	 */
 	public static Document getAndValidateDocument(String xml, String xmlSchema) {
 
@@ -130,12 +130,10 @@ public abstract class XmlUtils {
 	/**
 	 * Parsea un documento XML a un objeto {@link org.w3c.dom.Document Document}.
 	 *
-	 * @param xml - Archivo que contiene el documento XML a parsear
-	 * @param xmlSchema - Archivo que contiene el esquema que define
-	 * el formato válido para validar el XML (archivo XSD).
-	 * @return {@link org.w3c.dom.Document} DOM del XML
-	 * @throws mr.common.format.XmlBindException Si hay un error en la validación
-	 * o se produce un error al obtener los archivos o parsear el documento
+	 * @param xml archivo que contiene el documento XML a parsear.
+	 * @return DOM del XML.
+	 * @throws mr.common.format.XmlBindException si hay un error en la validación
+	 * o se produce un error al obtener los archivos o parsear el documento.
 	 */
 	public static Document getDocument(File xml) {
 		try {
@@ -152,14 +150,12 @@ public abstract class XmlUtils {
 	/**
 	 * Parsea un documento XML a un objeto {@link org.w3c.dom.Document Document}.
 	 *
-	 * @param xml - Archivo que contiene el documento XML a parsear
-	 * @param xmlSchema - Archivo que contiene el esquema que define
-	 * el formato válido para validar el XML (archivo XSD).
-	 * @return {@link org.w3c.dom.Document} DOM del XML
+	 * @param xml archivo que contiene el documento XML a parsear.
+	 * @return DOM del XML.
 	 * @throws ParserConfigurationException 
 	 * @throws SAXException Si hay un error en la validación.
 	 * @throws IOException Si se produce un error al obtener el archivo
-	 * o al parsearlo
+	 * o al parsearlo.
 	 */
 	public static Document getDocument(String xml) {
 
@@ -178,8 +174,6 @@ public abstract class XmlUtils {
      * o texto llano, sino itera los siguientes
      * nodos hasta encontrar uno o <code>null</code>
      * si no lo hubiera.
-     * @param node {@link org.w3c.dom.Node}
-     * @return {@link org.w3c.dom.Node}
      */
     public static Node nextNode(Node node) {
     	if(node==null) {
@@ -218,8 +212,6 @@ public abstract class XmlUtils {
      * Retorna el primer elemento tag de
      * la lista, o <code>null</code>
      * si no lo hubiera.
-     * @param node {@link org.w3c.dom.Node}
-     * @return {@link org.w3c.dom.Node}
      */
     public static Node firstNode(NodeList nodeList) {
     	if(nodeList==null) {
@@ -236,8 +228,6 @@ public abstract class XmlUtils {
      * Retorna el último elemento tag de
      * la lista, o <code>null</code>
      * si no lo hubiera.
-     * @param node {@link org.w3c.dom.Node}
-     * @return {@link org.w3c.dom.Node}
      */
     public static Node lastNode(NodeList nodeList) {
     	if(nodeList==null) {
@@ -265,10 +255,10 @@ public abstract class XmlUtils {
     /**
      * Parsea un tag con el nombre <code>tagName</code>,
      * y le agrega las properties pasadas en <code>properties</code>.
-     * @param tagName nombre del tag
+     * @param tagName nombre del tag.
      * @param properties array de properties, cada una puede ser
-     * parseada con {@link #prop(String, String)}
-     * @return el tag XML parseado con los valores
+     * parseada con {@link #prop(String, String)}.
+     * @return el tag XML parseado con los valores.
      */
     public static String tag(String tagName, String ... properties) {
     	StringBuffer buffer = new StringBuffer(50);
@@ -287,8 +277,8 @@ public abstract class XmlUtils {
 
     /**
      * Parsea un tag con el nombre <code>tagName</code>.
-     * @param tagName nombre del tag
-     * @return el tag XML parseado con los valores
+     * @param tagName nombre del tag.
+     * @return el tag XML parseado con los valores.
      */
     public static String tag(String tagName) {
     	return "<" + tagName + ">";
@@ -297,10 +287,10 @@ public abstract class XmlUtils {
     /**
      * Parsea un tag con cierre con el nombre <code>tagName</code>,
      * y le agrega las properties pasadas en <code>properties</code>.
-     * @param tagName nombre del tag
+     * @param tagName nombre del tag.
      * @param properties array de properties, cada una puede ser
-     * parseada con {@link #prop(String, String)}
-     * @return el tag XML parseado con los valores
+     * parseada con {@link #prop(String, String)}.
+     * @return el tag XML parseado con los valores.
      */
     public static String closedTag(String tagName, String ... properties) {
     	StringBuffer buffer = new StringBuffer(50);

@@ -15,8 +15,6 @@ public class FileUtils {
 
 	/**
 	 * Devuelve el archivo como un String.
-	 * @param file File
-	 * @return String
 	 * @throws IOException
 	 * @see #read(File, String)
 	 */
@@ -26,9 +24,6 @@ public class FileUtils {
 
     /**
      * Devuelve el archivo como un String. Lo interpreta bajo con el charset pasado.
-     * @param file File
-     * @param charsetName String
-     * @return String
      * @throws IOException
      */
     public static String read(File file, String charsetName) throws IOException {
@@ -39,10 +34,8 @@ public class FileUtils {
 
     /**
      * Devuelve el contenido de un {@link InputStream} como un String.
-     * @param stream {@link java.io.InputStream}
-     * @return String
      * @throws IOException
-     * @see {@link #read(InputStream, String)}
+     * @see #read(InputStream, String)
      */
     public static String read(InputStream stream) throws IOException {
         return read(stream, null);
@@ -51,9 +44,6 @@ public class FileUtils {
     /**
      * Devuelve el contenido de un {@link InputStream} como un String.
      * Lo interpreta bajo con el charset pasado.
-     * @param stream {@link java.io.InputStream}
-     * @param charsetName String
-     * @return String
      * @throws IOException
      */
     public static String read(InputStream stream, String charsetName) throws IOException {
@@ -64,8 +54,6 @@ public class FileUtils {
 
     /**
      * Escribe lo que hay en el <code>inputStream</code> en el <code>outputStream</code>.
-     * @param inputStream {@link java.io.InputStream}
-     * @param outputStream {@link java.io.OutputStream}
      * @throws IOException
      */
     public static void write(InputStream inputStream, OutputStream outputStream) throws IOException {
@@ -73,8 +61,8 @@ public class FileUtils {
     }
 
     /**
-     * @param pathOrURL String - path del archivo o URL del recurso
-     * @return String - última extensión del recurso, en minúsculas
+     * @param pathOrURL path del archivo o URL del recurso.
+     * @return última extensión del recurso, en minúsculas.
      */
     public static String getExtension(String pathOrURL) {
         int dotPlace = pathOrURL.lastIndexOf('.');
@@ -83,7 +71,6 @@ public class FileUtils {
 
     /**
      * Borra el archivo, o el directorio con todo su contenido sin ningún tipo de confirmación.
-     * @param path {@link java.io.File}
      */
     public static void deleteFileOrDirectoryWithContent(File path) {
         if(path.exists()) {
@@ -109,8 +96,6 @@ public class FileUtils {
      * y quita todo lo que hay después de el primer punto inclusibe, por lo que se debe
      * usar para normalizar el nombre sin la extensión.
      * <p><b>IMPORTANTE</b>: Requiere Java 1.6+.</p>
-     * @param clientFileName String
-     * @return String
      */
     public static String normalizeFileName(String clientFileName) {
     	String name = clientFileName.contains(".") ? clientFileName.substring(0, clientFileName.lastIndexOf('.')) : clientFileName;
@@ -124,8 +109,6 @@ public class FileUtils {
      * Transforma el nombre de un archivo a otro con compatibilidad para cualquier
      * sistema de archivos, y le agrega una número aleatorio antes de la extensión
      * para hacerlo único en caso de subirse más de un archivo.
-     * @param clientFileName String
-     * @return String
      * @see #normalizeFileName(String)
      */
     public static String getUploadFileName(String clientFileName) {
@@ -138,8 +121,6 @@ public class FileUtils {
 	 * Normaliza los finales de línea de un String obtenido de un archivo,
 	 * si el archivo tiene retornos de carro al estilo MS-DOS, los cambia por
 	 * el end of line al estilo Unix.
-	 * @param file String
-	 * @return String
 	 */
     public static String normalizeEndOfLine(String file) {
     	if (file == null) {

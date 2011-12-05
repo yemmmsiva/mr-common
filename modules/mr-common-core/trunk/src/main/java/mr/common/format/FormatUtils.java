@@ -40,9 +40,9 @@ public class FormatUtils {
 
     /**
      * Retorna el porcentaje de num sobre el total, pero redondeado el resultado hasta 2 decimales.
-     * @param num double: número
-     * @param total double: total sobre el que se calcula el porcentaje
-     * @return double: resultado con decimales redondeados hasta el segundo dígito
+     * @param num double: número.
+     * @param total total sobre el que se calcula el porcentaje.
+     * @return resultado con decimales redondeados hasta el segundo dígito.
      */
     public static double percentageRounded(double num, double total) {
         if (num == 0.0 && total == 0.0) {
@@ -54,9 +54,6 @@ public class FormatUtils {
     /**
      * Retorna un número hasta una determinada cantidad de decimales redondeandoló
      * con el método {@link java.math.BigDecimal#ROUND_HALF_DOWN ROUND_HALF_DOWN}.
-     * @param num double
-     * @param scale int
-     * @return double
      */
     public static double round(double num, int scale) {
         return (new BigDecimal(num).setScale(scale, BigDecimal.ROUND_HALF_DOWN)).doubleValue();
@@ -64,9 +61,6 @@ public class FormatUtils {
 
     /**
      * Retorna el porcentaje como string en el formato <code>##.### %</code>.
-     * @param n double
-     * @param total double
-     * @return String
      */
     public static String percentageRoundedAsString(Double n, Double total) {
         DecimalFormat pf = new DecimalFormat("##.### %");
@@ -81,12 +75,8 @@ public class FormatUtils {
      * <ul>
      *   <li>'lastName1 [lastName2][, firstName]' -> Si tiene al menos un apellido</li>
      *   <li>'fisrtName' -> Si no tiene apellidos</li>
-     * <li>'' -> Si no tiene ni nombre ni apellidos</li>
+     *   <li>'' -> Si no tiene ni nombre ni apellidos</li>
      * </ul>
-     * @param lastName1 String
-     * @param lastName2 String
-     * @param firstName String
-     * @return String
      */
     public static String getFullName(String lastName1, String lastName2, String firstName) {
         String fullName = "";
@@ -111,8 +101,7 @@ public class FormatUtils {
 	/**
 	 * Convierte un número binario de cualquier longitud de bytes
 	 * a una cadena hexadecimal.
-	 * @param data: array de bytes
-	 * @return String
+	 * @param data array de bytes.
 	 */
     public static String convertToHex(byte[] data) {
         StringBuffer buf = new StringBuffer();
@@ -141,8 +130,8 @@ public class FormatUtils {
 	 * </p>
 	 * <p>Caracteres que no tengan representación en ASCII serán eliminados, ej. el EURO: €</p>
 	 * <p><b>IMPORTANTE</b>: Requiere Java 1.6+.</p>
-	 * @param s String: cadena a limpiar
-	 * @return String: cadena "limpia"
+	 * @param string cadena a limpiar.
+	 * @return cadena "limpia".
 	 */
 	public static String normalize(String string) {
 		string = java.text.Normalizer.normalize(string, java.text.Normalizer.Form.NFKD);

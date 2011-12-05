@@ -25,9 +25,9 @@ public abstract class Validator implements Serializable {
 
 	/**
 	 * Valida el objeto.
-	 * @param obj objeto a validar
+	 * @param obj objeto a validar.
 	 * @return <code>true</code> si el
-	 * objeto supera la validación
+	 * objeto supera la validación.
 	 */
 	abstract public boolean isValid(Object obj);
 
@@ -36,11 +36,11 @@ public abstract class Validator implements Serializable {
 	 * no superar la prueba, llama a {@link #throwError(Object)}
 	 * que lanzará una excepción con un mensaje descriptivo
 	 * del error.
-	 * @param obj objeto a validar
-	 * @throws RuntimeException si la validación
-	 * no es positiva. Ver {@link mr.common.exception.spring.
-	 * FrameworkException FrameworkException} para lanzar
-	 * excepciones con mensajes internacionalizados
+	 * @param obj objeto a validar.
+	 * @throws RuntimeException si la validación.
+	 * no es positiva. Ver {@link mr.common.exception.spring.FrameworkException
+	 * FrameworkException} para lanzar.
+	 * excepciones con mensajes internacionalizados.
 	 */
 	public void valide(Object obj) throws RuntimeException {
 		if(!isValid(obj)) {
@@ -51,8 +51,8 @@ public abstract class Validator implements Serializable {
 	/**
 	 * Método protegido que debe ser implementado
 	 * lanzando la excepción en caso de que el objecto
-	 * sea inválido al ser llamado {@link #valide(Object)}
-	 * @param obj objeto validado
+	 * sea inválido al ser llamado {@link #valide(Object)}.
+	 * @param obj objeto validado.
 	 */
 	protected abstract void throwError(Object obj) throws RuntimeException;
 }

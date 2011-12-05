@@ -27,8 +27,8 @@ public class FrameworkException extends RuntimeException {
 
 	/**
 	 * Excepción con mensaje internacionalizado.
-	 * @param messageKey String: clave i18n del error
-	 * @param messageArgs Object... Argumentos del mensaje
+	 * @param messageKey clave i18n del error.
+	 * @param messageArgs argumentos del mensaje.
 	 * @see java.lang.RuntimeException#RuntimeException(String)
 	 */
     public FrameworkException(String messageKey, Object... messageArgs) {
@@ -46,9 +46,9 @@ public class FrameworkException extends RuntimeException {
 
     /**
      * Excepción con mensaje internacionalizado y excepción que le dio origen.
-     * @param cause Throwable: Excepción origen
-     * @param messageKey String Mensaje i18n del error
-     * @param messageArgs Object... Argumentos del error
+     * @param cause Excepción origen.
+     * @param messageKey mensaje i18n del error.
+     * @param messageArgs argumentos del error.
      * @see java.lang.RuntimeException#RuntimeException(String, Throwable)
      */
     public FrameworkException(Throwable cause, String messageKey, Object... messageArgs) {

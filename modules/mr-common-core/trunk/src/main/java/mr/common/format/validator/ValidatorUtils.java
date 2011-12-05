@@ -16,8 +16,6 @@ public abstract class ValidatorUtils {
 
 	/**
 	 * Valida si la es alfanumérica (A-Z, 0-9), no sensible a mayúsculas.
-	 * @param text String
-	 * @return boolean
 	 */
 	public static boolean isValidAlphaNumeric(String text) {
 		return alphaNumericPattern.matcher(text).matches();
@@ -26,8 +24,6 @@ public abstract class ValidatorUtils {
 	/**
 	 * Valida que el usuario se un nombre válido para un nombre de usuario
 	 * de sistema (ej. nombre de usuario de mail).
-	 * @param username String
-	 * @return boolean
 	 */
 	public static boolean isValidUsername(String username) {
 		if(!username.equals(username.trim())) {

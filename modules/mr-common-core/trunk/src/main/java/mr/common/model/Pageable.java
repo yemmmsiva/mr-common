@@ -18,12 +18,10 @@ public interface Pageable extends Serializable {
 
 	/**
 	 * Primer elemento de la página.
-	 * @return Integer
 	 */
 	Integer getStart();
 	/**
 	 * Limite de elementos por página.
-	 * @return Integer
 	 */
 	Integer getLimit();
 	/**

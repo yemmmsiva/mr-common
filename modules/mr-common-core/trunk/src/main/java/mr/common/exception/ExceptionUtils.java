@@ -12,8 +12,6 @@ public class ExceptionUtils {
 
     /**
     * Obtiene el stack trace de la excepción como string.
-    * @param exception Throwable
-    * @return String
     */
     public static String getStackTraceAsString(Throwable exception) {
         StringWriter sw = new StringWriter();

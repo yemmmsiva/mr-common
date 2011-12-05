@@ -31,7 +31,7 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 	/**
 	 * Se crea la configuración con el entorno pasado
 	 * como parámetro.
-	 * @param enviroment String - entorno de ejecución
+	 * @param enviroment entorno de ejecución
 	 */
 	public EnviromentConfigurationImpl(String enviroment) {
 		this.enviroment = enviroment;
