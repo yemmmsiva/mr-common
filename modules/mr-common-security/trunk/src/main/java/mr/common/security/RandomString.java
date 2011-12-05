@@ -12,7 +12,7 @@ public interface RandomString {
 
 	/**
 	 * String aleatorio.
-	 * @return cadena de texto
+	 * @return cadena de texto.
 	 */
 	String nextString();
 }

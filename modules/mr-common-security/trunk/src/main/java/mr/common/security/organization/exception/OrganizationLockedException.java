@@ -7,8 +7,8 @@ import mr.common.security.exception.SecurityException;
  * Se lanza si se trata de editar o borrar
  * una organización que está lockeada.
  *
- * @see mr.common.security.organization.service.
- * OrganizationService#updateLock(Serializable, boolean)
+ * @see mr.common.security.organization.service.OrganizationService
+ * #updateLock(Serializable, boolean)
  *
  * @author Mariano Ruiz
  */

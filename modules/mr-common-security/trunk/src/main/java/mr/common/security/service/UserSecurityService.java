@@ -19,7 +19,7 @@ public interface UserSecurityService {
      * Si no hay usuario logueado, retorna <code>null</code>.
      * Si el sistema no soporta usuarios, debe retornar
      * {@link #APP_USER}.
-     * @return String: Current user name
+     * @return current user name.
      */
     public String getCurrentUsername();
 }

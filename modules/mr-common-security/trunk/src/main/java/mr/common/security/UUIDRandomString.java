@@ -27,7 +27,7 @@ public class UUIDRandomString implements RandomString {
 	 * Crear el el generador de string con longitud fija
 	 * de texto aleatorios.
 	 * @param numChars cantidad de caracteres, entre 1
-	 * y 32
+	 * y 32.
 	 */
 	public UUIDRandomString(int numChars) {
 		this();

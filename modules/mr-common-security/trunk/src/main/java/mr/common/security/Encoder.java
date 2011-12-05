@@ -11,15 +11,15 @@ public abstract class Encoder {
 
 	/**
 	 * Codifica el texto.
-	 * @param text texto a codificar
-	 * @return texto codificado
+	 * @param text texto a codificar.
+	 * @return texto codificado.
 	 */
 	public abstract String encode(String text);
 
 	/**
 	 * Decodifica el texto.
-	 * @param encodedText texto a decodificar
-	 * @return texto decodficado
+	 * @param encodedText texto a decodificar.
+	 * @return texto decodficado.
 	 * @throws UnsupportedOperationException si
 	 * la operación no es soportada por la implementación,
 	 * por ejemplo si {@link #isDecodable()} retorna
@@ -34,10 +34,10 @@ public abstract class Encoder {
 	/**
 	 * Retorna <code>true</code> si <code>text</code>
 	 * al codificarse retorna <code>encodedText</code>.
-	 * @param encodedText texto codificado
-	 * @param text texto sin codificar
+	 * @param encodedText texto codificado.
+	 * @param text texto sin codificar.
 	 * @return <code>true</code> si ambos string
-	 * matchean
+	 * matchean.
 	 */
 	public boolean match(String encodedText, String text) {
 		return encode(text).equals(encodedText);

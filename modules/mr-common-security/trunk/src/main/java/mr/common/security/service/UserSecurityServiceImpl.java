@@ -26,7 +26,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 	/**
 	 * Devuelve el nombre de usuario, por default
 	 * si no es configurado retorna {@link
-	 * mr.common.security.service.UserSecurityService#APP_USER}
+	 * mr.common.security.service.UserSecurityService#APP_USER}.
 	 */
 	public String getCurrentUsername() {
 		return this.currentUsername;

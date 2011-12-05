@@ -23,7 +23,7 @@ public interface Role extends Serializable {
 	static final String ROLE_USER = "ROLE_USER";
 
 	/**
-	 * @return String - código único identificativo del rol
+	 * @return código único identificativo del rol.
 	 */
 	String getAuthority();
 }

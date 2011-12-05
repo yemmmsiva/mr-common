@@ -14,12 +14,12 @@ public interface Organization extends Serializable {
 
 
 	/**
-	 * @return Serializable - identificador de la organización
+	 * @return identificador de la organización.
 	 */
 	Serializable getId();
 
 	/**
-	 * @return Serializable - identificador de la organización
+	 * @param id identificador de la organización.
 	 */
 	void setId(Serializable id);
 
@@ -30,7 +30,7 @@ public interface Organization extends Serializable {
 
 	/**
 	 * Nombre de la organización.
-	 * @param name nuevo nombre
+	 * @param name nuevo nombre.
 	 */
 	void setName(String name);
 
@@ -41,14 +41,14 @@ public interface Organization extends Serializable {
 
 	/**
 	 * Descripción de la organización.
-	 * @param description nueva descripción
+	 * @param description nueva descripción.
 	 */
 	void setDescription(String description);
 
 	/**
 	 * @return <code>true</code> si
 	 * la organización está activa en la
-	 * aplicación
+	 * aplicación.
 	 */
 	boolean isEnabled();
 
@@ -81,12 +81,11 @@ public interface Organization extends Serializable {
 	void setStateOrProvinceName(String stateOrProvinceName);
 
 	/**
-	 * @return time zone id de la organización
-	 * @see java.util.TimeZone
+	 * @return time zone id de la organización.
 	 */
 	String getTimeZoneId();
 	/**
-	 * @param timeZone id del time zone de la organización
+	 * @param timeZone id del time zone de la organización.
 	 */
 	void setTimeZoneId(String timeZone);
 
@@ -103,13 +102,13 @@ public interface Organization extends Serializable {
 	/**
 	 * Obtiene el código ISO 3166 A3 del país de la
 	 * organización.
-	 * @see http://www.iso.org/iso/country_codes.htm
+	 * @see <a href="http://www.iso.org/iso/country_codes.htm">Country codes</a>
 	 */
 	String getCountryId();
 	/**
 	 * @param countryId código ISO 3166 A3 del país de la
-	 * organización
-	 * @see http://www.iso.org/iso/country_codes.htm
+	 * organización.
+	 * @see <a href="http://www.iso.org/iso/country_codes.htm">Country codes</a>
 	 */
 	void setCountryId(String countryId);
 
@@ -120,20 +119,19 @@ public interface Organization extends Serializable {
 	Serializable getLogoId();
 	/**
 	 * @param logoId identificador del logo
-	 * persistido de la organización
+	 * persistido de la organización.
 	 */
 	void setLogoId(Serializable logoId);
 
 	/**
 	 * @return <code>true</code> si la organización está
-	 * bloqueado para escritura o borrado
+	 * bloqueado para escritura o borrado.
 	 */
 	boolean isLocked();
 
 	/**
 	 * <code>true</code> si se quiere bloquear
-	 * la organización para escritura o borrado
-	 * @param locked
+	 * la organización para escritura o borrado.
 	 */
 	void setLocked(boolean locked);
 }

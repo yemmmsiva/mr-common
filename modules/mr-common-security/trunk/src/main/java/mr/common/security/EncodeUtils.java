@@ -17,8 +17,6 @@ public class EncodeUtils {
 
     /**
      * Devuelve en hexadecimal la firma MD5 del texto.
-     * @param text String
-     * @return String
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
@@ -34,8 +32,6 @@ public class EncodeUtils {
 
     /**
      * Devuelve en base 64 la firma MD5 del texto.
-     * @param text String
-     * @return String
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
