@@ -18,29 +18,36 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 
 	private String enviroment;
 
+	private String applicationName;
+
 
 	/**
 	 * Constructor por default, el entorno se configura como
 	 * {@link mr.common.context.EnviromentConfiguration#ENVIROMENT_PRODUCTION
-	 * ENVIROMENT_PRODUCTION}
+	 * ENVIROMENT_PRODUCTION}, y con el nombre {@link
+	 * mr.common.context.EnviromentConfiguration#APP_NAME APP_NAME}.
 	 */
 	public EnviromentConfigurationImpl() {
 		enviroment = ENVIROMENT_PRODUCTION;
+		applicationName = APP_NAME;
 	}
 
 	/**
 	 * Se crea la configuración con el entorno pasado
 	 * como parámetro.
-	 * @param enviroment entorno de ejecución
+	 * @param applicationName nombre de la aplicación.
+	 * @param enviroment entorno de ejecución.
 	 */
-	public EnviromentConfigurationImpl(String enviroment) {
+	public EnviromentConfigurationImpl(String applicationName, String enviroment) {
+		this.applicationName = applicationName;
 		this.enviroment = enviroment;
 	}
 
 	@PostConstruct
 	protected void logEnviroment() {
 		String logMsg = "\n\n*****************************************************************************"
-		              + "\n      STARTING APPLICATION IN '" + getEnviroment() + "' ENVIROMENT.";
+		              + "\n    STARTING APPLICATION '" + getApplicationName()
+		              + "' IN '" + getEnviroment() + "' ENVIROMENT.";
 		if(isProductionEnviroment()) {
 			logMsg += "\n*****************************************************************************\n";
 			logger.info(logMsg);
@@ -50,6 +57,10 @@ public class EnviromentConfigurationImpl implements EnviromentConfiguration {
 			logMsg += "\n*****************************************************************************\n";
 			logger.warn(logMsg);
 		}
+	}
+
+	public String getApplicationName() {
+		return applicationName;
 	}
 
 	public String getEnviroment() {

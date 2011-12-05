@@ -34,6 +34,18 @@ public interface EnviromentConfiguration {
 	static final String ENVIROMENT_PRODUCTION   = "production";
 
 	/**
+	 * <i>`APP`</i>: Nombre por default de la aplicación.
+	 */
+	static final String APP_NAME = "APP";
+
+
+	/**
+	 * Nombre de la aplicación.
+	 */
+	String getApplicationName();
+
+
+	/**
 	 * Entorno de configuración de la instancia de la aplicación, puede ser alguno de los siguientes,
 	 * u otros:
 	 * <ul>
