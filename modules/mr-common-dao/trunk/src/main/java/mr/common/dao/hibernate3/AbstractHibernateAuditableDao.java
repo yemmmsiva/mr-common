@@ -47,7 +47,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
      * factory se usa este método al no poder sobreescribir
      * {@link HibernateDaoSupport#setSessionFactory(SessionFactory)} que es un método
      * final.
-     * @param entitySessionFactory {@link SessionFactory}
      */
     @Resource
     public void setEntitySessionFactory(SessionFactory entitySessionFactory) {
@@ -59,9 +58,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
      * Hibernate default implementations
      */
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#get(java.lang.Long)
-	 */
     @SuppressWarnings("unchecked")
 	public DomainObject get(Long id) {
     	List<DomainObject> list = getHibernateTemplate().find(
@@ -72,136 +68,85 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     	return list.get(0);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#getIgnoreIsDeleted(java.lang.Long)
-	 */
     @SuppressWarnings("unchecked")
 	public DomainObject getIgnoreIsDeleted(Long id) {
         return (DomainObject) getHibernateTemplate().get(domainClass, id);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#save(DomainObject)
-	 */
     public Long save(DomainObject t) {
 		saveAudit(t);
         return (Long) getHibernateTemplate().save(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#persist(DomainObject)
-	 */
     public void persist(DomainObject t) {
 		saveAudit(t);
         getHibernateTemplate().persist(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#merge(DomainObject)
-	 */
     @SuppressWarnings("unchecked")
 	public DomainObject merge(DomainObject t) {
 		saveAudit(t);
         return (DomainObject) getHibernateTemplate().merge(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#detach(DomainObject)
-	 */
     public void detach(DomainObject t) {
         getHibernateTemplate().evict(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#refresh(DomainObject)
-	 */
     public void refresh(DomainObject t) {
         getHibernateTemplate().refresh(t);
     }
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDao#refreshEntity(BaseEntity)
-	 */
-    public DomainObject refreshEntity(DomainObject entity) {
+	public DomainObject refreshEntity(DomainObject entity) {
 		flush();
 		detach(entity);
 		return get(entity.getId());
     }
 
-    /**
-     * @see mr.common.dao.AbstractAuditableDao#flush()
-     */
     public void flush() {
     	getHibernateTemplate().flush();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#saveOrUpdate(DomainObject)
-	 */
     public void saveOrUpdate(DomainObject t) {
 		saveAudit(t);
         getHibernateTemplate().saveOrUpdate(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#update(DomainObject)
-	 */
     public void update(DomainObject t) {
 		saveAudit(t);
         getHibernateTemplate().update(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#delete(DomainObject)
-	 */
     public void delete(DomainObject t) {
 		deleteAudit(t);
         getHibernateTemplate().update(t);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#remove(DomainObject)
-	 */
     public void remove(DomainObject t) {
         getHibernateTemplate().delete(t);
     }
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDao#getList(boolean)
-	 */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public List<DomainObject> getList(boolean cacheable) {
         return getSession().createQuery("from " + domainClass.getName()
         		                     + " where audit.deleted = false").setCacheable(cacheable).list();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#getList()
-	 */
     public List<DomainObject> getList() {
         return getList(true);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#getListAll()
-	 */
     @SuppressWarnings("unchecked")
 	public List<DomainObject> getListAll() {
     	return getSession().createQuery("from " + domainClass.getName()).list();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#getDeletedList()
-	 */
     @SuppressWarnings("unchecked")
 	public List<DomainObject> getDeletedList() {
         return getSession().createQuery("from " + domainClass.getName()
                                      + " where audit.deleted = true").list();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#deleteById(java.lang.Long)
-	 */
     public void deleteById(Long id) {
     	DomainObject obj = get(id);
     	if(obj==null) {
@@ -212,9 +157,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
         getHibernateTemplate().update(obj);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#deleteList(List)
-	 */
     public void deleteList(List<DomainObject> list) {
 		for(DomainObject obj : list) {
 			deleteAudit(obj);
@@ -222,9 +164,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 		}
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#removeById(java.lang.Long)
-	 */
     public void removeById(Long id) {
     	DomainObject obj = getIgnoreIsDeleted(id);
     	if(obj==null) {
@@ -234,18 +173,12 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
         getHibernateTemplate().delete(obj);
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#removeList(List)
-	 */
     public void removeList(List<DomainObject> list) {
 		for(DomainObject obj : list) {
 	        getHibernateTemplate().delete(obj);
 		}
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#deleteAll()
-	 */
     public int deleteAll() {
 		String hql = "update "
 				+ domainClass.getName()
@@ -256,17 +189,11 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 		return query.executeUpdate();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#removeAll()
-	 */
     public int removeAll() {
 		String hqlDelete = "delete " + domainClass.getName();
 		return getSession().createQuery(hqlDelete).executeUpdate();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#count()
-	 */
     @SuppressWarnings("unchecked")
 	public long count() {
         List<Number> list = getHibernateTemplate().find(
@@ -274,19 +201,13 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
         return list.get(0).longValue();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#countAll()
-	 */
     @SuppressWarnings("unchecked")
 	public long countAll() {
         List<Number> list = getHibernateTemplate().find("select count(*) from " + domainClass.getName() + " x");
         return list.get(0).longValue();
     }
 
-    /**
-	 * @see mr.common.dao.AbstractAuditableDao#countAll()
-	 */
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	public long countDeleted() {
         List<Number> list = getHibernateTemplate().find(
         		"select count(*) from " + domainClass.getName() + " x where x.audit.deleted = true");
@@ -296,8 +217,8 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 
 
     /**
-     * Crea un objeto auditoría con tiempo actual y el usuario actual, o <code>APP_USER</code>.
-     * @return {@link Audit} audit
+     * Crea un objeto auditoría con tiempo actual y el usuario actual,
+     * o <code>APP_USER</code>.
      */
     public Audit getNewAuditInstance() {
     	Audit audit = new Audit();
@@ -313,7 +234,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
      * Retorna el usuario actual de la sesión, o <code>APP_USER</code>
      * si la operación no se está haciendo a través de un usuario.
-     * @return String
      */
     protected String getCurrentUsername() {
     	String u = securityService.getCurrentUsername();
@@ -326,7 +246,7 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
 
     /**
      * Se llama cuando se ejecuta el borrado de un registro.
-     * @param auditable objecto auditable
+     * @param auditable objecto auditable.
      */
     protected void deleteAudit(AuditableEntity auditable) {
         Audit audit = auditable.getAudit();
@@ -341,8 +261,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     /**
      * Crea la información de auditoría en los objetos nuevos,
      * o la actualiza en los ya existentes.
-     * 
-     * @param auditable
      */
     protected void saveAudit(AuditableEntity auditable) {
         Audit audit = auditable.getAudit();

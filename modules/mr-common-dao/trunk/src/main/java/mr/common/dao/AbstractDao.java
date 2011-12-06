@@ -13,45 +13,34 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Obtiene el objeto por su identificador.
-	 * 
-	 * @param id Long: identificador del objeto
-	 * @return DomainObject
+	 * @param id identificador del objeto.
 	 */
 	DomainObject get(Long id);
 
 	/**
 	 * Guarda un objeto que no estaba guardado.
-	 * 
-	 * @param entity DomainObject: objeto a guardar
-	 * @return id Long: identificador del nuevo objeto
+	 * @return id identificador del nuevo objeto.
 	 */
 	Long save(DomainObject entity);
 
 	/**
 	 * Actualiza un objeto que ya estaba guardado.
-	 * 
-	 * @param entity DomainObject
 	 */
 	void update(DomainObject entity);
 
 	/**
 	 * Guarda un objeto nuevo o actualiza si ya existe.
-	 * 
-	 * @param entity DomainObject
 	 */
 	void saveOrUpdate(DomainObject entity);
 
 	/**
 	 * Marca un objeto como persistente en la sesión actual.
-	 * @param entity DomainObject: objeto
 	 */
     void persist(DomainObject entity);
 
 	/**
 	 * Marca un objeto como persistente en la sesión actual,
 	 * y si hubiera otro con el mismo ID, lo remplaza por este.
-	 * @param entity DomainObject: objeto
-	 * @return DomainObject
 	 */
     DomainObject merge(DomainObject entity);
 
@@ -63,16 +52,14 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Refrezca el objeto desde la base de datos.
-	 * @param entity DomainObject: objeto persistente
+	 * @param entity objeto persistente.
 	 */
     void refresh(DomainObject entity);
 
 	/**
 	 * Quita de la sesión al objeto, ejecuta todas
 	 * las operaciones pendientes de la sesión,
-	 * y retorna una versión refrezcada de la entidad
-	 * @param entity DomainObject: objeto persistente
-	 * @return DomainObject
+	 * y retorna una versión refrezcada de la entidad.
 	 */
     DomainObject refreshEntity(DomainObject entity);
 
@@ -84,22 +71,16 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Recupera todos los objetos.
-	 * 
-	 * @return List DomainObject
 	 */
 	List<DomainObject> getList();
 
 	/**
 	 * Cuenta todos los objetos guardados.
-	 * 
-	 * @return long
 	 */
 	long count();
 
 	/**
 	 * Borra el objeto pasado.
-	 * 
-	 * @param entity DomainObject
 	 */
 	void delete(DomainObject entity);
 
@@ -112,14 +93,12 @@ public interface AbstractDao<DomainObject extends BaseEntity> {
 
 	/**
 	 * Borra todos los objetos de la lista.
-	 * 
-	 * @param list List
 	 */
 	void deleteList(List<DomainObject> list);
 
 	/**
 	 * Borra todos los objetos de la tabla.
-     * @return cantidad de elementos borrados
+     * @return cantidad de elementos borrados.
 	 */
 	int deleteAll();
 }

@@ -26,26 +26,16 @@ public abstract class BaseEntity implements Serializable, Cloneable {
     private int version;
 
 
-	/**
-	 * @return {@link Long} id
-	 */
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
-
-	/**
-	 * @param {@link Long} id
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + "(id: " + id + ")"; 
@@ -54,12 +44,11 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	/**
 	 * Método equals pero que compara contra otro
 	 * objeto {@link BaseEntity} si tiene el mismo id.
-	 * @param {@link BaseEntity}
 	 * @return <code>true</code> si ambos
 	 * objetos son la misma entidad.
 	 * @throws org.apache.commons.lang.IllegalClassException
 	 * si <code>this</code> y <code>entity</code> no son
-	 * del mismo tipo de clase
+	 * del mismo tipo de clase.
 	 */
 	public boolean equals(BaseEntity entity) {
 		if(entity==null) {
@@ -72,9 +61,6 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 		return id.longValue() == entity.getId().longValue();
 	}
 
-	/**
-	 * @see #equals(BaseEntity)
-	 */
 	@Override
 	public boolean equals(Object o) {
 		return equals((BaseEntity)o);
@@ -107,17 +93,10 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 		return e;
 	}
 
-	/**
-	 * @return version
-	 */
-    @Version
+	@Version
 	public int getVersion() {
 		return version;
 	}
-
-	/**
-	 * @param version
-	 */
 	public void setVersion(int version) {
 		this.version = version;
 	}

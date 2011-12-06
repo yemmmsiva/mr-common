@@ -21,7 +21,7 @@ public abstract class AuditableDictionary extends AuditableEntity
 
 
 	/**
-	 * Usa el <code>compareToIgnoreCase()</code> de {@link getCode()} para
+	 * Usa el <code>compareToIgnoreCase()</code> de {@link #getCode()} para
 	 * la comparación.
 	 */
 	public int compareTo(AuditableDictionary a) {
@@ -34,8 +34,7 @@ public abstract class AuditableDictionary extends AuditableEntity
 
 	/**
 	 * Código de la entidad, si es nulo
-	 * el código será el id
-	 * @return {@link String} code
+	 * el código será el id.
 	 */
 	public String getCode() {
 		if(code!=null) {
@@ -45,33 +44,18 @@ public abstract class AuditableDictionary extends AuditableEntity
 		}
 		return null;
 	}
-	/**
-	 * @param {@link String} code
-	 */
 	public void setCode(String code) {
 		this.code = code;
 	}
-	/**
-	 * @return {@link String} description
-	 */
 	public String getDescription() {
 		return description;
 	}
-	/**
-	 * @param {@link String} description
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	/**
-	 * @return {@link String} largeDescription
-	 */
 	public String getLargeDescription() {
 		return largeDescription;
 	}
-	/**
-	 * @param {@link String} largeDescription
-	 */
 	public void setLargeDescription(String largeDescription) {
 		this.largeDescription = largeDescription;
 	}

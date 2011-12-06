@@ -27,8 +27,6 @@ public class HibernateUtils {
 
     /**
      * Carga los parámetros del hash en la query.
-     * @param query {@link org.hibernate.Query}
-     * @param params {@link java.util.Map}
      */
     @SuppressWarnings("rawtypes")
 	public static void setParameters(Query query, Map<String, Object> params) {
@@ -50,9 +48,6 @@ public class HibernateUtils {
      * es que si la colección aún no fue inicializada (lazy loadding), la
      * cantidad será calculada a partir de una query, y no se traerán los objetos
      * de la misma.
-     * @param session {@link org.hibernate.Session}
-     * @param collection {@link Collection}
-     * @return int
      */
     public static int countCollection(Session session, Collection<?> collection) {
         if (Hibernate.isInitialized(collection)) {
@@ -66,10 +61,6 @@ public class HibernateUtils {
     /**
      * Retorna la cantidad de elementos de una query HQL, pero sin necesidad de traer los
      * elementos o tener que armar la query HQL con el count equivalente.
-     * @param session {@link org.hibernate.Session}
-     * @param hql String
-     * @param parameters {@code Map<String, Object>}
-     * @return int
      * @see #countQuery(Session, String, Map)
      * @see #countCollection(Session, Collection)
      */
@@ -83,10 +74,6 @@ public class HibernateUtils {
      * Retorna un objeto {@link org.hibernate.Query Query} a partir de la query HQL pasada
      * y los parámetros, pero convertida a una query que cuente los elementos en vez de
      * traerlos.
-     * @param session {@link org.hibernate.Session}
-     * @param hql String
-     * @param parameters {@code Map<String, Object>}
-     * @return {@link org.hibernate.Query Query}
      * @see #count(Session, String, Map)
      * @see #countCollection(Session, Collection)
      */
@@ -99,10 +86,6 @@ public class HibernateUtils {
     /**
      * Convierte la query HQL en su query SQL equivalente (teniendo en cuenta el dialécto de la sesión).
      * También reemplaza los parámetros pasados a la query HQL.
-     * @param session {@link org.hibernate.Session}
-     * @param hql String
-     * @param parameters {@code Map<String, Object>}
-     * @return String
      */
     public static String hqlToSql(Session session, String hql, Map<String, Object> parameters) {
         final QueryTranslatorFactory translatorFactory = new ASTQueryTranslatorFactory();
@@ -114,11 +97,8 @@ public class HibernateUtils {
     }
 
 	    /**
-	     * Este método sirve para recuperar un SQL en String y sustituir los '?' por los nombres de los parametros originales para generar un PreparedStatement
-	     * @param sql String
-	     * @param pt {@link ParameterTranslations}
-	     * @param parameters {@code Map<String, Object>}
-	     * @return String
+	     * Este método sirve para recuperar un SQL en String y sustituir los '?' por los nombres
+	     * de los parametros originales para generar un <code>PreparedStatement</code>.
 	     */
 	    private static String convertSQLParameters(String sql, ParameterTranslations pt, Map<String, Object> parameters) {
 	        if (parameters == null || parameters.size() == 0) {
@@ -139,8 +119,7 @@ public class HibernateUtils {
 	    }
 
     /**
-     * @param entity {@link mr.common.model.BaseEntity}
-     * @return El mismo objeto pero si 'proxear' por Hibernate.
+     * @return el mismo objeto pero si 'proxear' por Hibernate.
      */
     @SuppressWarnings("unchecked")
 	public static <DomainObject extends BaseEntity> DomainObject unproxy(DomainObject entity) {
@@ -153,7 +132,6 @@ public class HibernateUtils {
 
     /**
      * Detacha el objeto persistente de la sesión.
-     * @param entity {@link mr.common.model.BaseEntity}
      */
 	public static void detach(BaseEntity entity) {
 		((Session)Bean.get(Session.class)).evict(entity);
@@ -162,7 +140,6 @@ public class HibernateUtils {
     /**
      * Atacha el objeto persistente a la sesión, y devuelve
      * una versión refrezcada del mismo.
-     * @param entity {@link mr.common.model.BaseEntity}
      */
 	@SuppressWarnings("unchecked")
 	public static <DomainObject extends BaseEntity> DomainObject attach(DomainObject entity) {

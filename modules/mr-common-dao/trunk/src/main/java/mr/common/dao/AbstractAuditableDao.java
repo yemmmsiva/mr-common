@@ -13,59 +13,55 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
 	/**
 	 * Obtiene el objeto por su identificador.
-	 * @param id Long: identificador del objeto
-	 * @return DomainObject
+	 * @param id identificador del objeto.
 	 */
 	DomainObject get(Long id);
 
 	/**
 	 * Obtiene el objeto por su identificador, ignorando si
 	 * está borrado lógicamente.
-	 * @param id Long: identificador del objeto
-	 * @return DomainObject
+	 * @param id identificador del objeto.
 	 * @see #get(Long)
 	 */
 	DomainObject getIgnoreIsDeleted(Long id);
 
 	/**
 	 * Guarda un objeto que no estaba guardado.
-	 * @param entity DomainObject: objeto a guardar
-	 * @return id Long: identificador del nuevo objeto
+	 * @param entity objeto a guardar.
+	 * @return id identificador del nuevo objeto.
 	 */
     Long save(DomainObject entity);
 
 	/**
 	 * Marca un objeto como persistente en la sesión actual.
-	 * @param entity DomainObject: objeto
+	 * @param entity objeto
 	 */
     void persist(DomainObject entity);
 
 	/**
 	 * Marca un objeto como persistente en la sesión actual,
 	 * y si hubiera otro con el mismo ID, lo remplaza por este.
-	 * @param entity DomainObject: objeto
-	 * @return DomainObject
+	 * @param entity objeto.
 	 */
     DomainObject merge(DomainObject entity);
 
 	/**
 	 * Quita de la sesión al objeto.
-	 * @param entity DomainObject: objeto persistente
+	 * @param entity objeto persistente.
 	 */
     void detach(DomainObject entity);
 
 	/**
 	 * Refrezca el objeto desde la base de datos.
-	 * @param entity DomainObject: objeto persistente
+	 * @param entity objeto persistente.
 	 */
     void refresh(DomainObject entity);
 
 	/**
 	 * Quita de la sesión al objeto, ejecuta todas
 	 * las operaciones pendientes de la sesión,
-	 * y retorna una versión refrezcada de la entidad
-	 * @param entity DomainObject: objeto persistente
-	 * @return DomainObject
+	 * y retorna una versión refrezcada de la entidad.
+	 * @param entity objeto persistente.
 	 */
     DomainObject refreshEntity(DomainObject entity);
 
@@ -77,28 +73,24 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
     /**
      * Actualiza un objeto que ya estaba guardado.
-     * @param entity DomainObject
      */
     void update(DomainObject entity);
 
     /**
      * Guarda un objeto nuevo o actualiza si ya existe.
-     * @param entity DomainObject
      */
     void saveOrUpdate(DomainObject entity);
 
     /**
      * Recupera todos los objetos.
-     * @param cacheable boolean: <code>true</code> para
-     * que la lista quede cacheada en memoria
-     * @return List DomainObject
+     * @param cacheable <code>true</code> para
+     * que la lista quede cacheada en memoria.
      * @see #getList()
      */
     List<DomainObject> getList(boolean cacheable);
 
     /**
      * Recupera todos los objetos.
-     * @return List DomainObject
      * @see #getList(boolean)
      */
     List<DomainObject> getList();
@@ -106,14 +98,12 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
     /**
      * Recupera todos los objetos, incluso los borrados
      * lógicamente.
-     * @return List DomainObject
      * @see #getList()
      */
     List<DomainObject> getListAll();
 
     /**
      * Recupera todos los objetos borrados lógicamente.
-     * @return List DomainObject
      * @see #getList()
      * @see #getListAll()
      */
@@ -121,7 +111,6 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
     /**
      * Cuenta todos los objetos.
-     * @return long
      * @see #countAll()
      * @see #countDeleted()
      */
@@ -130,7 +119,6 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
     /**
      * Cuenta todos los objetos incluso los borrados
      * lógicamente.
-     * @return long
      * @see #count()
      * @see #countDeleted()
      */
@@ -138,7 +126,6 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
     /**
      * Cuenta todos los objetos borrados lógicamente. 
-     * @return long
      * @see #count()
      * @see #countAll()
      */
@@ -146,56 +133,50 @@ public interface AbstractAuditableDao<DomainObject extends AuditableEntity> {
 
     /**
      * Borra lógicamente el objeto pasado.
-     * @param entity DomainObject
      * @see #remove(AuditableEntity)
      */
     void delete(DomainObject entity);
 
     /**
      * Borra físicamente el objeto pasado.
-     * @param entity DomainObject
      * @see #delete(AuditableEntity)
      */
     void remove(DomainObject entity);
 
     /**
      * Borra lógicamente el objeto con el id pasado.
-     * @param entity Long
      * @see #removeById(Long)
      */
     void deleteById(Long entity);
 
     /**
      * Borra lógicamente todos los objetos de la lista.
-     * @param list List
      * @see #removeList(List)
      */
     void deleteList(List<DomainObject> list);
 
     /**
      * Borra físicamente el objeto con el id pasado.
-     * @param entity Long
      * @see #deleteById(Long)
      */
     void removeById(Long entity);
 
     /**
      * Borra físicamente todos los objetos de la lista.
-     * @param list List
      * @see #deleteList(List)
      */
     void removeList(List<DomainObject> list);
 
     /**
      * Borra lógicamente todos los objetos de la tabla.
-     * @return cantidad de elementos borrados
+     * @return cantidad de elementos borrados.
      * @see #removeAll()
      */
     int deleteAll();
 
     /**
      * Borra físicamente todos los objetos de la tabla.
-     * @return cantidad de elementos borrados
+     * @return cantidad de elementos borrados.
      * @see #deleteAll()
      */
     int removeAll();

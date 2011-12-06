@@ -27,16 +27,12 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
      * factory se usa este método al no poder sobreescribir
      * {@link HibernateDaoSupport#setSessionFactory(SessionFactory)} que es un método
      * final.
-     * @param entitySessionFactory {@link SessionFactory}
      */
     @Resource
     public void setEntitySessionFactory(SessionFactory entitySessionFactory) {
         super.setSessionFactory(entitySessionFactory);
     }
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#findByLikeDescription(String, String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<AuditableDictionary> findByLikeDescription(
 			String classNameDicEntity, String description) {
@@ -45,9 +41,6 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     			               + description.toLowerCase() + "%' and audit.deleted = false");
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#findByLikeLargeDescription(String, String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<AuditableDictionary> findByLikeLargeDescription(
 			String classNameDicEntity, String largeDescription) {
@@ -56,9 +49,6 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     			               + largeDescription.toLowerCase() + "%' and audit.deleted = false");
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#find(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<AuditableDictionary> find(String classNameDicEntity, String description) {
     	return getHibernateTemplate().find(
@@ -67,9 +57,6 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     			                + description.toLowerCase() + "%' and audit.deleted = false");
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#get(String, Long)
-	 */
 	@SuppressWarnings("unchecked")
 	public AuditableDictionary get(String classNameDicEntity, Long id) {
     	List<AuditableDictionary> list = getHibernateTemplate().find(
@@ -80,9 +67,6 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     	return list.get(0);
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#getByCode(String, String)
-	 */
 	@SuppressWarnings("unchecked")
 	public AuditableDictionary getByCode(String classNameDicEntity, String code) {
     	List<AuditableDictionary> list = getHibernateTemplate().find(
@@ -97,18 +81,12 @@ public class GenericHibernateAuditableDictionaryDao extends HibernateDaoSupport
     	return list.get(0);
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#getList(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<AuditableDictionary> getList(String classNameDicEntity) {
         return getSession().createQuery("from " + classNameDicEntity
                 + " where audit.deleted = false").list();
 	}
 
-	/**
-	 * @see mr.common.dao.GenericAuditableDictionaryDao#getList(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public long count(String classNameDicEntity) {
         List<Number> list = getHibernateTemplate().find(

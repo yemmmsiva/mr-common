@@ -19,16 +19,9 @@ public abstract class AuditableEntity extends BaseEntity {
 	private Audit audit;
 
 
-	/**
-	 * @return {@link Audit} audit
-	 */
 	public Audit getAudit() {
 		return audit;
 	}
-
-	/**
-	 * @param {@link Audit} audit
-	 */
 	public void setAudit(Audit audit) {
 		this.audit = audit;
 	}

@@ -18,9 +18,6 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
        implements AbstractAuditableDictionaryDao<Dict> {
 
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDictionaryDao#getByCode(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public Dict getByCode(String code) {
     	List<Dict> list = getHibernateTemplate().find(
@@ -35,9 +32,6 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
     	return list.get(0);
 	}
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDictionaryDao#find(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<Dict> find(String description) {
     	return getHibernateTemplate().find(
@@ -46,9 +40,6 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
     			                + description.toLowerCase() + "%' and audit.deleted = false");
 	}
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDictionaryDao#findByLikeDescription(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<Dict> findByLikeDescription(String description) {
     	return getHibernateTemplate().find(
@@ -56,9 +47,6 @@ public abstract class AbstractHibernateAuditableDictionaryDao<Dict extends Audit
     			                + description.toLowerCase() + "%' and audit.deleted = false");
 	}
 
-	/**
-	 * @see mr.common.dao.AbstractAuditableDictionaryDao#findByLikeLargeDescription(String)
-	 */
 	@SuppressWarnings("unchecked")
 	public List<Dict> findByLikeLargeDescription(String largeDescription) {
     	return getHibernateTemplate().find(
