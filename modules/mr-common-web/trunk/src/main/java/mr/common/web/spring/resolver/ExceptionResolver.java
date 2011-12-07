@@ -32,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
  * En caso de que el método devuelva <code>false</code>,
  * se enviará en la respuesta la traza de la excepción con el id y el
  * mensaje de error.<br>
- * En ambos casos también se logueará con <i>log4j</i> la traza, el id de error y
+ * En ambos casos también se logueará con <i>Apache Logging</i> la traza, el id de error y
  * el mensaje como <code>ERROR</code> si es una excepción no esperada, o como
  * <code>DEBUG</code> si es una excepción esperada.
  *
@@ -76,21 +76,20 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 
     /**
      * Código de error que se le mostrará al usuario si ocurre un error inesperado
-     * y que se logueará con <i>log4j</i>.<br/>
+     * y que se logueará con <i>Apache Logging</i>.<br/>
      * Esta implementación genera un código numérico entero aleatorio, pero
      * puede ser sobreescrito para obtener el dato desde un servicio, algún
      * parámetro de request, etc.
      *
-     * @param request {@link javax.servlet.http.HttpServletRequest
-     * HttpServletRequest} objeto request de la petición que generó el error
-     * @param e {@link java.lang.Exception} el error
+     * @param request objeto request de la petición que generó el error.
+     * @param e el error.
      */
     protected String getErrorId(HttpServletRequest request, Exception e) {
     	return new Integer(RandomUtils.nextInt()).toString();
     }
 
     /**
-     * Stack trace de la excepción que se imprimirá en el <i>log4j</i>, y
+     * Stack trace de la excepción que se imprimirá en el <i>Apache Logging</i>, y
      * que puede ser mostrado al usuario dependiendo de la configuración
      * de entorno.<br/>
      * Esta implementación retorna el mensaje '<i>An error occurred (id <code>errorId</code>)</i>',
@@ -98,12 +97,10 @@ public class ExceptionResolver implements HandlerExceptionResolver {
      * #getSessionInfo(HttpServletRequest)}, y el stack trace propio
      * de la excepción.
      *
-     * @param request {@link javax.servlet.http.HttpServletRequest
-     * HttpServletRequest} objeto request de la petición que generó el error
-     * @param e {@link java.lang.Exception} el error
+     * @param request objeto request de la petición que generó el error
+     * @param e el error.
      * @param errorId el id de error obtenido de {@link
-     * #getErrorId(HttpServletRequest, Exception)}
-     * @return
+     * #getErrorId(HttpServletRequest, Exception)}.
      */
     protected String getStackTrace(HttpServletRequest request, Exception e, String errorId) {
     	return "\nAn error occurred (id " + errorId + ")\n"
@@ -117,8 +114,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
      * los parámetros, y el username del usuario si es que hubiera uno
      * autenticado en el hilo de ejecución.<br/>
      * Puede ser sobreescrito para agregar o cambiar la información.
-     * @param request {@link javax.servlet.http.HttpServletRequest
-     * HttpServletRequest} objeto request de la petición que generó el error
+     * @param request objeto request de la petición que generó el error.
      */
     @SuppressWarnings("rawtypes")
 	protected String getSessionInfo(HttpServletRequest request) {
@@ -175,12 +171,12 @@ public class ExceptionResolver implements HandlerExceptionResolver {
      * {@link mr.common.exception.spring.FrameworkException FrameworkException}.<br/>
      * Esta implementación devuelve <code>true</code> si el entorno de
      * ejecución es de producción o pre-producción, para ello invoca a
-     * {@link mr.common.context.EnviromentConfiguration},
+     * {@link mr.common.context.EnviromentConfiguration EnviromentConfiguration},
      * pero el método puede ser sobreescrito por clases hijas para
      * decidir si se debe o no mostrar el mensaje de error con id.<br/>
-     * En caso de no estar definido en el contexto el bean {@link mr.common.context.
-     * EnviromentConfiguration EnviromentConfiguration}, esta implementación devuelve
-     * siempre <code>true</code>.
+     * En caso de no estar definido en el contexto el bean
+     * {@link mr.common.context.EnviromentConfiguration EnviromentConfiguration},
+     * esta implementación devuelve siempre <code>true</code>.
      */
 	protected boolean showErrorMessageId() {
 		return enviromentConfiguration==null
@@ -203,7 +199,6 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 
 	/**
 	 * Setea la página de renderización de los errores.
-	 * @param errorPage String
 	 */
 	public void setDefaultErrorPage(String errorPage) {
 		this.errorPage = errorPage;
@@ -216,7 +211,6 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 	 * {@link #setErrorWithIdKey(String)}.<br/>
 	 * El mensaje debe ser algo así:
 	 * <i>An error occurred (id <code>{0}</code>)</i>.
-	 * @return String
 	 */
 	public String getErrorWithIdKey() {
 		return errorWithIdKey ; 
@@ -227,7 +221,6 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 	 * Por default <code><i>errorWithId</i></code>.<br/>
 	 * El mensaje debe ser algo así:
 	 * <i>An error occurred (id <code>{0}</code>)</i>.
-	 * @return String
 	 */
 	public void setErrorWithIdKey(String key) {
 		this.errorWithIdKey = key;

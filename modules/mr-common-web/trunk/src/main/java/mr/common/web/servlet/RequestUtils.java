@@ -19,10 +19,10 @@ public abstract class RequestUtils {
 	 * <p>Si el parámetro en el request fuera una array, lo parsea
 	 * adecuadamente de la forma:</p>
 	 * <code>param1=valorparam1&amp;param2=valorparam2&amp;param3=valorparam3</code>
-	 * @param request el request de la petición
-	 * @param parameterName nombre del parámetro
-	 * @return cadena con los parámetros parseados para una URL, o cadena
-	 * vacía en caso de que el parámetro no exista en el request
+	 * @param request el request de la petición.
+	 * @param parameterName nombre del parámetro.
+	 * @return cadena con los parámetros parseados para una URL, o cadena.
+	 * vacía en caso de que el parámetro no exista en el request.
 	 */
 	public static String parameter(HttpServletRequest request, String parameterName) {
 		String[] values = request.getParameterValues(parameterName);
@@ -43,13 +43,13 @@ public abstract class RequestUtils {
 	 * en caso de no existir en el <code>request</code>.<br/>
 	 * En caso de ser multivalor, los mismos serán concatenados,
 	 * y separados por <code>separator</code>.
-	 * @param request la petición con los parámetros
-	 * @param parameterName el parámetro con el valor
+	 * @param request la petición con los parámetros.
+	 * @param parameterName el parámetro con el valor.
 	 * @param defaultValue el valor por default en caso de no
-	 * existir el parámetro en el <code>request</code>
+	 * existir el parámetro en el <code>request</code>.
 	 * @param separator el separador en caso de que el parámetro
-	 * tenga múltiples valores (String[])
-	 * @return el valor del parámetro/s, o el valor por default
+	 * tenga múltiples valores (<code>String[]</code>).
+	 * @return el valor del parámetro/s, o el valor por default.
 	 */
 	public static String parameterValue(HttpServletRequest request,
 			String parameterName, String defaultValue, String separator) {
@@ -72,11 +72,11 @@ public abstract class RequestUtils {
 	 * en caso de no existir en el <code>request</code>.<br/>
 	 * En caso de ser multivalor, los mismos serán concatenados,
 	 * y separados por coma y espacio (, ).
-	 * @param request la petición con los parámetros
-	 * @param parameterName el parámetro con el valor
+	 * @param request la petición con los parámetros.
+	 * @param parameterName el parámetro con el valor.
 	 * @param defaultValue el valor por default en caso de no
-	 * existir el parámetro en el <code>request</code>
-	 * @return el valor del parámetro/s, o el valor por default
+	 * existir el parámetro en el <code>request</code>.
+	 * @return el valor del parámetro/s, o el valor por default.
 	 */
 	public static String parameterValue(HttpServletRequest request,
 			String parameterName, String defaultValue) {
@@ -88,10 +88,10 @@ public abstract class RequestUtils {
 	 * el parámetro no existe retorna <code>false</code>, y si el parámetro tiene múltiples
 	 * valores (array), retorna <code>true</code> si al menos uno de sus valores es
 	 * igual a <code>value</code>.
-	 * @param request el request de la petición
-	 * @param parameterName nombre del parámetro
-	 * @param value el valor esperado
-	 * @return <code>true</code> si el parámetro tiene el valor valor esperado
+	 * @param request el request de la petición.
+	 * @param parameterName nombre del parámetro.
+	 * @param value el valor esperado.
+	 * @return <code>true</code> si el parámetro tiene el valor valor esperado.
 	 */
 	public static boolean hasValue(HttpServletRequest request, String parameterName, String value) {
 		String[] values = request.getParameterValues(parameterName);
@@ -109,14 +109,14 @@ public abstract class RequestUtils {
 	/**
 	 * Retorna el valor del atributo, o <code>defaultValue</code>
 	 * en caso de no existir en el <code>request</code>.<br/>
-	 * Puede usarse bean expresion para obtener
+	 * Puede usarse bean expression para obtener
 	 * valores del atributo.
-	 * @param request la petición con los parámetros
-	 * @param attributeName el nombre del atributo, o bean expresion
-	 * sobre un atributo
+	 * @param request la petición con los parámetros.
+	 * @param attributeName el nombre del atributo, o bean expression
+	 * sobre un atributo.
 	 * @param defaultValue el valor por default en caso de no
-	 * existir el atributo en el <code>request</code>
-	 * @return el valor del atributo, o el valor por default
+	 * existir el atributo en el <code>request</code>.
+	 * @return el valor del atributo, o el valor por default.
 	 */
 	public static Object attribute(HttpServletRequest request, String attributeName, Object defaultValue) {
 		Object attr = null;
@@ -139,12 +139,12 @@ public abstract class RequestUtils {
 	/**
 	 * Retorna <code>true</code> si el atributo
 	 * existe en el <code>request</code>.<br/>
-	 * Puede usarse bean expresion para obtener
+	 * Puede usarse bean expression para obtener
 	 * valores del atributo.
-	 * @param request la petición con los parámetros
-	 * @param attributeName el nombre del atributo, o bean expresion
-	 * sobre un atributo
-	 * @return el valor del atributo, o el valor por default
+	 * @param request la petición con los parámetros.
+	 * @param attributeName el nombre del atributo, o bean expression
+	 * sobre un atributo.
+	 * @return el valor del atributo, o el valor por default.
 	 */
 	public static boolean hasAttribute(HttpServletRequest request, String attributeName) {
 		Object attr = null;

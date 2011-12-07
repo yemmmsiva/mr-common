@@ -55,7 +55,6 @@ public class LocalizedCalendarEditor extends PropertyEditorSupport {
 	 * Devuelve dinámicamente el formateador de fechas.<br/>
 	 * Puede ser sobreescrito para modificar el comportamiento
 	 * para obtener el formateador.
-	 * @return {@link java.text.DateFormat DateFormat}
 	 * @see mr.common.time.TimeUtils#getDateFormatLocalized()
 	 */
 	public DateFormat getDateFormat() {
@@ -67,7 +66,6 @@ public class LocalizedCalendarEditor extends PropertyEditorSupport {
 	 * Esta implementación llama a {@link java.util.TimeZone#getDefault()},
 	 * pero puede ser sobreescrita para obtenerla a través
 	 * de otra fuente.
-	 * @return {@link java.util.TimeZone}
 	 */
 	public TimeZone getTimeZone() {
 		return TimeZone.getDefault();
