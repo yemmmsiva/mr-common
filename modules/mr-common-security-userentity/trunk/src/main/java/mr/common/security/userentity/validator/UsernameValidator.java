@@ -6,7 +6,7 @@ import mr.common.security.exception.InvalidUsernameException;
 
 
 /**
- * Validor del campo username de un usuario.
+ * Validor del campo <code>username</code> de un usuario.
  *
  * @author Mariano Ruiz
  */

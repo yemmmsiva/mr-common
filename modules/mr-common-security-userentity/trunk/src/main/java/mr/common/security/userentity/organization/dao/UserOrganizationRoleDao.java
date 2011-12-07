@@ -11,8 +11,8 @@ import mr.common.security.userentity.organization.model.UserOrganizationRole;
 
 
 /**
- * DAO de {@link mr.common.security.userentity.organization.model.
- * UserOrganizationRole UserOrganizationRole}.
+ * DAO de {@link mr.common.security.userentity.organization.model.UserOrganizationRole
+ * UserOrganizationRole}.
  *
  * @author Mariano Ruiz
  */

@@ -5,7 +5,7 @@ import mr.common.security.exception.InvalidEmailAddressException;
 
 
 /**
- * Validor del campo emailAddress de un usuario.
+ * Validor del campo <code>emailAddress</code> de un usuario.
  *
  * @author Mariano Ruiz
  */

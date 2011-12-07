@@ -8,7 +8,7 @@ import mr.common.security.exception.InvalidPasswordException;
 
 
 /**
- * Validor del campo password de un usuario.
+ * Validor del campo <code>password</code> de un usuario.
  *
  * @author Mariano Ruiz
  */

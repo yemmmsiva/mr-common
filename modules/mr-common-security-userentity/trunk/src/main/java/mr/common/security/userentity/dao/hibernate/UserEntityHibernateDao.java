@@ -33,9 +33,6 @@ import org.springframework.util.StringUtils;
 public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEntity>
 		implements UserEntityDao {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public UserEntity getByUsername(String username) {
     	List<UserEntity> list = getHibernateTemplate().find(
@@ -48,9 +45,6 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     	return list.get(0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public UserEntity getByEmailAddress(String emailAddress) {
     	List<UserEntity> list = getHibernateTemplate().find(
@@ -63,9 +57,6 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     	return list.get(0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public List<Authority> getAuthorityList(String username) {
 		return getHibernateTemplate().find(
@@ -73,9 +64,6 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     			+ " where u.username = ? and u.audit.deleted = false", username);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public List<Authority> getAuthorityList(Long userId) {
 		return getHibernateTemplate().find(
@@ -83,17 +71,11 @@ public class UserEntityHibernateDao extends AbstractHibernateAuditableDao<UserEn
     			+ " where u.id = ? and u.audit.deleted = false", userId);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	public List<UserEntity> find(User user, Serializable orgId, Boolean activeFilter, ConfigurableData page) {
         return prepareQuery(user, (Long)orgId, activeFilter, page, false).list();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public int findCount(User user, Serializable orgId, Boolean activeFilter) {
         return ((Number) prepareQuery(user, (Long)orgId, activeFilter, null, true).uniqueResult()).intValue();
 	}

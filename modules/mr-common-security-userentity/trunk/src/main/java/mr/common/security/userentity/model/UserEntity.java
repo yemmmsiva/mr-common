@@ -97,7 +97,7 @@ public class UserEntity extends AuditableEntity implements User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
 	@Where(clause = Audit.UNDELETED_RESTRICTION)
-	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Cascade({CascadeType.ALL})
 	public List<Authority> getAuthorities() {
 		return authorities;
 	}
@@ -113,7 +113,7 @@ public class UserEntity extends AuditableEntity implements User {
 
 	@OneToOne
 	@JoinColumn(name="userDataId")
-	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Cascade({CascadeType.ALL})
 	public UserData getUserData() {
 		return userData;
 	}

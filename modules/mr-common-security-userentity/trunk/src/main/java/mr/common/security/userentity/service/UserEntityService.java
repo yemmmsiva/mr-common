@@ -888,7 +888,7 @@ public class UserEntityService implements UserService {
 	 * {@link mr.common.security.userentity.model.UserData UserData}
 	 * (<code>user.userData</code>).<br/>
 	 * Tener en cuenta que el objeto no representa un usuario
-	 * válido del sistema, como especifica
+	 * válido del sistema, ver
 	 * {@link mr.common.security.service.UserService#getUserInstance()}
 	 */
 	public User getUserInstance() {

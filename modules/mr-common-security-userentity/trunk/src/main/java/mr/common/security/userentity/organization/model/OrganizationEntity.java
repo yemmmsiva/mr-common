@@ -10,8 +10,8 @@ import mr.common.security.organization.model.Organization;
 
 
 /**
- * Implementación de {@link mr.common.security.organization.
- * model.Organization Organization}.
+ * Implementación de {@link
+ * mr.common.security.organization.model.Organization Organization}.
  * @author Mariano Ruiz
  */
 @Entity(name="organization")

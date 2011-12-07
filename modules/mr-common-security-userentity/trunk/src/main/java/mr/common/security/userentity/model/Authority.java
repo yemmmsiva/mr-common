@@ -19,7 +19,7 @@ import mr.common.model.AuditableEntity;
 @Entity(name="authority")
 public class Authority extends AuditableEntity {
 
-	private static final long serialVersionUID = -8338747885229182460L;
+	private static final long serialVersionUID = 1L;
 
 	private UserEntity user;
 	private RoleEntity role;

@@ -37,7 +37,6 @@ public abstract class Person extends AuditableEntity {
 
 	/**
 	 * Retorna el commonName si existe, sino el apellido y nombre.
-	 * @return String
 	 */
 	public String getCommonName() {
 		if(commonName == null) {

@@ -35,8 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * Implementación de {@link mr.common.security.organization.
- * service.OrganizationService OrganizationService}.
+ * Implementación de {@link
+ * mr.common.security.organization.service.OrganizationService
+ * OrganizationService}.
  *
  * @see mr.common.security.userentity.organization.model.OrganizationEntity
  * @author Mariano Ruiz

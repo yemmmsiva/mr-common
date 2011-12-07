@@ -7,6 +7,8 @@ import mr.common.security.userentity.model.Person;
 
 
 /**
+ * Datos adicionales del usuario.
+ * @see UserEntity
  * @author Mariano Ruiz
  */
 @Entity(name="userdata")

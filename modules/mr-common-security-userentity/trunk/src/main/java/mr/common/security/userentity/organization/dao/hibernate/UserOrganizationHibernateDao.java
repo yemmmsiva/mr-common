@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Implementación Hibernate de {@link mr.common.security.userentity.organization.dao.
- * UserOrganizationDao UserOrganizationDao}.
+ * Implementación Hibernate de {@link
+ * mr.common.security.userentity.organization.dao.UserOrganizationDao UserOrganizationDao}.
  *
  * @author Mariano Ruiz
  */

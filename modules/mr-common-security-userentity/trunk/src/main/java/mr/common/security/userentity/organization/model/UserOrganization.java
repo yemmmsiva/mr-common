@@ -22,7 +22,7 @@ import org.hibernate.annotations.Where;
 
 
 /**
- * Usuarios - Organizaciones.
+ * Relación Usuarios - Organizaciones.
  * @author Mariano Ruiz
  */
 @Entity(name="usersorgs")
@@ -52,9 +52,9 @@ public class UserOrganization extends AuditableEntity {
 	 * Tener en cuenta que la persistencia
 	 * de los roles no es en cascada con la del usuario. Para
 	 * hacerlo se deben persistir los objetos
-	 * {@link mr.common.security.userentity.organization.model.
-	 * UserOrganizationRole UserOrganizationRole}
-	 * que se obtienen con {@link #getAuthorities()}
+	 * {@link mr.common.security.userentity.organization.model.UserOrganizationRole
+	 * UserOrganizationRole}
+	 * que se obtienen con {@link #getAuthorities()}.
 	 */
 	public void setRoles(List<Role> roles) {
 		List<UserOrganizationRole> authorities =
@@ -91,7 +91,7 @@ public class UserOrganization extends AuditableEntity {
 	@OneToMany(mappedBy = "userOrganization", fetch = FetchType.LAZY)
 	@JoinColumn(name = "usersorgsId")
 	@Where(clause = Audit.UNDELETED_RESTRICTION)
-	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Cascade({CascadeType.ALL})
 	public List<UserOrganizationRole> getAuthorities() {
 		return authorities;
 	}

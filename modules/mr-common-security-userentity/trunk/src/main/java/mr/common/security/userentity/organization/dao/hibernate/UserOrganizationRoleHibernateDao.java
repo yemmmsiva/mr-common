@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 
 
 /**
- * Implementación de {@link mr.common.security.userentity.organization.dao.
- * UserOrganizationRoleDao UserOrganizationRoleDao}.
+ * Implementación de {@link mr.common.security.userentity.organization.dao.UserOrganizationRoleDao
+ * UserOrganizationRoleDao}.
  *
  * @author Mariano Ruiz
  */
