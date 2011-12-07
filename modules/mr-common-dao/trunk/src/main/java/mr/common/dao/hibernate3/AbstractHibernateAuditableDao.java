@@ -10,7 +10,6 @@ import mr.common.dao.AbstractAuditableDao;
 import mr.common.dao.exception.DaoException;
 import mr.common.model.Audit;
 import mr.common.model.AuditableEntity;
-import mr.common.model.BaseEntity;
 import mr.common.security.service.UserSecurityService;
 
 import org.hibernate.Query;
@@ -68,7 +67,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
     	return list.get(0);
     }
 
-    @SuppressWarnings("unchecked")
 	public DomainObject getIgnoreIsDeleted(Long id) {
         return (DomainObject) getHibernateTemplate().get(domainClass, id);
     }
@@ -83,7 +81,6 @@ public abstract class AbstractHibernateAuditableDao<DomainObject extends Auditab
         getHibernateTemplate().persist(t);
     }
 
-    @SuppressWarnings("unchecked")
 	public DomainObject merge(DomainObject t) {
 		saveAudit(t);
         return (DomainObject) getHibernateTemplate().merge(t);

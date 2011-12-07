@@ -48,7 +48,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
      * Hibernate default implementations
      */
 
-    @SuppressWarnings("unchecked")
     public DomainObject get(Long id) {
         return (DomainObject) getHibernateTemplate().get(domainClass, id);
     }
@@ -69,7 +68,6 @@ public abstract class AbstractHibernateDao<DomainObject extends BaseEntity> exte
         getHibernateTemplate().persist(t);
     }
 
-    @SuppressWarnings("unchecked")
 	public DomainObject merge(DomainObject t) {
         return (DomainObject) getHibernateTemplate().merge(t);
     }
