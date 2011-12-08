@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,9 +41,8 @@ public class JSPView extends JstlView {
     private static final String APP_PROPERTIES = "appProperties";
 
 
-    @SuppressWarnings("rawtypes")
 	@Override
-    protected void renderMergedOutputModel(Map model, HttpServletRequest req,
+    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest req,
                                                       HttpServletResponse resp) throws Exception {
 
         try {
@@ -57,10 +55,19 @@ public class JSPView extends JstlView {
     }
 
     /**
-     * Introduce todas las variables necesarias en el modelo. Todas irán
-     * bajo el nombre 'response'.
-     * 
-     * @param model Map
+     * Introduce todas las variables necesarias en el modelo.<br/>
+     * Si hubiera una variable <i>'appProperties'</i> accesible en
+     * {@link #getAttributesMap()}, la coloca en el modelo
+     * para que sea accesible desde el JSP.<br/>
+     * Bajo el nombre <i>'response'</i> carga los siguientes valores
+     * como un mapa:
+     * <ul>
+     *   <li><code>success</code>: con valor <code>true</code>
+     *   si no errores u excepciones en el modelo.</li>
+     *   <li><code>exceptions</code>: lista de mensajes
+     *   de error de validaciones u excepciones que hubiera
+     *   en el modelo.</li>
+     * </ul>
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void addVariables(Map model) {
@@ -73,7 +80,6 @@ public class JSPView extends JstlView {
         }
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uuid", UUID.randomUUID().toString());
         model.put("response", params);
 
         if(model.containsKey(ERRORS)) {

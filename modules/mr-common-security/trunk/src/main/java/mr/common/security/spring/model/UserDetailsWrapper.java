@@ -1,17 +1,21 @@
 package mr.common.security.spring.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import mr.common.security.model.User;
 
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 /**
- * Wrapper que implementa {@link org.springframework.security.userdetails.UserDetails UserDetails} que
- * contiene a {@link mr.common.security.model.User User}.
- * 
- * @author Mariano Ruiz
+ * Wrapper que implementa {@link org.springframework.security.core.userdetails.UserDetails
+ * UserDetails} que contiene a {@link mr.common.security.model.User User}.
  *
+ * @author Mariano Ruiz
  */
 public class UserDetailsWrapper implements UserDetails {
 
@@ -23,10 +27,11 @@ public class UserDetailsWrapper implements UserDetails {
 		this.user = user;
 	}
 
-	public GrantedAuthority[] getAuthorities() {
-		GrantedAuthority [] auths = new GrantedAuthority[user.getRoles().size()];
-		for(int i=0; i<auths.length; i++) {
-			auths[i] = new GrantedAuthorityWrapper(user.getRoles().get(i));
+	public Collection<GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> auths =
+				new ArrayList<GrantedAuthority>(user.getRoles().size());
+		for(int i=0; i<user.getRoles().size(); i++) {
+			auths.add(new GrantedAuthorityWrapper(user.getRoles().get(i)));
 		}
 		return auths;
 	}

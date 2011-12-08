@@ -9,7 +9,7 @@
     <!--  Contexto de Birt Report  -->
     <bean id="birtReportContext" class="mr.common.birt.context.spring.BirtReportContext" init-method="initBirtEngine" />
 
-    <bean id="appProperties" class="mr.common.spring.utils.RecursivePropertiesFactoryBean"
+    <bean id="appProperties" class="mr.common.utils.spring.RecursivePropertiesFactoryBean"
           p:ignoreUnresolvablePlaceholders="true" p:order="10" lazy-init="false"
           p:systemPropertiesModeName="SYSTEM_PROPERTIES_MODE_OVERRIDE">
         <property name="ignoreResourceNotFound" value="true"/>

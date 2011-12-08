@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * Clase para la generación de reportes en formato PDF
+ * Clase para la generación de reportes en formato PDF.
  */
 public class ReportPDFView extends ReportAbstractView {
 

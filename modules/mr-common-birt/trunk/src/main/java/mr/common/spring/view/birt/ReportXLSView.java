@@ -17,14 +17,16 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 
 import mr.common.birt.context.spring.BirtReportContext;
 
+
 /**
  * Clase para la generación de reportes en formato Excel (XLS). 
- * El documento excel es para versiones de office mayores que 2003 puesto que utiliza el formato xml.
- * Este XLS también puede ser un HTML y en este caso el Excel 2000 lo abre sin problemas.
- * 
- * Para cambiar el formato de salida entre xls y HTML podemos indicarlo usando el parámetro OUTPUT_FORMAT que
+ * El documento excel es para versiones de Office mayores que 2003 puesto que utiliza el formato xml.
+ * Este XLS también puede ser un HTML y en este caso el Excel 2000 lo abre sin problemas.<br/>
+ * Para cambiar el formato de salida entre XLS y HTML podemos indicarlo usando el parámetro OUTPUT_FORMAT que
  * introduciremos en el flow así:
- *          <evaluate expression="'xls'" result="flowScope.OUTPUT_FORMAT"/>
+ * <pre>
+ *          &lt;evaluate expression="'xls'" result="flowScope.OUTPUT_FORMAT"/&gt;
+ * </pre>
  */
 public class ReportXLSView extends ReportAbstractView {
 

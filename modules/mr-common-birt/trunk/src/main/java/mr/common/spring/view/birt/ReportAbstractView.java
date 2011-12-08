@@ -27,6 +27,8 @@ import mr.common.birt.context.spring.BirtReportContext;
  */
 public abstract class ReportAbstractView extends InternalResourceView {
 
+    private final Log logger = LogFactory.getLog(getClass());
+
 	/**
 	 * Salida en formato HTML.
 	 */
@@ -88,10 +90,7 @@ public abstract class ReportAbstractView extends InternalResourceView {
 
     /**
      * Metodo encargado de pasar todos los parametros retornado por el flow como 
-     * entrada para el reporte
-     * 
-     * @param map
-     * @param task
+     * entrada para el reporte.
      */
     @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	private void loadFlowParameters(Map map, IRunAndRenderTask task) {
@@ -103,14 +102,11 @@ public abstract class ReportAbstractView extends InternalResourceView {
                 //Agregamos los parametros para el reporte
                 task.setParameterValue(key.toString(), map.get(key));
             }
-
         }
     }
 
     /**
-     * Metodo encargado de definir el path donde se van a buscar las imagenes
-     * 
-     * @param request
+     * Metodo encargado de definir el path donde se van a buscar las imagenes.
      */
     private String getImgPath(HttpServletRequest request) {
         //Primero tratamos de obtenerlo de la configuraci�n
@@ -121,6 +117,4 @@ public abstract class ReportAbstractView extends InternalResourceView {
                 + "/img/";
 
     }
-
-    private final Log logger = LogFactory.getLog(getClass());
 }

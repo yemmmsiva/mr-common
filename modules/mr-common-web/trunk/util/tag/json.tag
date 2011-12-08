@@ -6,8 +6,5 @@
 	<c:if test="${response.exceptions!=null}">
 		<json:array name="exceptions" items="${response.exceptions}" />
 	</c:if>
-	<c:if test="${uuid!=null}">
-		<json:property name="uuid" value="${response.uuid}" />
-	</c:if>
 	<json:property name="success" value="${response.success}" />
 </json:object><% request.removeAttribute("javax.servlet.error.exception"); %>

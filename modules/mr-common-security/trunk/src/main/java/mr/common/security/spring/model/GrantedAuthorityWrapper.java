@@ -2,11 +2,11 @@ package mr.common.security.spring.model;
 
 import mr.common.security.model.Role;
 
-import org.springframework.security.GrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 
 
 /**
- * Wrapper que implementa a {@link org.springframework.security.GrantedAuthority GrantedAuthority}
+ * Wrapper que implementa a {@link org.springframework.security.core.GrantedAuthority GrantedAuthority}
  * y que contiene a {@link mr.common.security.model.Role Role}.
  * 
  * @author Mariano Ruiz

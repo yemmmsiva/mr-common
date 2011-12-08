@@ -1,31 +1,26 @@
 package mr.common.security.service.spring;
 
-import java.util.Properties;
-
 import mr.common.security.exception.UserNotExistException;
 import mr.common.security.model.User;
 import mr.common.security.service.UserService;
 import mr.common.security.spring.model.UserDetailsWrapper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.BadCredentialsException;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 /**
- * Servicio que implementa {@link org.springframework.security.userdetails.UserDetailsService UserDetailsService}
- * y obtiene los usuarios de {@link mr.common.security.service.UserService UserService}.
- * 
+ * Servicio que implementa {@link org.springframework.security.core.userdetails.UserDetailsService
+ * UserDetailsService} y obtiene los usuarios de
+ * {@link mr.common.security.service.UserService UserService}.
+ *
  * @author Mariano Ruiz
  */
 public class DefaultUserDetailsService implements UserDetailsService {
-
-	private static final Log logger = LogFactory.getLog(DefaultUserDetailsService.class);
 
 	/**
 	 * <code>`email`</code>: La autenticación se lleva a cabo por el email del usuario.
@@ -39,8 +34,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserService userService;
 
-	@Autowired(required=false)
-	private Properties appProperties;
+	private String authenticateMethod = AUTHENTICATE_BY_USERNAME;
 
 
 	public UserDetails loadUserByUsername(String username)
@@ -65,20 +59,12 @@ public class DefaultUserDetailsService implements UserDetailsService {
 	 *   <li>{@link #AUTHENTICATE_BY_USERNAME}</li>
 	 *   <li>{@link #AUTHENTICATE_BY_EMAIL}</li>
 	 * </ul>
-	 * @return String
 	 */
 	public String getAuthenticateMethod() {
-		String method;
-		if(appProperties == null) {
-			method = AUTHENTICATE_BY_USERNAME;
-			logger.warn("`appProperties` is null.");
-			logger.warn("Use `username` default method authentication.");
-		} else {
-			method = (String) appProperties.get("authenticateBy");
-			if(method == null) {
-				method = AUTHENTICATE_BY_USERNAME;
-			}
-		}
-		return method;
+		return authenticateMethod;
+	}
+
+	public void setAuthenticateMethod(String authenticateMethod) {
+		this.authenticateMethod = authenticateMethod;
 	}
 }
