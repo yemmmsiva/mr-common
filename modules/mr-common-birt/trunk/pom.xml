@@ -85,11 +85,11 @@
 			<snapshots><enabled>false</enabled></snapshots>
 		</repository>
 
-		<!-- Spring milestones -->
+		<!-- Spring releases -->
 		<repository>
-			<id>org.springframework.maven.milestone</id>
-			<name>Spring Maven Milestone Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
+			<id>org.springframework.maven.release</id>
+			<name>Spring Maven Releases Repository</name>
+			<url>http://maven.springframework.org/release</url>
 			<snapshots><enabled>false</enabled></snapshots>
 		</repository>
 
