@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.6.RELEASE</spring.version>
-		<org.springsecurity.version>3.0.6.RELEASE</org.springsecurity.version>
+		<org.springsecurity.version>3.0.7.RELEASE</org.springsecurity.version>
 	</properties>
 
 	<prerequisites>
@@ -46,11 +46,6 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${org.springsecurity.version}</version>					
 		</dependency>
-		<!--dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core-tiger</artifactId>
-			<version>${org.springsecurity.version}</version>
-		</dependency-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>

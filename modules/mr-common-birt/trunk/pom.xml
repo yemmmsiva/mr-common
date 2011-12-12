@@ -23,11 +23,6 @@
 	<dependencies>
         <dependency>
             <groupId>mr.common</groupId>
-            <artifactId>mr-common-core</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>mr.common</groupId>
             <artifactId>mr-common-web</artifactId>
             <version>2.0.0</version>
         </dependency>
