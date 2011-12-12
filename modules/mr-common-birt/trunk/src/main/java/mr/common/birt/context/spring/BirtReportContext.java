@@ -37,7 +37,7 @@ public class BirtReportContext {
         //Verificamos si se debe iniciar la plataforma birt
         if (appProperties.getProperty("birt.loadOnStartup") != null
                 && appProperties.getProperty("birt.loadOnStartup").trim().toLowerCase().equals("false")) {
-            logger.warn("BIRT - No se ha iniciado la plataforma debido a parametros de configuración.");
+            logger.warn("The BIRT platform has not been started due to configuration parameters.");
         } else {
             EngineConfig config = new EngineConfig();
             config.setLogConfig(appProperties.getProperty("birt.logDirectory"),
@@ -48,14 +48,13 @@ public class BirtReportContext {
             PlatformFileContext context = new PlatformFileContext(pc);
             config.setPlatformContext(context);
             try {
-                logger.info("Iniciando la plataforma de BIRT");
+                logger.info("Starting the BIRT platform.");
                 Platform.startup(config);
-                logger.info("Plataforma BIRT iniciada");
                 IReportEngineFactory factory = (IReportEngineFactory) Platform
                         .createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
                 birtEngine = factory.createReportEngine(config);
             } catch (BirtException e) {
-                logger.error("Error al inicial la plataforma BIRT. ", e);
+                logger.error("Error starting the BIRT platform. ", e);
             }
         }
         return birtEngine;
@@ -71,7 +70,7 @@ public class BirtReportContext {
 
     public static IReportEngine getBirtEngine() {
         if (birtEngine == null) {
-            logger.warn("La plataforma BIRT no ha sido iniciado correctamente.");
+            logger.warn("The BIRT platform has not been started successfully.");
             instance.initBirtEngine();
         }
         return birtEngine;
