@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @see mr.common.security.service.UserSecurityService
  * @author Mariano Ruiz
  */
-public class EnviromentSecurityService implements UserSecurityService {
+public class EnvironmentSecurityService implements UserSecurityService {
 
 	@Autowired
 	private EnvironmentConfiguration environmentConfiguration;
