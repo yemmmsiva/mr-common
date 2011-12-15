@@ -20,7 +20,9 @@
 		                     default-target-url="/do/main/principal"
 		                     authentication-failure-url="/do/login/login?login_error=1" />
 
-		<security:logout logout-url="/do/logout" logout-success-url="/do/login/login" />
+		<security:logout logout-url="/do/logout"
+		                 logout-success-url="/do/login/login"
+		                 invalidate-session="true" />
 
 		<!-- Acceso anónimo al login -->
         <security:intercept-url pattern="/do/login/login" filters="none" />
