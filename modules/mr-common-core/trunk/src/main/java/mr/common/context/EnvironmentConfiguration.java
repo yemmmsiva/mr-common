@@ -5,33 +5,33 @@ package mr.common.context;
  * Devuelve la configuración del entorno de ejecución. Puede
  * ser alguno de los cuatro casos más comunes,
  * <ul>
- *   <li>{@link #ENVIROMENT_DEVELOPEMENT}</li>
- *   <li>{@link #ENVIROMENT_TEST}</li>
- *   <li>{@link #ENVIROMENT_PRE_PRODUCTION}</li>
- *   <li>{@link #ENVIROMENT_PRODUCTION}</li>
+ *   <li>{@link #ENVIRONMENT_DEVELOPMENT}</li>
+ *   <li>{@link #ENVIRONMENT_TEST}</li>
+ *   <li>{@link #ENVIRONMENT_PRE_PRODUCTION}</li>
+ *   <li>{@link #ENVIRONMENT_PRODUCTION}</li>
  * </ul>
  * u otros tipos definidos por la aplicación.
  *
  * @author Mariano Ruiz
  */
-public interface EnviromentConfiguration {
+public interface EnvironmentConfiguration {
 
 	/**
 	 * <i>`development`</i>: Entorno de desarrollo.
 	 */
-	static final String ENVIROMENT_DEVELOPEMENT = "development";
+	static final String ENVIRONMENT_DEVELOPMENT = "development";
 	/**
 	 * <i>`test`</i>: Entorno de testing.
 	 */
-	static final String ENVIROMENT_TEST   = "test";
+	static final String ENVIRONMENT_TEST   = "test";
 	/**
 	 * <i>`pre-production`</i>: Entorno de pre-producción.
 	 */
-	static final String ENVIROMENT_PRE_PRODUCTION   = "pre-production";
+	static final String ENVIRONMENT_PRE_PRODUCTION   = "pre-production";
 	/**
 	 * <i>`production`</i>: Entorno de producción.
 	 */
-	static final String ENVIROMENT_PRODUCTION   = "production";
+	static final String ENVIRONMENT_PRODUCTION   = "production";
 
 	/**
 	 * <i>`APP`</i>: Nombre por default de la aplicación.
@@ -49,49 +49,49 @@ public interface EnviromentConfiguration {
 	 * Entorno de configuración de la instancia de la aplicación, puede ser alguno de los siguientes,
 	 * u otros:
 	 * <ul>
-	 *   <li>{@link #ENVIROMENT_DEVELOPEMENT}</li>
-	 *   <li>{@link #ENVIROMENT_TEST}</li>
-	 *   <li>{@link #ENVIROMENT_PRE_PRODUCTION}</li>
-	 *   <li>{@link #ENVIROMENT_PRODUCTION}</li>
+	 *   <li>{@link #ENVIRONMENT_DEVELOPMENT}</li>
+	 *   <li>{@link #ENVIRONMENT_TEST}</li>
+	 *   <li>{@link #ENVIRONMENT_PRE_PRODUCTION}</li>
+	 *   <li>{@link #ENVIRONMENT_PRODUCTION}</li>
 	 * </ul>
 	 * @return cadena de texto con el nombre
 	 * del entorno.
 	 */
-	String getEnviroment();
+	String getEnvironment();
 
 	/**
 	 * @return <code>true</code> si el entorno de ejecución actual es
-	 * de desarrollo ({@link #ENVIROMENT_DEVELOPEMENT}).
-	 * @see #getEnviroment()
+	 * de desarrollo ({@link #ENVIRONMENT_DEVELOPMENT}).
+	 * @see #getEnvironment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
 	 * no es soportado por la aplicación.
 	 */
-	boolean isDevelopmentEnviroment();
+	boolean isDevelopmentEnvironment();
 
 	/**
 	 * @return <code>true</code> si el entorno de ejecución actual es
-	 * de test ({@link #ENVIROMENT_TEST}).
-	 * @see #getEnviroment()
+	 * de test ({@link #ENVIRONMENT_TEST}).
+	 * @see #getEnvironment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
 	 * no es soportado por la aplicación.
 	 */
-	boolean isTestEnviroment();
+	boolean isTestEnvironment();
 
 	/**
 	 * @return <code>true</code> si el entorno de ejecución actual es
-	 * de pre-producción ({@link #ENVIROMENT_PRE_PRODUCTION}).
-	 * @see #getEnviroment()
+	 * de pre-producción ({@link #ENVIRONMENT_PRE_PRODUCTION}).
+	 * @see #getEnvironment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
 	 * no es soportado por la aplicación.
 	 */
-	boolean isPreProductionEnviroment();
+	boolean isPreProductionEnvironment();
 
 	/**
 	 * @return <code>true</code> si el entorno de ejecución actual es
-	 * de producción ({@link #ENVIROMENT_PRODUCTION}).
-	 * @see #getEnviroment()
+	 * de producción ({@link #ENVIRONMENT_PRODUCTION}).
+	 * @see #getEnvironment()
 	 * @throws java.lang.IllegalStateException si este tipo de entorno
 	 * no es soportado por la aplicación.
 	 */
-	boolean isProductionEnviroment();
+	boolean isProductionEnvironment();
 }

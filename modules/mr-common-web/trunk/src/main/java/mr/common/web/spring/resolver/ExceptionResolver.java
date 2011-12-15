@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mr.common.context.EnviromentConfiguration;
+import mr.common.context.EnvironmentConfiguration;
 import mr.common.exception.ExceptionUtils;
 import mr.common.exception.spring.FrameworkException;
 import mr.common.web.spring.view.JSPView;
@@ -43,7 +43,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
     private static final Log logger = LogFactory.getLog(ExceptionResolver.class);
 
 	@Autowired(required=false)
-	protected EnviromentConfiguration enviromentConfiguration;
+	protected EnvironmentConfiguration environmentConfiguration;
 
 	private String errorPage = JSPView.DEFAULT_VIEW;
 
@@ -171,17 +171,17 @@ public class ExceptionResolver implements HandlerExceptionResolver {
      * {@link mr.common.exception.spring.FrameworkException FrameworkException}.<br/>
      * Esta implementación devuelve <code>true</code> si el entorno de
      * ejecución es de producción o pre-producción, para ello invoca a
-     * {@link mr.common.context.EnviromentConfiguration EnviromentConfiguration},
+     * {@link mr.common.context.EnvironmentConfiguration EnvironmentConfiguration},
      * pero el método puede ser sobreescrito por clases hijas para
      * decidir si se debe o no mostrar el mensaje de error con id.<br/>
      * En caso de no estar definido en el contexto el bean
-     * {@link mr.common.context.EnviromentConfiguration EnviromentConfiguration},
+     * {@link mr.common.context.EnvironmentConfiguration EnvironmentConfiguration},
      * esta implementación devuelve siempre <code>true</code>.
      */
 	protected boolean showErrorMessageId() {
-		return enviromentConfiguration==null
-		|| enviromentConfiguration.isProductionEnviroment()
-		|| enviromentConfiguration.isPreProductionEnviroment();
+		return environmentConfiguration==null
+		|| environmentConfiguration.isProductionEnvironment()
+		|| environmentConfiguration.isPreProductionEnvironment();
 	}
 
 	/**
