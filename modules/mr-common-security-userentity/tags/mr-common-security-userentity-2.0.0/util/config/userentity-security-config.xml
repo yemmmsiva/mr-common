@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- Username validator -->
+	<bean id="usernameValidator" class="mr.common.user.validator.AlphNumericUsernameValidator">
+		<property name="minLength" value="5" />
+		<property name="maxLength" value="50" />
+	</bean>
+
+	<!-- User service -->
+	<bean id="userService" class="mr.common.security.userentity.service.UserEntityService">
+		<property name="usernameValidator" ref="usernameValidator" />
+	</bean>
+
+	<!-- User XML binder service -->
+	<bean id="userXmlBinder" class="mr.common.security.service.UserXmlBinder" />
+
+	<!-- Organization service -->
+	<bean id="organizationService" class="mr.common.security.userentity.organization.service.OrganizationEntityService" />
+
+</beans>
