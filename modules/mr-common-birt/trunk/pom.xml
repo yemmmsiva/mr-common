@@ -13,7 +13,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.6.RELEASE</spring.version>
-		<springwebflow.version>2.3.0.RELEASE</springwebflow.version>
 	</properties>
 
 	<prerequisites>
@@ -71,6 +70,29 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<url>${pom.url}</url>
+							<Specification-Version>${pom.version}</Specification-Version>
+							<Package>${pom.name}</Package>
+						</manifestEntries>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<finalName>mr-common-birt</finalName>
